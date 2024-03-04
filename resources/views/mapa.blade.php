@@ -14,11 +14,28 @@
     <div id="content" onclick="console.log('asd')">LLLLLLLLLLLLLLLLLLLLLLLLL</div>
     <div id="cuerpo">
 
-        <?php
-        echo $datos;
-        echo "<script>console.log('asd')</script>"
-        ?>
 
+        @foreach ($datos as $index=>$evento )
+        <div id="content{{$index}}">
+            {{$evento["nombre"]}}
+            {{$evento["descripcion"]}}
+
+        </div>
+
+            <script>(async ()=>
+            {await CargadoMapa;
+            MapaGoogleObject.addCustomMarker(
+                {{ $evento["lat"] }},
+                {{ $evento["lng"] }},
+                {{ "content". $index }},
+            )
+
+            })()
+
+            </script>
+        @endforeach
+
+    </div>
     </script>
 
 </body>

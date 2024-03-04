@@ -4,12 +4,12 @@
  */
 #map {
     height: 100%;
-    width: 49.5%;
+    width: 49%;
     display: inline-block;
 }
 #cuerpo{
     display: inline-block;
-    width: 49.5%;
+    width: 49%;
     vertical-align: top;
 }
 /*
