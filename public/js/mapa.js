@@ -103,8 +103,36 @@ google.maps.importLibrary("maps").then(
     }
 );
 
+function showEventDetails(index,datos) {
+    var modal = document.getElementById('modal');
+    var modalContent = document.getElementById('modal-content');
+    var evento = document.getElementById('content' + index);
 
+    // Copia el contenido del evento al modal
+    modalContent.innerHTML = evento.innerHTML;
 
+    // Agrega la descripción y el botón de unirse al modal
+    var descripcion = document.createElement('p');
+    descripcion.textContent = 'Descripción: ' + datos['descripcion'];
+    modalContent.appendChild(descripcion);
+
+    var unirseBtn = document.createElement('button');
+    unirseBtn.textContent = 'Unirse';
+    modalContent.appendChild(unirseBtn);
+
+    // Muestra el modal
+    modal.style.display = 'block';
+
+    // Obtén el modal
+    var modal = document.getElementById('modal');
+
+    // Cuando el usuario hace clic en cualquier lugar fuera del contenido del modal, cierra el modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+}
 
 
 

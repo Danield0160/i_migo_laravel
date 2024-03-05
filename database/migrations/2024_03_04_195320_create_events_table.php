@@ -16,6 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->string("nombre");
             $table->string("descripcion");
+            $table->string("imagen")->nullable();
+            $table->integer("asistentes")->default(0);
+            $table->datetime("fecha")->nullable();
             $table->double("lat");
             $table->double("lng");
         });
