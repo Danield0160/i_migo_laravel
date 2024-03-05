@@ -13,13 +13,15 @@ html,body {
     padding: 0;
     overflow: hidden; /* Evitar desplazamiento */
 }
-
-/* Estilo para el popup */
-.popup-bubble {
+.evento{
     position: absolute;
     top: 0;
     left: 0;
     transform: translate(-50%, -100%);
+}
+/* Estilo para el popup */
+.popup-bubble {
+
     background-color: white;
     padding: 5px;
     border-radius: 5px;
@@ -31,6 +33,25 @@ html,body {
     align-items: center;
     max-height: none;
 }
+/* para cuando se aleja */
+.popup-bubble-zoom-out .contenido{
+    background-color: red;
+    display: none;
+}
+.popup-bubble-zoom-out .icono{
+    content: "";
+    background-image: url(https://pngimg.com/d/google_maps_pin_PNG29.png);
+    background-size: cover;
+    width: 33.5px;
+    height: 50.0px;
+}
+/* para cuando se acerca */
+.popup-bubble-zoom-in{
+    background-color: blue;
+}
+
+/* para que se ponga delante el popup que estas seleccionando con el cursor */
+.evento:hover{z-index: 10;}
 
 /* El contenedor del popup */
 .popup-bubble-anchor {
@@ -71,6 +92,7 @@ html,body {
 
 .popup-bubble img {
     margin-top: 5px;
+    width: 80px;
     align-self: flex-start;
 }
 
