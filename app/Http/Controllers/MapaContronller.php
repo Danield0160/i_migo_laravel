@@ -7,7 +7,6 @@ use App\Models\Event;
 class MapaContronller extends Controller
 {
     public function index(){
-
         return view("mapa",["datos"=>Event::all()]);
     }
 };

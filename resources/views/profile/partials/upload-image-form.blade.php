@@ -1,4 +1,4 @@
-<form id="send-image" method="post" action="{{ route('profile.storeImage') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
+<form id="send-image" method="post" action="{{ route('setImage') }}" enctype="multipart/form-data" class="mt-6 space-y-6">
     @csrf
     <x-input-label for="name" :value="__('Subir imagen')" />
     <input type="file" style="background-color: white" name="file_upload">

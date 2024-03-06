@@ -12,6 +12,6 @@ class ImagenController extends Controller
             'file' => 'required|mimes:png,txt,xlx,xls,pdf|max:2048'
             ]);
         $imagen = $request.file("file_upload");
-        return Redirect::route('profile.edit');
+        return Redirect::route('mapa');
     }
 }
