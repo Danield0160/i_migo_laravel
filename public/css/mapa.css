@@ -37,6 +37,10 @@ html, body {
 }
 
 /* para cuando se aleja */
+.popup-bubble-zoom-out  {
+    transform: translate(-50%, -90%); /* reajuste para que el icono coincida con la ubicacion */
+
+}
 .popup-bubble-zoom-out .contenido {
     background-color: red;
     display: none;
@@ -56,8 +60,8 @@ html, body {
 }
 
 /* para que se ponga delante el popup que estás seleccionando con el cursor */
-.evento:hover {
-    z-index: 10;
+.popup-container:hover {
+    z-index: 11;
 }
 
 /* El contenedor del popup */
@@ -80,6 +84,10 @@ html, body {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 8px solid white;
+    z-index: 10;
+}
+.popup-bubble-anchor:has(.popup-bubble-zoom-out)::after {
+    content: none;
 }
 
 /* Contenedor del popup */

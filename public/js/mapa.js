@@ -5,12 +5,14 @@
 
 
 class MapaGoogle{
+    marcadores = []
     constructor(){
         this.mapa = new Mapa(document.getElementById("map"), {
             center: { lat: 28.956265, lng:  -13.589889 },
             zoom: 15,
         });
         google.maps.event.addListener(this.mapa, 'zoom_changed', this.actualizarIconoZoom.bind(this))
+        // google.maps.event.addListener(this.mapa, 'drag', this.obtenerPopusVisibles.bind(this))
 
 
     }
@@ -27,6 +29,7 @@ class MapaGoogle{
     addCustomMarker(lat,lng, div){
         let popup = new Popup(new google.maps.LatLng(lat, lng), div);
         popup.setMap(this.mapa);
+        this.marcadores.push(popup)
     }
 
     actualizarIconoZoom(){
@@ -36,7 +39,7 @@ class MapaGoogle{
                 ele.classList.remove("popup-bubble")
                 ele.classList.add("popup-bubble-zoom-in")
             })
-        }else if(this.mapa.getZoom()<15){
+        }else if(this.mapa.getZoom()<13){
             document.querySelectorAll(".evento").forEach(function(ele,key,array){
                 ele.classList.remove("popup-bubble-zoom-in")
                 ele.classList.remove("popup-bubble")
@@ -49,6 +52,15 @@ class MapaGoogle{
                 ele.classList.remove("popup-bubble-zoom-out")
             })
         }
+    }
+    obtenerPopusVisibles(){
+        let popupsVisibles = []
+        for (let popup of this.marcadores) {
+            if (popup.esVisible()){
+                popupsVisibles.push(popup)
+            }
+        }
+        return popupsVisibles
     }
 }
 
@@ -91,22 +103,29 @@ return class Popup extends google.maps.OverlayView {
         );
         // Hide the popup when it is far out of view.
         const display =
-            Math.abs(divPosition.x) < 1100 && Math.abs(divPosition.y) < 1100 // originalmente 4000  , depende del tamaño de la pantalla
+            Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000
                 ? "block"
                 : "none";
 
         if (display === "block") {
             this.containerDiv.style.left = divPosition.x + "px";
             this.containerDiv.style.top = divPosition.y + "px";
-            this.containerDiv.children[0].children[0].setAttribute("visible",1) // añade al div evento un atributo que marca si es visible en el mapa
         }
 
         if (this.containerDiv.style.display !== display) {
             this.containerDiv.style.display = display;
-            this.containerDiv.children[0].children[0].setAttribute("visible",0)
         }
     }
-    esVisible(){}
+    esVisible(){
+        const divPosition = this.getProjection().fromLatLngToDivPixel(
+            this.position,
+        );
+        // Hide the popup when it is far out of view.
+        const display =
+            Math.abs(divPosition.x) < window.innerWidth/1.7 && Math.abs(divPosition.y) < window.innerHeight/2 // originalmente 4000  , depende del tamaño de la pantalla
+            // this.containerDiv.children[0].children[0].setAttribute("visible",display) // añade al div evento un atributo que marca si es visible en el mapa
+        return display
+    }
 }
 }
 
