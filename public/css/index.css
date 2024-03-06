@@ -1,0 +1,10 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    font-family: 'Arial', sans-serif;
+    background-image: url('../images/img_eventos/7396.jpg');
+    background-size: cover;
+}

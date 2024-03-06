@@ -26,8 +26,8 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">Español</a>
-                            <a class="dropdown-item" href="#">Inglés</a>
-                            <a class="dropdown-item" href="#">Alemán</a>
+                            <a class="dropdown-item" href="#">English</a>
+                            <a class="dropdown-item" href="#">Deutsch</a>
                         </div>
                     </li>
                     <li class="nav-item">
