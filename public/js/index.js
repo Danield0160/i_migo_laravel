@@ -1,27 +1,3 @@
-$(document).ready(function() {
-    // Acciones cuando se hace clic en los botones de idioma
-    $('#spanish').click(function() {
-        $('html').attr('lang', 'es');
-    });
-
-    $('#english').click(function() {
-        $('html').attr('lang', 'en');
-    });
-
-    $('#german').click(function() {
-        $('html').attr('lang', 'de');
-    });
-});
-
-/*!
-* Start Bootstrap - Creative v7.0.7 (https://startbootstrap.com/theme/creative)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-creative/blob/master/LICENSE)
-*/
-//
-// Scripts
-// 
-
 window.addEventListener('DOMContentLoaded', event => {
 
     // Navbar shrink function
