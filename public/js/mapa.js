@@ -36,7 +36,7 @@ class MapaGoogle{
                 ele.classList.remove("popup-bubble")
                 ele.classList.add("popup-bubble-zoom-in")
             })
-        }else if(this.mapa.getZoom()<15){
+        }else if(this.mapa.getZoom()<13){
             document.querySelectorAll(".evento").forEach(function(ele,key,array){
                 ele.classList.remove("popup-bubble-zoom-in")
                 ele.classList.remove("popup-bubble")
