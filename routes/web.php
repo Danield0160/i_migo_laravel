@@ -20,7 +20,7 @@ Route::get('/', function () {
     return redirect('index');
 });
 
-Route::get('/mapa',[MapaContronller::class, "index"]);
+Route::get('/mapa',[MapaContronller::class, "index"])->name("mapa");
 Route::get('/index', function () {
     return view('index');
 });
@@ -36,9 +36,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post("/setImage",[ImagenController::class,"storeImage"])->name("setImage");
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post("/profile/setImage",[ImagenController::class,"storeImage"])->name("profile.storeImage");
 });
