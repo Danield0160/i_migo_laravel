@@ -186,3 +186,5 @@ function ocultar(event){
 
 //https://developers.google.com/maps/documentation/javascript/examples/overlay-popup
 //https://developers.google.com/maps/documentation/javascript/markers?hl=es-419
+
+//https://developers.google.com/maps/documentation/?hl=es_419#places
