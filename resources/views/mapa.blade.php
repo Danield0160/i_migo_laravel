@@ -21,10 +21,15 @@
         <div id="content{{$index}}" class="evento" onclick="showEventDetails(this,{{$evento}})">
             <div class="icono"></div>
             <div class="contenido">
-                <h2>{{$evento["nombre"]}}</h2>
-                <img src="{{asset($evento['imagen'])}}" alt="Imagen del evento">
-                <p>Asistentes: {{$evento["asistentes"]}}</p>
-                <p>Fecha: {{\Carbon\Carbon::parse($evento["fecha"])->translatedFormat('j \d\e F G:i\h')}}</p>
+                <div class="contenido-imagen">
+                    <img src="{{asset($evento['imagen'])}}" alt="Imagen del evento">
+                </div>
+                <div class="contenido-datos">
+                    <h2><i>{{$evento["nombre"]}}</i></h2>
+                    <p><b>Fecha</b>: {{\Carbon\Carbon::parse($evento["fecha"])->translatedFormat('j \d\e F')}}</p>
+                    <p><b>Hora</b>: {{\Carbon\Carbon::parse($evento["fecha"])->format('H:i')}}</p>
+                    <p><b>Asistentes</b>: {{$evento["asistentes"]}}</p>
+                </div>
             </div>
         </div>
         @endforeach

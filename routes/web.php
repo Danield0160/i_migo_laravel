@@ -16,10 +16,13 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('index');
 });
 
 Route::get('/mapa',[MapaContronller::class, "index"]);
+Route::get('/index', function () {
+    return view('index');
+});
 
 Route::get('/login', function(){view("auth.login");});
 

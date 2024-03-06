@@ -128,7 +128,7 @@ google.maps.importLibrary("maps").then(
     }
 );
 
-function showEventDetails(div,datos) {
+function showEventDetails(div, datos) {
     var modal = document.getElementById('modal');
     var modalContent = document.getElementById('modal-content');
     var eventoDiv = div;
@@ -136,14 +136,25 @@ function showEventDetails(div,datos) {
     // Copia el contenido del evento al modal
     modalContent.innerHTML = eventoDiv.innerHTML;
 
-    // Agrega la descripción y el botón de unirse al modal
+    // Selecciona el div contenido-datos dentro del modalContent
+    var contenidoDatosDiv = modalContent.querySelector('.contenido-datos');
+
+    // Agrega la descripción y el botón de unirse al div contenido-datos
     var descripcion = document.createElement('p');
-    descripcion.textContent = 'Descripción: ' + datos['descripcion'];
-    modalContent.appendChild(descripcion);
+    var descripcionTexto = document.createElement('span');
+    descripcion.textContent = 'Descripción: ';
+    descripcionTexto.textContent = datos['descripcion'];
+
+    // Establece el estilo de la descripción a negrita y el texto de descripción a cursiva
+    descripcion.style.fontWeight = 'bold';
+    descripcionTexto.style.fontStyle = 'italic';
+
+    contenidoDatosDiv.appendChild(descripcion);
+    contenidoDatosDiv.appendChild(descripcionTexto);
 
     var unirseBtn = document.createElement('button');
     unirseBtn.textContent = 'Unirse';
-    modalContent.appendChild(unirseBtn);
+    contenidoDatosDiv.appendChild(unirseBtn);
 
     // Muestra el modal
     modal.style.display = 'block';

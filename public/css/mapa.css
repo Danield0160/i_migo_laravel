@@ -1,27 +1,29 @@
 /* Establecer altura explícita para el mapa */
-/* Establecer altura y anchura del mapa al 100% */
 #map {
     height: 100vh; /* 100% del viewport height */
     width: 100vw; /* 100% del viewport width */
 }
 
 /* Establecer que la página llene la ventana y ocultar desplazamiento */
-html,body {
+html, body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden; /* Evitar desplazamiento */
 }
-.evento{
+
+/* Estilos para los eventos en el mapa */
+.evento {
     position: absolute;
     top: 0;
     left: 0;
     transform: translate(-50%, -100%);
+    z-index: 10; /* Colocar por encima otros elementos al hacer hover */
 }
+
 /* Estilo para el popup */
 .popup-bubble {
-
     background-color: white;
     padding: 5px;
     border-radius: 5px;
@@ -33,25 +35,30 @@ html,body {
     align-items: center;
     max-height: none;
 }
+
 /* para cuando se aleja */
-.popup-bubble-zoom-out .contenido{
+.popup-bubble-zoom-out .contenido {
     background-color: red;
     display: none;
 }
-.popup-bubble-zoom-out .icono{
+
+.popup-bubble-zoom-out .icono {
     content: "";
     background-image: url(https://pngimg.com/d/google_maps_pin_PNG29.png);
     background-size: cover;
     width: 33.5px;
     height: 50.0px;
 }
+
 /* para cuando se acerca */
-.popup-bubble-zoom-in{
+.popup-bubble-zoom-in {
     background-color: blue;
 }
 
-/* para que se ponga delante el popup que estas seleccionando con el cursor */
-.evento:hover{z-index: 10;}
+/* para que se ponga delante el popup que estás seleccionando con el cursor */
+.evento:hover {
+    z-index: 10;
+}
 
 /* El contenedor del popup */
 .popup-bubble-anchor {
@@ -93,6 +100,7 @@ html,body {
 .popup-bubble img {
     margin-top: 5px;
     width: 80px;
+    height: min-content;
     align-self: flex-start;
 }
 
@@ -108,7 +116,37 @@ html,body {
     padding: 0;
 }
 
+/* Estilos para el interior de la burbuja */
+.contenido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+}
 
+.contenido-imagen {
+    width: 40%;
+    object-fit: cover;
+    border-radius: 5px;
+    order: 1;
+}
+
+.contenido-datos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px;
+    width: 50%;
+    order: 2;
+}
+
+.contenido-datos h2, .contenido-datos p {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+}
 
 /* Estilos para el modal */
 #modal {
@@ -127,10 +165,10 @@ html,body {
 #modal-content {
     position: relative;
     background-color: #fff;
-    margin: 10% auto;
+    margin: 10vh auto;
     padding: 20px;
     border-radius: 4px;
-    width: 50%;
+    width: 50vw;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
     animation-name: animatetop;
     animation-duration: 0.4s;
@@ -138,8 +176,14 @@ html,body {
 
 /* Animación para que el modal aparezca suavemente */
 @keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
+    }
 }
 
 /* Estilos para la descripción en el modal */
@@ -147,6 +191,12 @@ html,body {
     color: #333;
     font-size: 18px;
     line-height: 1.6;
+}
+
+#modal-content img {
+    width: 20vw;
+    height: 40vh;
+    margin-bottom: 20px;
 }
 
 /* Estilos para el botón de unirse en el modal */
