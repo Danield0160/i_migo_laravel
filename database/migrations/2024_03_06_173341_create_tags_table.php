@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->date("fecha_nacimiento")->nullable();
-            $table->boolean("premiun")->default(false);
-            $table->string("redes")->nullable();
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string("categoria",40);
         });
     }
-
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropColumns("users",['fecha_nacimiento']);
+        Schema::dropIfExists('tags');
     }
 };
