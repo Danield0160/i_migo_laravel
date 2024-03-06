@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapaContronller;
-use App\Http\Controllers\ImagenController;
+use App\Http\Controllers\CrearEventoController;
 use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +16,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return redirect('index');
-});
+Route::get('/', function () {return redirect('index');});
+Route::get('/index', function () {return view('index');});
 
 Route::get('/mapa',[MapaContronller::class, "index"])->name("mapa");
-Route::get('/index', function () {
-    return view('index');
-});
 
 Route::get('/login', function(){view("auth.login");});
 
+Route::get("/crearEvento",[CrearEventoController::class,"index"])->name("crearEvento");
 
 require __DIR__.'/auth.php';
 
@@ -36,7 +33,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post("/setImage",[ImagenController::class,"storeImage"])->name("setImage");
+// Route::get("/setImage",[ImagenController::class,"storeImage"])->name("setImage");
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

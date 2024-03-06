@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-        <meta name="description" content=""/>
-        <meta name="author" content=""/>
+        @laravelPWA
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
         <title>Amigo</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
@@ -26,6 +27,8 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('mapa') }}">Mapa</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('crearEvento') }}">Crear Evento</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">Conócenos</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Idioma</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Inicia Sesión</a></li>
