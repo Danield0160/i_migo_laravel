@@ -12,3 +12,26 @@
 .is-invalid{
     border: 1px solid red;
 }
+
+
+#menu_botones_header{
+    display: flex;
+    width: 100%;
+    background-color: rgb(247, 166, 166);
+}
+#buscador{
+    white-space: nowrap;
+}
+#buscador input{
+    display: inline-block;
+    margin: 5px;
+}
+.header_navbar_button{
+    border: 2px solid rgb(168, 77, 112);
+    flex: 1 1 auto;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    background-color: rgb(218, 147, 147);
+    margin: 2px;
+}
