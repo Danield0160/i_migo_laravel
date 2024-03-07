@@ -13,8 +13,14 @@
     <div id="app">
 
         <div id="lateral-izq">
-            <form method="POST" action="{{route('crea')}}" enctype="multipart/form-data">
 
+            @guest
+                No estas logueado
+            @endguest
+
+            @auth
+
+            <form method="POST" action="{{route('crea')}}" enctype="multipart/form-data">
                 @csrf
 
                 <label for="name">Nombre del evento</label>
@@ -42,12 +48,14 @@
                 <input name="patrocinado" id="patrocinado" type="checkbox" class="@error('patrocinado') is-invalid @enderror">
                 <br>
 
-
                 <label for="imagen">imagen</label>
                 <input name="imagen" id="imagen" type="file" class="@error('imagen') is-invalid @enderror">
 
                 <button type="submit">Enviar</button>
             </form>
+
+            @endauth
+
         </div>
 
 
