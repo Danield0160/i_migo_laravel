@@ -31,12 +31,12 @@
                 <br>
                 <label for="limite">limite de asistentes</label>
                 <input name="limite" id="limite" type="number" class="@error('limite') is-invalid @enderror" min=0>
-                <br>
-                <label for="latitud">latitud</label>
-                <input name="latitud" id="latitud" type="text" class="@error('latitud') is-invalid @enderror">
-                <br>
-                <label for="longitud">longitud</label>
-                <input name="longitud" id="longitud" type="text" class="@error('longitud') is-invalid @enderror">
+
+                <label for="latitud" style="display: none">latitud</label>
+                <input name="latitud" style="display: none" id="latitud" type="text" class="@error('latitud') is-invalid @enderror">
+
+                <label for="longitud" style="display: none">longitud</label>
+                <input name="longitud" style="display: none" id="longitud" type="text" class="@error('longitud') is-invalid @enderror">
                 <br>
                 <label for="fecha">fecha del evento</label>
                 <input name="fecha" id="fecha" type="date" class="@error('fecha') is-invalid @enderror">

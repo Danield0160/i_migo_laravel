@@ -29,16 +29,9 @@
 class MapaGoogle {
     marcadores = []
     constructor() {
-
         this.mapa = new google.maps.Map(document.getElementById("map"), {
-            center: {
-                lat: 28.956265,
-                lng: -13.589889
-            },
+            center: { lat: 28.956265, lng: -13.589889 },
             zoom: 15,
-            mapTypeControlOptions: {
-                mapTypeIds: ["roadmap", "satellite", "hybrid", "terrain", "styled_map"],
-            },
         });
 
         // Wait for the map to be fully loaded before accessing its properties
@@ -52,16 +45,34 @@ class MapaGoogle {
             this.mapa.controls[google.maps.ControlPosition.TOP_CENTER].push(button);
 
             button.addEventListener("click", function () {
-                // Add a click event listener to the map
+                // Remove all previous markers
+                for (let i = 0; i < this.marcadores.length; i++) {
+                    this.marcadores[i].setMap(null);
+                }
+                this.marcadores = [];
+
+                // Create a marker at the center of the map
+                this.marker = new google.maps.Marker({
+                    position: this.mapa.getCenter(),
+                    map: this.mapa,
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' // Use a custom icon
+                });
+                this.marcadores.push(this.marker);
+
+                // Update the marker position when the mouse moves
+                this.mouseMoveListener = this.mapa.addListener('mousemove', function (event) {
+                    this.marker.setPosition(event.latLng);
+                }.bind(this));
+
+                // Place the marker and remove the listeners when the map is clicked
                 this.clickListener = this.mapa.addListener('click', function (event) {
                     this.placeMarker(event.latLng);
-                    // Remove the click event listener after the map has been clicked
                     google.maps.event.removeListener(this.clickListener);
+                    google.maps.event.removeListener(this.mouseMoveListener);
                 }.bind(this));
             }.bind(this));
         });
     }
-
     placeMarker(location) {
         if (this.marker) {
             this.marker.setPosition(location);
@@ -71,8 +82,9 @@ class MapaGoogle {
                 map: this.mapa
             });
         }
-
-        alert("Latitud: " + location.lat() + "\nLongitud: " + location.lng());
+        document.getElementById('latitud').value = location.lat();
+        document.getElementById('longitud').value = location.lng();
+        return [location.lat(), location.lng()];
     }
 
     addMarker(lat, lng, nombre, titutlo_hover, icono = null) {
