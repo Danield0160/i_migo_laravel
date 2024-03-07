@@ -1,0 +1,35 @@
+#mundo{
+    position: relative;
+    top: -220px;
+    background-image: url(https://cdn.pixabay.com/photo/2016/04/02/21/01/earth-1303628_1280.png);
+    height: 1107px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center top;
+    animation: animacionMundo 48s infinite linear;
+}
+@keyframes animacionMundo{
+    0%{
+        transform: rotateZ(0deg);
+    }
+    100%{
+        transform: rotateZ(360deg);
+    }
+}
+.pinMapa{
+    background-image: url(https://pavzi.com/wp-content/uploads/2021/11/Google-Maps.png);
+    position: absolute;
+    top: -80px;
+    width: 50px;
+    height: 150px;
+    left: 50%;
+    background-size: 110px;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+.pm1{
+    transform: rotateZ(180deg);
+    transform-origin: 0 160px;
+}
+
+/* .masthead{overflow: hidden;} */

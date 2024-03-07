@@ -18,6 +18,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet"/>
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{{asset('css/index.css')}}" rel="stylesheet"/>
+        <link href="{{asset('css/mundo.css')}}" rel="stylesheet"/>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -48,6 +49,14 @@
                         <a class="btn btn-primary btn-xl" href="{{ route('register') }}">Crea una cuenta</a>
                     </div>
                 </div>
+
+                <div id="decoracion">
+                    <div id="mundo">
+                        <div class="pinMapa"></div>
+                        <div class="pinMapa pm1"></div>
+                    </div>
+                </div>
+
             </div>
         </header>
         <!-- About-->
