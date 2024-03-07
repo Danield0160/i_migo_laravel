@@ -1,7 +1,3 @@
-@php
-    \Carbon\Carbon::setLocale('es');
-@endphp
-<!-- -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,5 +9,6 @@
 </head>
 <body>
 @include("partials.mapa_partial")
+
 </body>
 </html>
