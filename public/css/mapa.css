@@ -228,3 +228,17 @@ html, body {
 #modal-content button:hover {
     background-color: #449d44; /* Verde oscuro */
 }
+
+
+.custom-map-control-button {
+    background-color: #FFA07A; /* Orange color */
+    border: 0;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    margin: 10px;
+    padding: 0;
+    text-align: center;
+    width: 90px;
+    height: 40px;
+}

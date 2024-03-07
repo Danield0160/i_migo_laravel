@@ -1,6 +1,8 @@
 <script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
 
-<div id="map"></div>
+<div id="map">
+    <button id="getLocation">Obtener ubicación</button>
+</div>
 <div id="map-elements">
 
     <!-- Por cada evento pasado como dato a la vista crea su marcador -->
