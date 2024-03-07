@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MapaContronller;
+use App\Http\Controllers\MapaController;
 use App\Http\Controllers\CrearEventoController;
 use App\Http\Controllers\UserController;
 /*
@@ -19,12 +19,12 @@ use App\Http\Controllers\UserController;
 Route::get('/', function () {return redirect('index');});
 Route::get('/index', function () {return view('index');});
 
-Route::get('/mapa',[MapaContronller::class, "index"])->name("mapa");
+Route::get('/mapa',[MapaController::class, "index"])->name("mapa");
 
 Route::get('/login', function(){view("auth.login");});
 
-Route::get("/crearEvento",[CrearEventoController::class,"index"])->name("crearEvento");
-Route::post("/crearEvento",[CrearEventoController::class,"crearEvento"])->name("crearEvento");
+Route::get("/crearEvento",[CrearEventoController::class,"index"]);
+Route::post("/crearEvento/",[CrearEventoController::class,"crearEvento"])->name("crea");
 
 require __DIR__.'/auth.php';
 

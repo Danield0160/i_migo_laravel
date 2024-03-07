@@ -13,7 +13,8 @@
     <div id="app">
 
         <div id="lateral-izq">
-            <form method="POST" action="/crearEvento" enctype="multipart/form-data">
+            <form method="POST" action="{{route('crea')}}" enctype="multipart/form-data">
+
                 @csrf
 
                 <label for="name">Nombre del evento</label>
@@ -34,6 +35,9 @@
                 <label for="fecha">fecha del evento</label>
                 <input name="fecha" id="fecha" type="date" class="@error('fecha') is-invalid @enderror">
                 <br>
+                <label for="time">tiempo</label>
+                <input name="time" id="time" type="time" class="@error('time') is-invalid @enderror">
+                <br>
                 <label for="patrocinado">patrocinio</label>
                 <input name="patrocinado" id="patrocinado" type="checkbox" class="@error('patrocinado') is-invalid @enderror">
                 <br>
@@ -42,9 +46,8 @@
                 <label for="imagen">imagen</label>
                 <input name="imagen" id="imagen" type="file" class="@error('imagen') is-invalid @enderror">
 
-                <button type="submit">Evniar</button>
+                <button type="submit">Enviar</button>
             </form>
-            <img src="{{$imagen}}" alt="" width="50px" height="50px">
         </div>
 
 

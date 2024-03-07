@@ -15,7 +15,6 @@
         <div class="contenido">
             <div class="contenido-imagen">
                 <img src="{{asset('images/uploads/'.$evento['imagen'] )}}" alt="Imagen del evento">
-                {{ debugbar()->info($evento['imagen'])}}
             </div>
             <div class="contenido-datos">
                 <h2><i>{{$evento["nombre"]}}</i></h2>

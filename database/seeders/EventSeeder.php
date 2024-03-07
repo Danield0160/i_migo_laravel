@@ -22,7 +22,7 @@ class EventSeeder extends Seeder
             "limite_asistentes"=>50,
             "lat" =>28.956265,
             "lng" => -13.589889,
-            "fecha"=>"2024-03-10 19:00:00",
+            "fecha"=>"2024-03-10 19:00",
             "patrocinado" =>false
         ]);
         DB::table("events")->insert([

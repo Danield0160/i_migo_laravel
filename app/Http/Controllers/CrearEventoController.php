@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
-use App\Http\Controllers\MapaContronller;
+use App\Http\Controllers\MapaController;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
@@ -12,8 +12,9 @@ class CrearEventoController extends Controller
 {
 
     public function index() {
-        $mapa = new MapaContronller();
+        $mapa = new MapaController();
         return view("crearEvento",["datos"=>$mapa::obtener_todos()]);
+
     }
 
 
@@ -23,14 +24,14 @@ class CrearEventoController extends Controller
         $limite = $request->input("limite");
         $latitud = $request->input("latitud");
         $longitud = $request->input("longitud");
-        $fecha = $request->input("fecha");
+        $fecha = $request->input("fecha")." ".$request->input("time");
         $patrocinado = $request->input("patrocinado")?true:false;
 
         $request->validate(['imagen' => 'required|mimes:pdf,jpg,png|max:2048',]);
         $imageName = time().'.'.$request->file("imagen")->extension();
         $request->file("imagen")->move(public_path('images/uploads'), $imageName);
 
-
+        $imageName?null:$imageName="logo.png";
 
 
         $evento = new Event;
@@ -42,14 +43,12 @@ class CrearEventoController extends Controller
         $evento->lng = $longitud;
         $evento->fecha = $fecha;
         $evento->imagen = $imageName;
-
+        $evento->patrocinado = $patrocinado;
         $evento->save();
 
-        debugbar()->info(asset("storage"));
-        debugbar()->info([$nombre,$desc,$limite,$latitud,$longitud,$fecha,$patrocinado,$imageName]);
-        $mapa = new MapaContronller();
+        $mapa = new MapaController();
 
-        return view("crearEvento",["datos"=>$mapa::obtener_todos(),"imagen"=>asset('images/uploads/'.$imageName)]);
+        return back();
     }
 
 
