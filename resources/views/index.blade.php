@@ -46,13 +46,13 @@
                     </div>
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 mb-5"> Descubre experiencias únicas que cambiarán tu vida.</p>
-                        <a class="btn btn-primary btn-xl" href="{{ route('register') }}">Regístrate</a>
+                        <a class="btn btn-primary btn-xl" href="{{ route('register') }}">Crea una cuenta</a>
                     </div>
                 </div>
             </div>
         </header>
         <!-- About-->
-        <section class="page-section" id="services">
+        <section class="page-section" id="about">
             <div class="container px-4 px-lg-5">
                 <h2 class="text-center mt-0">Sobre Nosotros</h2>
                 <hr class="divider" />

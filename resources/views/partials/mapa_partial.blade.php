@@ -2,7 +2,10 @@
 @php
     \Carbon\Carbon::setLocale('es');
 @endphp
-<div id="map"></div>
+
+<div id="map">
+    <button id="getLocation">Obtener ubicación</button>
+</div>
 <div id="map-elements">
 
     <!-- Por cada evento pasado como dato a la vista crea su marcador -->
