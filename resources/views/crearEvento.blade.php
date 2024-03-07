@@ -50,7 +50,7 @@
             </form>
         </div>
 
-
+        <a href="{{ route('index') }}">Volver al index</a>
         <div id="lateral-der">
             @include("partials.mapa_partial")
         </div>

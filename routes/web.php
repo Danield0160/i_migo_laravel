@@ -17,7 +17,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {return redirect('index');});
-Route::get('/index', function () {return view('index');});
+Route::get('/index', function () {return view('index');})->name("index");
 
 Route::get('/mapa',[MapaController::class, "index"])->name("mapa");
 
