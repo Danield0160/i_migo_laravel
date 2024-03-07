@@ -41,3 +41,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
+// Navbar con boton de atras y con buscador
+// js mapa, un boton que al clickar se le pegue al raton un icono, y que al hacer
+    // click en el mapa lo suelte, y que de momento, te haga un console.log de
+    // su latitud y longitud
+// formulario crear evento
+// formulario subir imagen
