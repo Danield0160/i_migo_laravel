@@ -52,8 +52,14 @@
 
                 <div id="decoracion">
                     <div id="mundo">
+                        <img id="persona" src="https://media.tenor.com/GpxFWMY45p8AAAAi/walk-walking.gif" alt="">
                         <div class="pinMapa"></div>
                         <div class="pinMapa pm1"></div>
+                        <div class="pinMapa pm2"></div>
+                        <div class="pinMapa pm3"></div>
+                        <div class="pinMapa pm4"></div>
+                        <div class="pinMapa pm5"></div>
+                        <div class="pinMapa pm6"></div>
                     </div>
                 </div>
 
