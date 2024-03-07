@@ -230,15 +230,32 @@ html, body {
 }
 
 
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 .custom-map-control-button {
-    background-color: #FFA07A; /* Orange color */
-    border: 0;
-    border-radius: 2px;
-    box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
+    background: none padding-box rgb(233, 115, 115);
+    display: table-cell;
+    border: 0px;
     margin: 10px;
-    padding: 0;
+    padding: 0px 17px;
+    text-transform: none;
+    appearance: none;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    overflow: hidden;
     text-align: center;
-    width: 90px;
     height: 40px;
+    vertical-align: middle;
+    color: rgb(0, 0, 0, 0.9);
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+    min-width: 61px;
+}
+
+.custom-map-control-button:hover {
+    background-color: rgb(233, 155, 150);
+    color: rgb(0, 0, 0, 0.9);
 }
