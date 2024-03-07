@@ -1,7 +1,8 @@
 /* Establecer altura explícita para el mapa */
 #map {
     height: 100vh; /* 100% del viewport height */
-    width: 100vw; /* 100% del viewport width */
+    width: 100%; /* 100% del viewport width */
+    vertical-align: top;
 }
 
 /* Establecer que la página llene la ventana y ocultar desplazamiento */

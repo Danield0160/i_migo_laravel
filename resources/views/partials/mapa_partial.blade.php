@@ -1,3 +1,5 @@
+<script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
+
 <div id="map"></div>
 <div id="map-elements">
 

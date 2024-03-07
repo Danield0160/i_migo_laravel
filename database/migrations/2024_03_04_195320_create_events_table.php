@@ -24,6 +24,7 @@ return new class extends Migration
             $table->double("lng");
             $table->datetime("fecha")->nullable();
             $table->boolean("patrocinado")->default(false);
+            $table->integer("id_chat")->nullable();
             // $table->string("provincia");
         });
     }

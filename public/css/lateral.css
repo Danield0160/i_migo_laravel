@@ -1,0 +1,11 @@
+#lateral-izq{
+    display: inline-block;
+    width: 33%;
+}
+#lateral-der{
+    width: 100%;
+    display: inline-block;
+}
+#app{
+    display: flex;
+}
