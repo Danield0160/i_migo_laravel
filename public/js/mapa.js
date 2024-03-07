@@ -44,7 +44,10 @@ class MapaGoogle {
 
             this.mapa.controls[google.maps.ControlPosition.TOP_CENTER].push(button);
 
+            let eventoActivo=false
             button.addEventListener("click", function () {
+                if(eventoActivo){return}
+                eventoActivo=true
                 // Remove all previous markers
                 for (let i = 0; i < this.marcadores.length; i++) {
                     this.marcadores[i].setMap(null);
@@ -66,6 +69,7 @@ class MapaGoogle {
 
                 // Place the marker and remove the listeners when the map is clicked
                 this.clickListener = this.mapa.addListener('click', function (event) {
+                    eventoActivo=false
                     this.placeMarker(event.latLng);
                     google.maps.event.removeListener(this.clickListener);
                     google.maps.event.removeListener(this.mouseMoveListener);
