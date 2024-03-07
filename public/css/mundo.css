@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     margin-top: 100px;
+    pointer-events: none;
 }
 #mundo{
     position: absolute;
