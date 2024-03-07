@@ -39,7 +39,7 @@
         <!-- Masthead-->
         <header class="masthead">
             <div class="container px-4 px-lg-5 h-100">
-                <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+                <div class="row gx-4 gx-lg-5 {{--h-100--}} align-items-center justify-content-center text-center" style="margin-top:100px">
                     <div class="col-lg-8 align-self-end">
                         <h1 class="text-white font-weight-bold">Conoce gente nueva en tus sitios favoritos</h1>
                         <hr class="divider"/>
@@ -52,7 +52,6 @@
 
                 <div id="decoracion">
                     <div id="mundo">
-                        <img id="persona" src="https://media.tenor.com/GpxFWMY45p8AAAAi/walk-walking.gif" alt="">
                         <div class="pinMapa"></div>
                         <div class="pinMapa pm1"></div>
                         <div class="pinMapa pm2"></div>
@@ -60,6 +59,7 @@
                         <div class="pinMapa pm4"></div>
                         <div class="pinMapa pm5"></div>
                         <div class="pinMapa pm6"></div>
+                        <img id="persona" src="https://media.tenor.com/GpxFWMY45p8AAAAi/walk-walking.gif" alt="">
                     </div>
                 </div>
 
