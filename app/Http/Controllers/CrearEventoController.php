@@ -26,32 +26,30 @@ class CrearEventoController extends Controller
         $fecha = $request->input("fecha");
         $patrocinado = $request->input("patrocinado")?true:false;
 
+        $request->validate(['imagen' => 'required|mimes:pdf,jpg,png|max:2048',]);
+        $imageName = time().'.'.$request->file("imagen")->extension();
+        $request->file("imagen")->move(public_path('images/uploads'), $imageName);
 
 
-        $request->validate([
-            'imagen' => 'required|mimes:pdf,jpg,png|max:2048',
-        ]);
-        $file = $request->file("imagen");
-        $filePath = $file->store("public/uploads");
-        $name= $file->getBasename();
 
-        // $evento = new Event;
-        // $evento->id_creador = auth()->id();
-        // $evento->nombre = $nombre;
-        // $evento->descripcion = $desc;
-        // $evento->limite_asistentes = $limite;
-        // $evento->lat = $latitud;
-        // $evento->lng = $longitud;
-        // $evento->fecha = $fecha;
-        // $evento->patrocinado = $patrocinado;
 
-        // $evento->save();
+        $evento = new Event;
+        $evento->id_creador = auth()->id();
+        $evento->nombre = $nombre;
+        $evento->descripcion = $desc;
+        $evento->limite_asistentes = $limite;
+        $evento->lat = $latitud;
+        $evento->lng = $longitud;
+        $evento->fecha = $fecha;
+        $evento->imagen = $imageName;
 
-        debugbar()->info([$nombre,$desc,$limite,$latitud,$longitud,$fecha,$patrocinado,
-        storage_path($filePath),Storage::get($filePath),$file,$name]);
+        $evento->save();
+
+        debugbar()->info(asset("storage"));
+        debugbar()->info([$nombre,$desc,$limite,$latitud,$longitud,$fecha,$patrocinado,$imageName]);
         $mapa = new MapaContronller();
 
-        return view("crearEvento",["datos"=>$mapa::obtener_todos(),"imagen"=>Storage::get("fiesta.png")]);
+        return view("crearEvento",["datos"=>$mapa::obtener_todos(),"imagen"=>asset('images/uploads/'.$imageName)]);
     }
 
 

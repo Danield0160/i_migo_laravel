@@ -1,7 +1,3 @@
-@php
-    \Carbon\Carbon::setLocale('es');
-@endphp
-<!-- -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

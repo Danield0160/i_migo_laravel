@@ -41,7 +41,7 @@ class EventSeeder extends Seeder
             "id_creador" => 2,
             "nombre"=>"Casa Pedro",
             "descripcion"=>"Fiestita en casa de Pedro",
-            "imagen"=>"images/img_eventos/fiesta.png",
+            "imagen"=>"fiesta.png",
             "asistentes"=>43,
             "limite_asistentes"=>50,
             "lat" =>28.971806,

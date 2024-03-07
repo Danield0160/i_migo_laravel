@@ -1,5 +1,7 @@
 <script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
-
+@php
+    \Carbon\Carbon::setLocale('es');
+@endphp
 <div id="map"></div>
 <div id="map-elements">
 
@@ -9,7 +11,8 @@
         <div class="icono"></div>
         <div class="contenido">
             <div class="contenido-imagen">
-                <img src="{{asset($evento['imagen'])}}" alt="Imagen del evento">
+                <img src="{{asset('images/uploads/'.$evento['imagen'] )}}" alt="Imagen del evento">
+                {{ debugbar()->info($evento['imagen'])}}
             </div>
             <div class="contenido-datos">
                 <h2><i>{{$evento["nombre"]}}</i></h2>
