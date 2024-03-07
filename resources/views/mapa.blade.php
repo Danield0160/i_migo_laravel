@@ -13,5 +13,6 @@
 </head>
 <body>
 @include("partials.mapa_partial")
+
 </body>
 </html>
