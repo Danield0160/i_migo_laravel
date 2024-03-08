@@ -14,7 +14,7 @@ class CrearEventoController extends Controller
     public function index(Request $request) {
         $latitud = $request->latitud ?$request->latitud :"null";
         $longitud = $request->longitud?$request->longitud:"null";
-        $distancia = $request->distancia?$request->distancia:"null";
+        $distancia = $request->distancia?$request->distancia:50;
 
         $mapa = new MapaController();
         return view("crearEvento",["datos"=>$mapa::obtener_cercanos($latitud,$longitud,$distancia),"posicion"=>["lat"=>$latitud,"lng"=>$longitud],"dst"=>$distancia]);

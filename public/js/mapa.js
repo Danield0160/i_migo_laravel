@@ -30,7 +30,6 @@ class MapaGoogle {
     marcadores = []
     constructor() {
         if(posicion.lat){
-            console.log("existe")
         }
         else{
             posicion ={ lat: 28.9504656, lng: -13.589889 }
@@ -284,9 +283,7 @@ function ocultar(event) {
 navigator.geolocation.getCurrentPosition(()=>{});
 var posicion
 if(posicion.lat){
-    console.log("existe", posicion)
 }else{
-    console.log("no existe, redirecion")
     getLocation()
 }
 
@@ -297,7 +294,6 @@ function getLocation() {
     } else {
     }
 }
-var distancia = 50
 function showPosition(position) {
     posicion.lat?null:posicion.lat=position.coords.latitude;
     posicion.lng?null:posicion.lng=position.coords.longitude;
@@ -305,10 +301,8 @@ function showPosition(position) {
     let barra = window.location.pathname.endsWith("/")?"":"/"
 
     if(window.location.pathname.endsWith("Evento") | window.location.pathname.endsWith("Evento/")){
-        console.log("a")
         window.location.assign(window.location.pathname+barra+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
     }else {
-        console.log("b")
         window.location.replace("./"+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
     }
 }
