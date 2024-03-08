@@ -19,6 +19,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{{asset('css/index.css')}}" rel="stylesheet"/>
         <link href="{{asset('css/mundo.css')}}" rel="stylesheet"/>
+        <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -28,6 +29,7 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        @include("partials.buscador_app")
                         <li class="nav-item"><a class="nav-link" href="{{ route('crearEvento') }}">Crear Evento</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">Conócenos</a></li>
                         <li class="nav-item"><a class="nav-link" href="#portfolio">Idioma</a></li>

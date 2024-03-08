@@ -30,7 +30,7 @@ class MapaGoogle {
     marcadores = []
     constructor() {
         this.mapa = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 28.956265, lng: -13.589889 },
+            center: posicion,
             zoom: 15,
         });
 
@@ -272,3 +272,21 @@ function ocultar(event) {
 //https://developers.google.com/maps/documentation/javascript/examples/overlay-popup
 //https://developers.google.com/maps/documentation/javascript/markers?hl=es-419
 //https://developers.google.com/maps/documentation/?hl=es_419#places
+
+
+
+var posicion = { lat: 28.956265, lng: -13.589889 }
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+    }
+
+    function showPosition(position) {
+        posicion.lat = position.coords.latitude;
+        posicion.lng = position.coords.longitude;
+
+    }
+getLocation()
