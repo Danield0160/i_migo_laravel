@@ -11,7 +11,7 @@ google.maps.importLibrary("places").then(
 
         google.maps.event.addListener(autocompletado_input,"place_changed",function(data){
             lugar = autocompletado_input.getPlace()
-            console.log(lugar)
+            console.log(lugar.geometry.location.lat(),lugar.geometry.location.lng())
         })
 
     }

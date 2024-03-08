@@ -34,6 +34,7 @@ class MapaGoogle {
         }
         else{
             posicion ={ lat: 28.9504656, lng: -13.589889 }
+            showPosition()
         }
         this.mapa = new google.maps.Map(document.getElementById("map"), {
             center: posicion,
@@ -300,11 +301,8 @@ function getLocation() {
 function showPosition(position) {
     posicion.lat?null:posicion.lat=position.coords.latitude;
     posicion.lng?null:posicion.lng=position.coords.longitude;
-    if(window.location.pathname =="/crearEvento"){
-        window.location.replace(window.location.pathname+"/lat:"+posicion.lat+"_lng:"+posicion.lng);
-    }
-    if(window.location.pathname =="/buscarEvento/"){
-        window.location.replace(window.location.pathname+"lat:"+posicion.lat+"_lng:"+posicion.lng);
-    }
+
+    let barra = window.location.pathname.endsWith("/")?"":"/"
+    window.location.replace(window.location.pathname+barra+"lat:"+posicion.lat+"_lng:"+posicion.lng);
 }
 
