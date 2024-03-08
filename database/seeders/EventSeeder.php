@@ -13,6 +13,7 @@ class EventSeeder extends Seeder
      */
     public function run(): void
     {
+        //lanzarote
         DB::table("events")->insert([
             "id_creador"=>1,
             "nombre"=>"evento 1",
@@ -46,6 +47,56 @@ class EventSeeder extends Seeder
             "limite_asistentes"=>50,
             "lat" =>28.971806,
             "lng" => -13.535099,
+            "fecha"=>"2024-03-09 15:35:00",
+            "patrocinado"=>false,
+        ]);
+
+        //demas islas
+        DB::table("events")->insert([
+            "id_creador" => 2,
+            "nombre"=>"fuerteventura",
+            "descripcion"=>"Fiestita",
+            "imagen"=>"fiesta.png",
+            "asistentes"=>43,
+            "limite_asistentes"=>50,
+            "lat" =>28.349636364201963,
+            "lng" => -14.005846468310567,
+            "fecha"=>"2024-03-09 15:35:00",
+            "patrocinado"=>false,
+        ]);
+        DB::table("events")->insert([
+            "id_creador" => 2,
+            "nombre"=>"gran canaria",
+            "descripcion"=>"Fiestita",
+            "imagen"=>"fiesta.png",
+            "asistentes"=>43,
+            "limite_asistentes"=>50,
+            "lat" =>27.906375287165528,
+            "lng" => -15.579637972216817,
+            "fecha"=>"2024-03-09 15:35:00",
+            "patrocinado"=>false,
+        ]);
+        DB::table("events")->insert([
+            "id_creador" => 2,
+            "nombre"=>"Tenerife",
+            "descripcion"=>"Fiestita en casa de Pedro",
+            "imagen"=>"fiesta.png",
+            "asistentes"=>43,
+            "limite_asistentes"=>50,
+            "lat" =>28.248066551264127,
+            "lng" => -16.576647249560565,
+            "fecha"=>"2024-03-09 15:35:00",
+            "patrocinado"=>false,
+        ]);
+        DB::table("events")->insert([
+            "id_creador" => 2,
+            "nombre"=>"Gomera",
+            "descripcion"=>"Fiestita en casa de Pedro",
+            "imagen"=>"fiesta.png",
+            "asistentes"=>43,
+            "limite_asistentes"=>50,
+            "lat" =>28.110066967136415,
+            "lng" => -17.249559847216815,
             "fecha"=>"2024-03-09 15:35:00",
             "patrocinado"=>false,
         ]);
