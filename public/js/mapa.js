@@ -55,9 +55,10 @@ class MapaGoogle {
                 this.marcadores = [];
 
                 // Create a marker at the center of the map
-                this.marker = new google.maps.Marker({
+                this.marker = new AdvancedMarkerView({
                     position: this.mapa.getCenter(),
                     map: this.mapa,
+                    id:"marcador_de_ubicacion",
                     icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' // Use a custom icon
                 });
                 this.marcadores.push(this.marker);
@@ -68,14 +69,18 @@ class MapaGoogle {
                 }.bind(this));
 
                 // Place the marker and remove the listeners when the map is clicked
-                this.clickListener = this.mapa.addListener('click', function (event) {
-                    eventoActivo=false
-                    this.placeMarker(event.latLng);
-                    google.maps.event.removeListener(this.clickListener);
-                    google.maps.event.removeListener(this.mouseMoveListener);
+                this.clickListener = [this.mapa,this.marker].forEach(element => {
+
+                    element.addListener('click', function (event) {
+                        if(!eventoActivo){return}
+                        this.placeMarker(event.latLng);
+                        eventoActivo=false
+                        google.maps.event.removeListener(this.clickListener);
+                        google.maps.event.removeListener(this.mouseMoveListener);
+                    }.bind(this));
+                });
                 }.bind(this));
-            }.bind(this));
-        });
+            });
     }
     placeMarker(location) {
         if (this.marker) {
@@ -88,6 +93,7 @@ class MapaGoogle {
         }
         document.getElementById('latitud').value = location.lat();
         document.getElementById('longitud').value = location.lng();
+        console.log([location.lat(), location.lng()])
         return [location.lat(), location.lng()];
     }
 
