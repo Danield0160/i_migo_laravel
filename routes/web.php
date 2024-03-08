@@ -52,4 +52,5 @@ Route::middleware('auth')->group(function () {
 // formulario subir imagen
 // bbdd buscar por cercania
 // session storage, al recargar se mantenga misma ubicacion de mapa
-//
+// css header-menu-app
+// css footer-menu-app
