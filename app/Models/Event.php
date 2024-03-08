@@ -15,7 +15,7 @@ class Event extends Model
         // $lngCentral = -13.5898;
 
         return self::select('nombre', 'lat', 'lng')
-            ->selectRaw('ACOS(SIN(lat) * SIN(?) + COS(lat) * COS(?) * COS(? - lng)) * 6371 AS distancia', [$latCentral, $latCentral, $lngCentral])
+            ->selectRaw('ACOS(SIN(lat) * SIN(?) + COS(lat) * COS(?) * COS(? - lng)) * 6371 /60 AS distancia', [$latCentral, $latCentral, $lngCentral])
             ->havingRaw('distancia < ?',[$distancia])
             ->get();
     }
