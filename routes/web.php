@@ -50,3 +50,6 @@ Route::middleware('auth')->group(function () {
     // su latitud y longitud
 // formulario crear evento
 // formulario subir imagen
+// bbdd buscar por cercania
+// session storage, al recargar se mantenga misma ubicacion de mapa
+//
