@@ -13,7 +13,7 @@ class CrearEventoController extends Controller
 
     public function index() {
         $mapa = new MapaController();
-        return view("crearEvento",["datos"=>$mapa::obtener_todos()]);
+        return view("crearEvento",["datos"=>$mapa::obtener_todos(),"posicion"=>["lat"=>"null","lng"=>"null"]]);
 
     }
 

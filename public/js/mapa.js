@@ -300,6 +300,8 @@ function getLocation() {
 function showPosition(position) {
     posicion.lat?null:posicion.lat=position.coords.latitude;
     posicion.lng?null:posicion.lng=position.coords.longitude;
-    window.location.replace("./lat:"+posicion.lat+"_lng:"+posicion.lng);
+    if(window.location.pathname !="/crearEvento"){
+        window.location.replace("/lat:"+posicion.lat+"_lng:"+posicion.lng);
+    }
 }
 
