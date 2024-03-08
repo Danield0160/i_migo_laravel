@@ -29,6 +29,12 @@
 class MapaGoogle {
     marcadores = []
     constructor() {
+        if(posicion.lat){
+            console.log("existe")
+        }
+        else{
+            posicion ={ lat: 28.9504656, lng: -13.589889 }
+        }
         this.mapa = new google.maps.Map(document.getElementById("map"), {
             center: posicion,
             zoom: 15,
@@ -274,19 +280,26 @@ function ocultar(event) {
 //https://developers.google.com/maps/documentation/?hl=es_419#places
 
 
+navigator.geolocation.getCurrentPosition(()=>{});
+var posicion
+if(posicion.lat){
+    console.log("existe", posicion)
+}else{
+    console.log("no existe, redirecion")
+    getLocation()
+}
 
-var posicion = { lat: 28.956265, lng: -13.589889 }
+
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
-        console.log("Geolocation is not supported by this browser.");
     }
-    }
+}
 
-    function showPosition(position) {
-        posicion.lat = position.coords.latitude;
-        posicion.lng = position.coords.longitude;
+function showPosition(position) {
+    posicion.lat?null:posicion.lat=position.coords.latitude;
+    posicion.lng?null:posicion.lng=position.coords.longitude;
+    window.location.replace("./lat:"+posicion.lat+"_lng:"+posicion.lng);
+}
 
-    }
-getLocation()

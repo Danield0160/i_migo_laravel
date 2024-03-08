@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapaController;
 use App\Http\Controllers\CrearEventoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BuscarEventoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +26,13 @@ Route::get('/login', function(){view("auth.login");});
 
 Route::get("/crearEvento",[CrearEventoController::class,"index"])->name("crearEvento");
 Route::post("/crearEvento/",[CrearEventoController::class,"crearEvento"])->name("crea");
+
+
+Route::get("/buscarEvento/lat:{latitud}_lng:{longitud}",[BuscarEventoController::class,"index"]);
+Route::get("/buscarEvento",[BuscarEventoController::class,"index"]);
+
+
+
 
 require __DIR__.'/auth.php';
 

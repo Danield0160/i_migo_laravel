@@ -1,3 +1,6 @@
+<script>
+    var posicion = {lat:{{$posicion["lat"]}},lng:{{$posicion["lng"]}}}
+</script>
 <script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
 @php
     \Carbon\Carbon::setLocale('es');
