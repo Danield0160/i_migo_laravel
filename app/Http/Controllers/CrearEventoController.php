@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Storage;
 class CrearEventoController extends Controller
 {
 
-    public function index() {
+    public function index(Request $request) {
+        $latitud = $request->latitud ?$request->latitud :"null";
+        $longitud = $request->longitud?$request->longitud:"null";
         $mapa = new MapaController();
-        return view("crearEvento",["datos"=>$mapa::obtener_todos(),"posicion"=>["lat"=>"null","lng"=>"null"]]);
+        return view("crearEvento",["datos"=>$mapa::obtener_todos(),"posicion"=>["lat"=>$latitud,"lng"=>$longitud]]);
 
     }
 
