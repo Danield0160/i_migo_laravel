@@ -13,4 +13,7 @@ class MapaController extends Controller
     public static function obtener_todos(){
         return Event::all();
     }
+    public static function obtener_cercanos($lat,$lng,$dist){
+        return Event::obtenerEventosCercanos($lat,$lng,$dist);
+    }
 };

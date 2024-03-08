@@ -24,12 +24,12 @@ Route::get('/mapa',[MapaController::class, "index"])->name("mapa");
 
 Route::get('/login', function(){view("auth.login");});
 
-Route::get("/crearEvento/lat:{latitud}_lng:{longitud}",[CrearEventoController::class,"index"]);
+Route::get("/crearEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[CrearEventoController::class,"index"]);
 Route::get("/crearEvento/",[CrearEventoController::class,"index"])->name("crearEvento");
 Route::post("/crearEvento/",[CrearEventoController::class,"crearEvento"])->name("crea");
 
 
-Route::get("/buscarEvento/lat:{latitud}_lng:{longitud}",[BuscarEventoController::class,"index"]);
+Route::get("/buscarEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[BuscarEventoController::class,"index"]);
 Route::get("/buscarEvento",[BuscarEventoController::class,"index"]);
 
 

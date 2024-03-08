@@ -297,12 +297,19 @@ function getLocation() {
     } else {
     }
 }
-
+var distancia = 50
 function showPosition(position) {
     posicion.lat?null:posicion.lat=position.coords.latitude;
     posicion.lng?null:posicion.lng=position.coords.longitude;
 
     let barra = window.location.pathname.endsWith("/")?"":"/"
-    window.location.replace(window.location.pathname+barra+"lat:"+posicion.lat+"_lng:"+posicion.lng);
+
+    if(window.location.pathname.endsWith("Evento") | window.location.pathname.endsWith("Evento/")){
+        console.log("a")
+        window.location.assign(window.location.pathname+barra+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
+    }else {
+        console.log("b")
+        window.location.replace("./"+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
+    }
 }
 
