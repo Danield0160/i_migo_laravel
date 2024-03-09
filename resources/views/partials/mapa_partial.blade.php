@@ -7,10 +7,12 @@
 @endphp
 
 <div id="map">
-    <button id="getLocation">Obtener ubicación</button>
+    {{-- <button id="getLocation">Obtener ubicación</button> --}}
 </div>
 <div id="map-elements">
+
     @include("partials.buscador_app")
+
     <!-- Por cada evento pasado como dato a la vista crea su marcador -->
     @foreach ($datos as $index=>$evento )
     <div id="content{{$index}}" class="evento" onclick="showEventDetails(this,{{$evento}})">
