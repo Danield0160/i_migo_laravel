@@ -83,10 +83,11 @@ class MapaGoogle {
                         eventoActivo=false
                         google.maps.event.removeListener(this.clickListener);
                         google.maps.event.removeListener(this.mouseMoveListener);
+
                     }.bind(this));
                 });
-                }.bind(this));
-            });
+            }.bind(this));
+        });
     }
     placeMarker(location) {
         if (this.marker) {
@@ -116,8 +117,9 @@ class MapaGoogle {
         });
     }
 
-    addCustomMarker(lat, lng, div) {
+    addCustomMarker(lat, lng, div,id) {
         let popup = new Popup(new google.maps.LatLng(lat, lng), div);
+        popup.id = id
         popup.setMap(this.mapa);
         this.marcadores.push(popup)
     }
@@ -151,6 +153,11 @@ class MapaGoogle {
             }
         }
         return popupsVisibles
+    }
+    actualizarMedianteArrastrado(){
+        google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
+            setTimeout(actualizar_listado_mapas_visibles, 100)
+        })
     }
 }
 
@@ -212,7 +219,7 @@ cargarOverlayClass = () => {
             );
             // Hide the popup when it is far out of view.
             const display =
-                Math.abs(divPosition.x) < window.innerWidth / 1.7 && Math.abs(divPosition.y) < window.innerHeight / 2 // originalmente 4000  , depende del tamaño de la pantalla
+                Math.abs(divPosition.x) < $("#map")[0].getBoundingClientRect().width / 1.7 && Math.abs(divPosition.y) < $("#map")[0].getBoundingClientRect().height / 1.7 // originalmente 4000  , depende del tamaño de la pantalla
             // this.containerDiv.children[0].children[0].setAttribute("visible",display) // añade al div evento un atributo que marca si es visible en el mapa
             return display
         }
@@ -307,3 +314,31 @@ function showPosition(position) {
     }
 }
 
+function actualizar_listado_mapas_visibles(){
+    let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
+    let listado = document.getElementById("listado_eventos_visibles")
+    listado.innerHTML = ""
+
+    popupsVisibles.forEach(function(ele,index,arrya){
+        let elemento = datos[ele.id]
+        let div = document.createElement("div")
+        let titulo = document.createElement("h2")
+        titulo.innerText = elemento.nombre
+        let desc = document.createElement("p")
+        desc.innerText=elemento.descripcion
+        div.popupId = ele.id
+
+
+        div.appendChild(titulo)
+        div.appendChild(desc)
+        listado.append(div)
+    })
+
+
+
+
+
+
+
+    MapaGoogleObject.actualizarMedianteArrastrado()
+}

@@ -51,6 +51,7 @@
             {{ $evento["lat"] }},
             {{ $evento["lng"] }},
             {{ "content". $index }},
+            {{ $evento["id"] }}
         )
         @endforeach
     })()

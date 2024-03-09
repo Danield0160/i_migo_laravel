@@ -16,9 +16,9 @@ class MapaController extends Controller
     public static function obtener_cercanos($lat,$lng,$dist){
 
 
-        foreach (Event::obtenerEventosCercanos($lat,$lng,$dist) as $key => $value) {
-            debugbar()->info($value->nombre,$value->distancia);
-        }
+        // foreach (Event::obtenerEventosCercanos($lat,$lng,$dist) as $key => $value) {
+        //     debugbar()->info($value->nombre,$value->distancia);
+        // }
 
         return Event::obtenerEventosCercanos($lat,$lng,$dist);
     }

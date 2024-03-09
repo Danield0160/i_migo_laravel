@@ -7,7 +7,10 @@
 
     @auth
 
-    buscador
+    <input type="text">
+    <div id="listado_eventos_visibles"></div>
+
+    <script>setTimeout(()=>actualizar_listado_mapas_visibles(),350)</script>
 
     @endauth
 
