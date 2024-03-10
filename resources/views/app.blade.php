@@ -21,14 +21,7 @@
 <body>
 
 {{-- {{debugbar()->info($datos[0]->id)}} --}}
-<script>
-    let datos_raw = <?php echo $datos; ?>;
-    let datos={};
-    datos_raw.forEach(function(val,index,arry){
-        datos[val.id] = val;
-    });
-    console.log(datos);
-</script>
+
     <div id="app">
 
         <div id="lateral-izq">
@@ -37,8 +30,12 @@
             </div>
 
             <div id="cuerpo_app">
-                @yield("slot")
-                <div></div>
+                <div id="crearEventoSection" :v-if="activo"></div><script>crearEventoSectionApp(`@include('crearEvento')`)</script>
+                <hr>
+                <div id="buscarEventoSection"></div>
+                <script>
+                    buscarEventoSectionApp(` @include('buscarEvento') `)
+                </script>
                 <div></div>
             </div>
 

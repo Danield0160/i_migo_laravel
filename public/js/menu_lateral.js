@@ -8,7 +8,7 @@ function test(){
 	var itemPosNewAnimTop = activeItemNewAnim.position();
 	var itemPosNewAnimLeft = activeItemNewAnim.position();
 	$(".hori-selector").css({
-		"top":itemPosNewAnimTop.top + "px", 
+		"top":itemPosNewAnimTop.top + "px",
 		"left":itemPosNewAnimLeft.left + "px",
 		"height": activeWidthNewAnimHeight + "px",
 		"width": activeWidthNewAnimWidth + "px"
@@ -21,7 +21,7 @@ function test(){
 		var itemPosNewAnimTop = $(this).position();
 		var itemPosNewAnimLeft = $(this).position();
 		$(".hori-selector").css({
-			"top":itemPosNewAnimTop.top + "px", 
+			"top":itemPosNewAnimTop.top + "px",
 			"left":itemPosNewAnimLeft.left + "px",
 			"height": activeWidthNewAnimHeight + "px",
 			"width": activeWidthNewAnimWidth + "px"
@@ -76,3 +76,29 @@ jQuery(document).ready(function($){
 //         }
 //     })
 // });
+
+
+
+function crearEventoSectionApp(template){
+
+    EventoSectionApp = createApp({
+        data(){
+            return {activo:true};
+        },
+        template:template
+    })
+
+    EventoSectionApp.mount("#crearEventoSection")
+}
+
+
+function buscarEventoSectionApp(template){
+    EventoSectionApp = createApp({
+        data(){
+            return {activo:true};
+        },
+        template:template
+    })
+
+    EventoSectionApp.mount("#buscarEventoSection")
+}

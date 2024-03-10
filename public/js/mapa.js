@@ -26,19 +26,22 @@
     v: "weekly"
 });
 
+window.app = createApp({})
+var posicion
 class MapaGoogle {
     marcadores = []
     constructor() {
-        if(posicion.lat){
-        }
-        else{
+        // if(posicion.lat){
+        // }
+        // else{
             posicion ={ lat: 28.9504656, lng: -13.589889 }
             showPosition()
-        }
+        // }
         this.mapa = new google.maps.Map(document.getElementById("map"), {
             center: posicion,
             zoom: 15,
         });
+        setTimeout(()=>actualizar_listado_mapas_visibles(),500)
 
         // Wait for the map to be fully loaded before accessing its properties
         google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
@@ -287,12 +290,12 @@ function ocultar(event) {
 //https://developers.google.com/maps/documentation/?hl=es_419#places
 
 
-navigator.geolocation.getCurrentPosition(()=>{});
-var posicion
-if(posicion.lat){
-}else{
-    getLocation()
-}
+// navigator.geolocation.getCurrentPosition(()=>{});
+// var posicion
+// if(posicion.lat){
+// }else{
+//     getLocation()
+// }
 
 
 function getLocation() {
@@ -302,16 +305,16 @@ function getLocation() {
     }
 }
 function showPosition(position) {
-    posicion.lat?null:posicion.lat=position.coords.latitude;
-    posicion.lng?null:posicion.lng=position.coords.longitude;
+    // posicion.lat?null:posicion.lat=position.coords.latitude;
+    // posicion.lng?null:posicion.lng=position.coords.longitude;
 
-    let barra = window.location.pathname.endsWith("/")?"":"/"
+    // let barra = window.location.pathname.endsWith("/")?"":"/"
 
-    if(window.location.pathname.endsWith("Evento") | window.location.pathname.endsWith("Evento/")){
-        window.location.assign(window.location.pathname+barra+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
-    }else {
-        window.location.replace("./"+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
-    }
+    // if(window.location.pathname.endsWith("Evento") | window.location.pathname.endsWith("Evento/")){
+    //     window.location.assign(window.location.pathname+barra+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
+    // }else {
+    //     window.location.replace("./"+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
+    // }
 }
 
 function actualizar_listado_mapas_visibles(){
@@ -335,10 +338,31 @@ function actualizar_listado_mapas_visibles(){
     })
 
 
-
-
-
-
-
     MapaGoogleObject.actualizarMedianteArrastrado()
 }
+var datos={};
+$.get("./api/AllEvents",function(data){
+    data.forEach(function(ele){
+        datos[ele.id] = ele
+    })
+    data.forEach(function(ele){
+        div = document.createElement("div")
+        fecha = new Date(ele.fecha)
+        div.innerHTML =`
+        <div class="evento" onclick="console.log(this)">
+        <div class="icono"></div>
+        <div class="contenido">
+            <div class="contenido-imagen">
+                <img src="images/uploads/${ele.imagen}" alt="Imagen del evento">
+            </div>
+            <div class="contenido-datos">
+                <h2><i>${ele.nombre}</i></h2>
+                <p><b>Fecha:</b> ${fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}</p>
+                <p><b>Hora:</b> ${fecha.getHours()} : ${String(fecha.getMinutes()).padStart("2","0")}</p>
+                <p><b>Asistentes</b>: ${ele.asistentes} / ${ele.limite_asistentes}</p>
+            </div>
+        </div>
+    </div>`
+        MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
+    })
+})

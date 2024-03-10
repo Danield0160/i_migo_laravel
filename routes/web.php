@@ -31,6 +31,11 @@ Route::get("/buscarEvento",[BuscarEventoController::class,"index"]);
 
 
 
+Route::get("/app",function(){return view("app");});
+Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
+
+
+
 require __DIR__.'/auth.php';
 
 
