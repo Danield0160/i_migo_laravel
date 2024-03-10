@@ -5,18 +5,18 @@
 // });
 
 
-google.maps.importLibrary("places").then(
-    (data) => {
-        let autocompletado_input = new google.maps.places.Autocomplete($("#buscador")[0])
+// google.maps.importLibrary("places").then(
+//     (data) => {
+//         let autocompletado_input = new google.maps.places.Autocomplete($("#buscador")[0])
 
-        google.maps.event.addListener(autocompletado_input,"place_changed",function(data){
-            lugar = autocompletado_input.getPlace()
-            posicion = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
-            showPosition(posicion)
-        })
+//         google.maps.event.addListener(autocompletado_input,"place_changed",function(data){
+//             lugar = autocompletado_input.getPlace()
+//             posicion = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
+//             showPosition(posicion)
+//         })
 
-    }
-)
+//     }
+// )
 
 
 

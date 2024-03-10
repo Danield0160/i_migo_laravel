@@ -246,6 +246,30 @@ google.maps.importLibrary("maps").then(
         MapaGoogleObject = new MapaGoogle()
         resolver() // ya todo cargado, permite el paso a los elementos que requieran las importaciones
         // MapaGoogleObject.addMarker(28.959265,-13.589889,"nombre")
+
+
+
+        google.maps.importLibrary("places").then(
+            () => {
+                console.log("importado places")
+                let autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
+
+                google.maps.event.addListener(autocompletado_input,"places_changed",function(){
+                    lugar = autocompletado_input.getPlaces()[0]
+                    console.log(lugar)
+                    posicion = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
+
+                    bounds = new google.maps.LatLngBounds();
+                    bounds.union(lugar.geometry.viewport);
+                    MapaGoogleObject.mapa.fitBounds(bounds);
+
+                    // showPosition(posicion)
+                })
+
+            }
+        )
+
+
     }
 );
 
