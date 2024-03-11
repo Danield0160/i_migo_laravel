@@ -341,10 +341,14 @@ function showPosition(position) {
 
 function actualizar_listado_mapas_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
-    let listado = document.getElementById("listado_eventos_visibles")
+    let listado = document.getElementById("trash")
+    // let listado = document.getElementById("listado_eventos_visibles")
+    if(!listado){return}
     listado.innerHTML = ""
+    console.log(buscarEventoSectionAppObject)
 
     buscarEventoSectionAppObject.vaciarEventosVisibles()
+
     popupsVisibles.forEach(function(ele,index,arrya){
         let elemento = datos[ele.id]
         let div = document.createElement("div")
@@ -358,7 +362,7 @@ function actualizar_listado_mapas_visibles(){
         div.appendChild(titulo)
         div.appendChild(desc)
         // listado.append(div)
-        buscarEventoSectionAppObject.addEventoVisible(div)
+        buscarEventoSectionAppObject.addEventoVisible(div.innerHTML, ele.id)
     })
 
 

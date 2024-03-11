@@ -14,12 +14,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><script>const { createApp, ref } = Vue</script>
-    <script src="{{asset('js/menu_lateral.js')}}"></script>
 
     <title>Document</title>
 </head>
 <body>
-
+<div id="trash" class="oculto"></div>
 {{-- {{debugbar()->info($datos[0]->id)}} --}}
 
     <div id="app">
@@ -30,9 +29,9 @@
             </div>
 
             <div id="cuerpo_app">
-                <div id="crearEventoSection"></div><script>crearEventoSectionApp(`@include('crearEvento')`)</script>
+                <div id="crearEventoSection"></div>
                 <hr>
-                <div id="buscarEventoSection"></div><script>buscarEventoSectionApp(` @include('buscarEvento') `)</script>
+                <div id="buscarEventoSection"></div>
                 <div></div>
             </div>
 
@@ -46,6 +45,9 @@
         </div>
     </div>
 
+    <script src="{{asset('js/menu_lateral.js')}}"></script>
+    <script>crearEventoSectionApp(`@include('crearEvento')`)</script>
+    <script>buscarEventoSectionApp(` @include('buscarEvento') `)</script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
