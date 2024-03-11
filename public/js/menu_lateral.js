@@ -79,6 +79,7 @@ jQuery(document).ready(function($){
 
 
 
+
 function crearEventoSectionApp(template){
 
     EventoSectionApp = createApp({

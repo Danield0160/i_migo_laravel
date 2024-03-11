@@ -251,12 +251,10 @@ google.maps.importLibrary("maps").then(
 
         google.maps.importLibrary("places").then(
             () => {
-                console.log("importado places")
                 let autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
 
                 google.maps.event.addListener(autocompletado_input,"places_changed",function(){
                     lugar = autocompletado_input.getPlaces()[0]
-                    console.log(lugar)
                     posicion = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
 
                     bounds = new google.maps.LatLngBounds();
@@ -389,7 +387,6 @@ $.get("./api/AllEvents",function(data){
     </div>`
     async function add(ele,div){
         await CargadoMapa;
-        console.log(ele);
         MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
     }
     add(ele,div)

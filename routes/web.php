@@ -64,3 +64,10 @@ Route::middleware('auth')->group(function () {
 // session storage, al recargar se mantenga misma ubicacion de mapa
 // css header-menu-app
 // css footer-menu-app
+
+
+
+
+//arreglar post crear evento
+//seleccionar vue-app al clickar navbar
+//arreglar popup al clickar evento mapa
