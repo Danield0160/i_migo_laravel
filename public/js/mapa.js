@@ -165,7 +165,7 @@ class MapaGoogle {
     }
     actualizarMedianteArrastrado(){
         google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
-            setTimeout(actualizar_listado_mapas_visibles, 100)
+            setTimeout(actualizar_listado_mapas_visibles, 250)
         })
     }
 }

@@ -282,3 +282,21 @@ html, body {
 .oculto{
     display: none;
 }
+
+
+
+/* listado de eventos, lateral */
+#listado_eventos_visibles{
+    max-height: 80vh;
+    overflow: scroll;
+    height: min-content;
+}
+.evento_listado_container{
+    border: 1px solid black;
+    margin: 5px;
+}
+
+.evento_listado_container img{
+    width: 30%;
+    display: inline-block;
+}

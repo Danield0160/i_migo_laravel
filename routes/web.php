@@ -53,7 +53,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
+//TODO:
+//! old
 // Navbar con boton de atras y con buscador
 // js mapa, un boton que al clickar se le pegue al raton un icono, y que al hacer
     // click en el mapa lo suelte, y que de momento, te haga un console.log de
@@ -67,7 +68,15 @@ Route::middleware('auth')->group(function () {
 
 
 
-
+//! new
 //arreglar post crear evento
 //seleccionar vue-app al clickar navbar
 //hacer que el popup vaya por id en vez de copiar innerhtml
+//websocket para refrescar eventos
+// arreglar showEventDetail
+//meter el buscador.blade en el mapa.blade
+// hacer que ordene por distancia el buscar evento
+//geolocalizacion
+//ajax buscar lugar
+// hacer footer
+//ocultar del mapa botones inutiles
