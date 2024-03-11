@@ -119,6 +119,12 @@ class MapaGoogle {
             icon: icono,
         });
     }
+    removeMarkers(){
+        this.marcadores.forEach(function(ele){
+            ele.setMap(null)
+        })
+        this.marcadores = []
+    }
 
     addCustomMarker(lat, lng, div,id) {
         let popup = new Popup(new google.maps.LatLng(lat, lng), div);
@@ -341,61 +347,92 @@ function showPosition(position) {
 
 function actualizar_listado_mapas_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
-    let listado = document.getElementById("trash")
-    // let listado = document.getElementById("listado_eventos_visibles")
-    if(!listado){return}
-    listado.innerHTML = ""
-    console.log(buscarEventoSectionAppObject)
+    // let listado = document.getElementById("trash")
+    // // let listado = document.getElementById("listado_eventos_visibles")
+    // if(!listado){return}
+    // listado.innerHTML = ""
 
     buscarEventoSectionAppObject.vaciarEventosVisibles()
 
-    popupsVisibles.forEach(function(ele,index,arrya){
-        let elemento = datos[ele.id]
-        let div = document.createElement("div")
-        let titulo = document.createElement("h2")
-        titulo.innerText = elemento.nombre
-        let desc = document.createElement("p")
-        desc.innerText=elemento.descripcion
-        div.popupId = ele.id
-
-
-        div.appendChild(titulo)
-        div.appendChild(desc)
-        // listado.append(div)
-        buscarEventoSectionAppObject.addEventoVisible(div.innerHTML, ele.id)
+    popupsVisibles.forEach(function(ele){
+        buscarEventoSectionAppObject.addEventoVisible(ele.id)
     })
 
 
     MapaGoogleObject.actualizarMedianteArrastrado()
 }
 var datos={};
-$.get("./api/AllEvents",function(data){
-    data.forEach(function(ele){
-        datos[ele.id] = ele
-    })
-    data.forEach(function(ele){
-        div = document.createElement("div")
-        fecha = new Date(ele.fecha)
-        div.innerHTML =`
-        <div class="evento" onclick="showEventDetails(this)">
-        <div class="icono"></div>
-        <div class="contenido">
+async function actualizar_datos(){
+    await CargadoMapa;
+    MapaGoogleObject.removeMarkers()
+
+    await $.get("./api/AllEvents",function(data){
+        data.forEach(function(ele){
+            datos[ele.id] = ele
+        })
+        data.forEach(function(ele){
+            div = document.createElement("div")
+            fecha = new Date(ele.fecha)
+            div.innerHTML =`
+            <div class="evento" onclick="showEventDetails(this)">
+            <div class="icono"></div>
+            <div class="contenido">
             <div class="contenido-imagen">
-                <img src="images/uploads/${ele.imagen}" alt="Imagen del evento">
+            <img src="images/uploads/${ele.imagen}" alt="Imagen del evento">
             </div>
             <div class="contenido-datos">
-                <h2><i>${ele.nombre}</i></h2>
-                <p><b>Fecha:</b> ${fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}</p>
-                <p><b>Hora:</b> ${fecha.getHours()} : ${String(fecha.getMinutes()).padStart("2","0")}</p>
-                <p><b>Asistentes</b>: ${ele.asistentes} / ${ele.limite_asistentes}</p>
+            <h2><i>${ele.nombre}</i></h2>
+            <p><b>Fecha:</b> ${fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}</p>
+            <p><b>Hora:</b> ${fecha.getHours()} : ${String(fecha.getMinutes()).padStart("2","0")}</p>
+            <p><b>Asistentes</b>: ${ele.asistentes} / ${ele.limite_asistentes}</p>
             </div>
-        </div>
-    </div>`
-    async function add(ele,div){
-        await CargadoMapa;
-        MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
-    }
-    add(ele,div)
+            </div>
+            </div>`
+            function add(ele,div){
+                MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
+            }
+            add(ele,div)
 
+        })
+        setTimeout(actualizar_listado_mapas_visibles,450)
     })
-})
+}
+actualizar_datos()
+
+
+async function enviar_datos_evento(){
+
+    let formData = new FormData($("#formulario_crear")[0])
+
+    // nombre = document.querySelector("#formulario_crear #name").value
+    // descripcion = document.querySelector("#formulario_crear #descripcion").value
+    // numero_asistentes = document.querySelector("#formulario_crear #limite").value
+    // fecha = document.querySelector("#formulario_crear #fecha").value
+    // hora = document.querySelector("#formulario_crear #time").value
+    // patrocinio = document.querySelector("#formulario_crear #patrocinado").value
+    // imagen = document.querySelector("#formulario_crear #imagen").value
+
+    // latitud = document.querySelector("#formulario_crear #latitud").value
+    // longitud = document.querySelector("#formulario_crear #longitud").value
+
+    console.log([...formData.keys()])
+
+    $.ajax({
+        type:'POST',
+        url: "/crearEvento",
+        data:formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        success:function(data){
+            console.log("success");
+            console.log(data);
+            setTimeout(actualizar_datos,250)
+        },
+        error: function(data){
+            console.log("error");
+            console.log(data);
+        }
+    });
+
+}

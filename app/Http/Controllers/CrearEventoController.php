@@ -52,7 +52,7 @@ class CrearEventoController extends Controller
 
         $mapa = new MapaController();
 
-        return back();
+        // return back();
     }
 
 

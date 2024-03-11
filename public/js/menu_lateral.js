@@ -115,20 +115,11 @@ function buscarEventoSectionApp(template){
             $("#buscar_eventos_button")[0].onclick =function(){console.log("busc click");buscarEventoSectionAppObject.activar()}
             return {
                 activo:false,
-                eventosVisibles:{},
+                eventosVisibles:[],
                 updateKey:0
             };
         },
-        template:`<div v-if="activo">
-        <input type="text">
-        <div id="listado_eventos_visibles">
-            <div v-for="index, evento in eventos" :key="updateKey">
-                <div>
-                {{index}}
-                </div>
-            </div>
-        </div>
-    </div>`,
+        template:template,
         methods:{
             activar(){
                 desactivarGlobal()
@@ -137,21 +128,19 @@ function buscarEventoSectionApp(template){
             desactivar(){
                 this.activo = false
             },
-            addEventoVisible(evento,id){
-                console.log(this.eventosVisibles)
-                this.eventosVisibles[id] = evento
-                this.updateKey++
+            addEventoVisible(id){
+                this.eventosVisibles.push(id)
             },
             vaciarEventosVisibles(){
-                console.log(this.eventosVisibles)
-
-                this.eventosVisibles={0:""}
-                this.updateKey++
+                this.eventosVisibles=[]
             }
         },
         computed:{
             eventos(){
                 return this.eventosVisibles
+            },
+            datos(){
+                return datos
             }
         }
 

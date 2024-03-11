@@ -1,3 +1,5 @@
+<form id="formulario_crear" onsubmit="return false">
+@csrf
 <div class="formulario m-3" v-if="activo">
 
     <div class="form-group mt-2">
@@ -46,6 +48,7 @@
         <input name="imagen" id="imagen" type="file" class="form-control-file @error('imagen') is-invalid @enderror">
     </div>
 
-    <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+    <button onclick="enviar_datos_evento()" class="btn btn-primary mt-2">Enviar</button>
 
 </div>
+</form>
