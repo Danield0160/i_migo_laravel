@@ -5,16 +5,16 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item active">
-                    <a class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a id="dashboard_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Eventos</a>
+                    <a id="buscar_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Buscar Eventos</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Chats</a>
+                    <a id="crear_evento_button" class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>crear Evento</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Perfil</a>
+                    <a id="chat_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Chats</a>
                 </li>
             </ul>
         </div>

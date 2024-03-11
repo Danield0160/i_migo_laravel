@@ -79,27 +79,57 @@ jQuery(document).ready(function($){
 
 
 
-
+var crearEventoSectionAppObject;
 function crearEventoSectionApp(template){
 
     EventoSectionApp = createApp({
         data(){
-            return {activo:true};
+            $("#crear_evento_button").on("click",function(){crearEventoSectionAppObject.activar()})
+            return {activo:false};
         },
-        template:template
+        template:template,
+        methods:{
+            activar(){
+                desactivarGlobal()
+                this.activo = true
+            },
+            desactivar(){
+                console.log("des")
+                this.activo = false
+            }
+        }
     })
 
-    EventoSectionApp.mount("#crearEventoSection")
+    crearEventoSectionAppObject = EventoSectionApp.mount("#crearEventoSection")
 }
 
-
+var buscarEventoSectionAppObject;
 function buscarEventoSectionApp(template){
     EventoSectionApp = createApp({
         data(){
+            $("#buscar_eventos_button")[0].onclick =function(){console.log("busc click");buscarEventoSectionAppObject.activar()}
             return {activo:true};
         },
-        template:template
+        template:template,
+        methods:{
+            activar(){
+                desactivarGlobal()
+                this.activo = true
+            },
+            desactivar(){
+                this.activo = false
+                console.log(this.activo)
+            }
+        }
+
     })
 
-    EventoSectionApp.mount("#buscarEventoSection")
+    buscarEventoSectionAppObject = EventoSectionApp.mount("#buscarEventoSection")
+}
+
+
+function desactivarGlobal(){
+    console.log(crearEventoSectionAppObject)
+    crearEventoSectionAppObject.desactivar()
+    buscarEventoSectionAppObject.desactivar()
 }

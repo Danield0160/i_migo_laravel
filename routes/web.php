@@ -70,4 +70,4 @@ Route::middleware('auth')->group(function () {
 
 //arreglar post crear evento
 //seleccionar vue-app al clickar navbar
-//arreglar popup al clickar evento mapa
+//hacer que el popup vaya por id en vez de copiar innerhtml

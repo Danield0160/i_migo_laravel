@@ -286,7 +286,7 @@ function showEventDetails(div, datos) {
     var descripcion = document.createElement('p');
     var descripcionTexto = document.createElement('span');
     descripcion.textContent = 'Descripción: ';
-    descripcionTexto.textContent = datos['descripcion'];
+    // descripcionTexto.textContent = datos['descripcion'];
 
     // Establece el estilo de la descripción a negrita y el texto de descripción a cursiva
     descripcion.style.fontWeight = 'bold';
@@ -371,7 +371,7 @@ $.get("./api/AllEvents",function(data){
         div = document.createElement("div")
         fecha = new Date(ele.fecha)
         div.innerHTML =`
-        <div class="evento" onclick="console.log(this)">
+        <div class="evento" onclick="showEventDetails(this)">
         <div class="icono"></div>
         <div class="contenido">
             <div class="contenido-imagen">

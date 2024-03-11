@@ -30,12 +30,9 @@
             </div>
 
             <div id="cuerpo_app">
-                <div id="crearEventoSection" :v-if="activo"></div><script>crearEventoSectionApp(`@include('crearEvento')`)</script>
+                <div id="crearEventoSection"></div><script>crearEventoSectionApp(`@include('crearEvento')`)</script>
                 <hr>
-                <div id="buscarEventoSection"></div>
-                <script>
-                    buscarEventoSectionApp(` @include('buscarEvento') `)
-                </script>
+                <div id="buscarEventoSection"></div><script>buscarEventoSectionApp(` @include('buscarEvento') `)</script>
                 <div></div>
             </div>
 
