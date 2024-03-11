@@ -387,6 +387,12 @@ $.get("./api/AllEvents",function(data){
             </div>
         </div>
     </div>`
+    async function add(ele,div){
+        await CargadoMapa;
+        console.log(ele);
         MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
+    }
+    add(ele,div)
+
     })
 })
