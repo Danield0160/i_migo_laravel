@@ -362,32 +362,83 @@ function actualizar_listado_mapas_visibles(){
     MapaGoogleObject.actualizarMedianteArrastrado()
 }
 var datos={};
+var eventosObject={}
 async function actualizar_datos(){
     await CargadoMapa;
-    MapaGoogleObject.removeMarkers()
+    // MapaGoogleObject.removeMarkers()
 
     await $.get("./api/AllEvents",function(data){
         data.forEach(function(ele){
             datos[ele.id] = ele
         })
         data.forEach(function(ele){
+            if(ele.id in eventosObject){
+                Object.keys(ele).forEach(function(key){
+                    if(key == "fecha"){
+                        eventosObject[ele.id].evento[key] = new Date(ele[key])
+                    }else{
+                        eventosObject[ele.id].evento[key] = ele[key]
+                    }
+                })
+                return
+            }
             div = document.createElement("div")
             fecha = new Date(ele.fecha)
-            div.innerHTML =`
-            <div class="evento" onclick="showEventDetails(this)">
-            <div class="icono"></div>
-            <div class="contenido">
-            <div class="contenido-imagen">
-            <img src="images/uploads/${ele.imagen}" alt="Imagen del evento">
-            </div>
-            <div class="contenido-datos">
-            <h2><i>${ele.nombre}</i></h2>
-            <p><b>Fecha:</b> ${fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}</p>
-            <p><b>Hora:</b> ${fecha.getHours()} : ${String(fecha.getMinutes()).padStart("2","0")}</p>
-            <p><b>Asistentes</b>: ${ele.asistentes} / ${ele.limite_asistentes}</p>
-            </div>
-            </div>
-            </div>`
+            $("#trash")[0].appendChild(div)
+
+
+            let app = createApp({
+                data(){
+                    return {
+                        id:ele.id,
+                        fecha:fecha,
+                        dato:datos
+                    }
+                },
+                computed:{
+                    datos(){
+                        return this.dato
+                    },
+                    evento(){
+                        return this.datos[this.id]
+                    }
+                },
+
+                template:`
+                <div class="evento" onclick="showEventDetails(this)">
+                <div class="icono"></div>
+                <div class="contenido">
+                <div class="contenido-imagen">
+                <img :src='"images/uploads/"+evento.imagen' alt="Imagen del evento">
+                </div>
+                <div class="contenido-datos">
+                <h2><i>{{evento.nombre}}</i></h2>
+                <p><b>Fecha:</b> {{fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}}</p>
+                <p><b>Hora:</b> {{fecha.getHours()}} : {{String(fecha.getMinutes()).padStart("2","0")}}</p>
+                <p><b>Asistentes</b>: {{evento.asistentes}} / {{evento.limite_asistentes}}</p>
+                </div>
+                </div>
+                </div>`
+            })
+            eventosObject[ele.id] = app.mount(div)
+
+
+
+            // div.innerHTML =`
+            // <div class="evento" onclick="showEventDetails(this)">
+            // <div class="icono"></div>
+            // <div class="contenido">
+            // <div class="contenido-imagen">
+            // <img src="images/uploads/${ele.imagen}" alt="Imagen del evento">
+            // </div>
+            // <div class="contenido-datos">
+            // <h2><i>${ele.nombre}</i></h2>
+            // <p><b>Fecha:</b> ${fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}</p>
+            // <p><b>Hora:</b> ${fecha.getHours()} : ${String(fecha.getMinutes()).padStart("2","0")}</p>
+            // <p><b>Asistentes</b>: ${ele.asistentes} / ${ele.limite_asistentes}</p>
+            // </div>
+            // </div>
+            // </div>`
             function add(ele,div){
                 MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
             }
@@ -401,22 +452,7 @@ actualizar_datos()
 
 
 async function enviar_datos_evento(){
-
     let formData = new FormData($("#formulario_crear")[0])
-
-    // nombre = document.querySelector("#formulario_crear #name").value
-    // descripcion = document.querySelector("#formulario_crear #descripcion").value
-    // numero_asistentes = document.querySelector("#formulario_crear #limite").value
-    // fecha = document.querySelector("#formulario_crear #fecha").value
-    // hora = document.querySelector("#formulario_crear #time").value
-    // patrocinio = document.querySelector("#formulario_crear #patrocinado").value
-    // imagen = document.querySelector("#formulario_crear #imagen").value
-
-    // latitud = document.querySelector("#formulario_crear #latitud").value
-    // longitud = document.querySelector("#formulario_crear #longitud").value
-
-    console.log([...formData.keys()])
-
     $.ajax({
         type:'POST',
         url: "/crearEvento",

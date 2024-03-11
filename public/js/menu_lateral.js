@@ -116,7 +116,8 @@ function buscarEventoSectionApp(template){
             return {
                 activo:false,
                 eventosVisibles:[],
-                updateKey:0
+                updateKey:0,
+                datos: datos
             };
         },
         template:template,
@@ -138,9 +139,6 @@ function buscarEventoSectionApp(template){
         computed:{
             eventos(){
                 return this.eventosVisibles
-            },
-            datos(){
-                return datos
             }
         }
 

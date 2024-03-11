@@ -80,3 +80,4 @@ Route::middleware('auth')->group(function () {
 //ajax buscar lugar
 // hacer footer
 //ocultar del mapa botones inutiles
+//sistema de tags
