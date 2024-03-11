@@ -344,6 +344,7 @@ function actualizar_listado_mapas_visibles(){
     let listado = document.getElementById("listado_eventos_visibles")
     listado.innerHTML = ""
 
+    buscarEventoSectionAppObject.vaciarEventosVisibles()
     popupsVisibles.forEach(function(ele,index,arrya){
         let elemento = datos[ele.id]
         let div = document.createElement("div")
@@ -356,7 +357,8 @@ function actualizar_listado_mapas_visibles(){
 
         div.appendChild(titulo)
         div.appendChild(desc)
-        listado.append(div)
+        // listado.append(div)
+        buscarEventoSectionAppObject.addEventoVisible(div)
     })
 
 

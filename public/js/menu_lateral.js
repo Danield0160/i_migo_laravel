@@ -79,6 +79,11 @@ jQuery(document).ready(function($){
 
 
 
+
+
+
+
+
 var crearEventoSectionAppObject;
 function crearEventoSectionApp(template){
 
@@ -108,7 +113,10 @@ function buscarEventoSectionApp(template){
     EventoSectionApp = createApp({
         data(){
             $("#buscar_eventos_button")[0].onclick =function(){console.log("busc click");buscarEventoSectionAppObject.activar()}
-            return {activo:true};
+            return {
+                activo:true,
+                eventosVisibles:[]
+            };
         },
         template:template,
         methods:{
@@ -119,6 +127,12 @@ function buscarEventoSectionApp(template){
             desactivar(){
                 this.activo = false
                 console.log(this.activo)
+            },
+            addEventoVisible(evento){
+                this.eventosVisibles.push(evento)
+            },
+            vaciarEventosVisibles(){
+                // this.eventosVisibles=[]
             }
         }
 
