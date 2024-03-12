@@ -127,10 +127,13 @@ class MapaGoogle {
     }
 
     addCustomMarker(lat, lng, div,id) {
+        console.log("añadido")
         let popup = new Popup(new google.maps.LatLng(lat, lng), div);
         popup.id = id
         popup.setMap(this.mapa);
         this.marcadores.push(popup)
+        div.style.opacity = 0
+        setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},1)
         return popup
     }
 
@@ -371,11 +374,11 @@ function actualizar_listado_mapas_visibles(){
 var datos={};
 var eventosObject={}
 async function actualizar_datos(){
+    console.log("llamado a la api")
     await CargadoMapa;
     // MapaGoogleObject.removeMarkers()
 
     await $.get("./api/NearEvents/"+posicion.lat+"/"+posicion.lng+"/"+$("#distance").val(),function(data){
-        console.log(data)
         data.forEach(function(ele){
             datos[ele.id] = ele
             datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,posicion.lat,posicion.lng)
@@ -477,9 +480,6 @@ async function actualizar_datos(){
 
         let datos_act = data.map((dato)=>dato.id)
         Object.keys(datos).forEach(function(index){
-            console.log(index)
-            console.log(datos_act)
-            console.log(datos_act.includes(Number(index)))
             if(!datos_act.includes(Number(index))){
                 eventosObject[index].popup.remove()
                 delete(datos[index])
@@ -519,7 +519,6 @@ navigator.geolocation.getCurrentPosition(()=>{})
 
 function geolocalizar(){
     if (navigator.geolocation) {
-        console.log("act")
         navigator.geolocation.getCurrentPosition(
             (data)=>{
                 posicion.lat = data.coords.latitude
