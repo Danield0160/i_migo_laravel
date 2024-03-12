@@ -127,13 +127,12 @@ class MapaGoogle {
     }
 
     addCustomMarker(lat, lng, div,id) {
-        console.log("añadido")
         let popup = new Popup(new google.maps.LatLng(lat, lng), div);
         popup.id = id
         popup.setMap(this.mapa);
         this.marcadores.push(popup)
         div.style.opacity = 0
-        setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},1)
+        setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},10)
         return popup
     }
 
@@ -374,7 +373,6 @@ function actualizar_listado_mapas_visibles(){
 var datos={};
 var eventosObject={}
 async function actualizar_datos(){
-    console.log("llamado a la api")
     await CargadoMapa;
     // MapaGoogleObject.removeMarkers()
 
