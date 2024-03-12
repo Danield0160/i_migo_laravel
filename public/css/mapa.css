@@ -294,9 +294,17 @@ html, body {
 .evento_listado_container{
     border: 1px solid black;
     margin: 5px;
+    position: relative;
 }
 
 .evento_listado_container img{
     width: 30%;
     display: inline-block;
+}
+.kilometraje{
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: grey;
+    font-size: small;
 }

@@ -33,6 +33,7 @@ Route::get("/buscarEvento",[BuscarEventoController::class,"index"]);
 
 Route::get("/app",function(){return view("app");});
 Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
+Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
 
 
 

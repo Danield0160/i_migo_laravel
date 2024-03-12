@@ -131,6 +131,7 @@ class MapaGoogle {
         popup.id = id
         popup.setMap(this.mapa);
         this.marcadores.push(popup)
+        return popup
     }
 
     actualizarIconoZoom() {
@@ -232,6 +233,11 @@ cargarOverlayClass = () => {
             // this.containerDiv.children[0].children[0].setAttribute("visible",display) // añade al div evento un atributo que marca si es visible en el mapa
             return display
         }
+        remove(){
+            this.setMap(null)
+            let indice = MapaGoogleObject.marcadores.indexOf(this)
+            indice!=-1?MapaGoogleObject.marcadores.splice(indice,1):null
+        }
     }
 }
 
@@ -327,12 +333,12 @@ function ocultar(event) {
 // }
 
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-    }
-}
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(showPosition);
+//     } else {
+//     }
+// }
 function showPosition(position) {
     // posicion.lat?null:posicion.lat=position.coords.latitude;
     // posicion.lng?null:posicion.lng=position.coords.longitude;
@@ -368,12 +374,14 @@ async function actualizar_datos(){
     await CargadoMapa;
     // MapaGoogleObject.removeMarkers()
 
-    await $.get("./api/AllEvents",function(data){
+    await $.get("./api/NearEvents/"+posicion.lat+"/"+posicion.lng+"/"+$("#distance").val(),function(data){
+        console.log(data)
         data.forEach(function(ele){
             datos[ele.id] = ele
             datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,posicion.lat,posicion.lng)
         })
         data.forEach(function(ele){
+            // datos_actualizados.push(ele.id)
             if(ele.id in eventosObject){
                 Object.keys(ele).forEach(function(key){
                     if(key == "fecha"){
@@ -405,6 +413,11 @@ async function actualizar_datos(){
                         return this.datos[this.id]
                     }
                 },
+                method:{
+                    remove(){
+                        this.popup.remove()
+                    }
+                },
 
                 template:`
                 <div class="evento" onclick="showEventDetails(this)">
@@ -422,7 +435,8 @@ async function actualizar_datos(){
                 </div>
                 </div>`
             })
-            eventosObject[ele.id] = app.mount(div)
+            let evento = app.mount(div)
+            eventosObject[ele.id] = evento
 
 
 
@@ -442,11 +456,38 @@ async function actualizar_datos(){
             // </div>
             // </div>`
             function add(ele,div){
-                MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
+                evento.popup = MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
             }
             add(ele,div)
 
         })
+        // Object.keys(datos).forEach(function(index){
+        //     console.log(datos_actualizados.toString())
+        //     console.log(index)
+        //     console.log(!datos_actualizados.includes(index))
+        //     if(!(datos_actualizados.includes(index))){
+        //         console.log("borrando " + index)
+        //         setTimeout(() => {
+
+        //             eventosObject[index].popup.remove()
+        //             delete(eventosObject[index])
+        //         }, 700);
+        //     }
+        // })
+
+        let datos_act = data.map((dato)=>dato.id)
+        Object.keys(datos).forEach(function(index){
+            console.log(index)
+            console.log(datos_act)
+            console.log(datos_act.includes(Number(index)))
+            if(!datos_act.includes(Number(index))){
+                eventosObject[index].popup.remove()
+                delete(datos[index])
+                delete(eventosObject[index])
+            }
+        })
+
+
         setTimeout(actualizar_listado_mapas_visibles,450)
     })
 }
@@ -473,4 +514,22 @@ async function enviar_datos_evento(){
         }
     });
 
+}
+navigator.geolocation.getCurrentPosition(()=>{})
+
+function geolocalizar(){
+    if (navigator.geolocation) {
+        console.log("act")
+        navigator.geolocation.getCurrentPosition(
+            (data)=>{
+                posicion.lat = data.coords.latitude
+                posicion.lng = data.coords.longitude
+                MapaGoogleObject.mapa.setCenter(posicion)
+                actualizar_datos()
+            },
+            (error)=>{alert("geolocalizacion desactivada")}
+        )
+    } else {
+        alert("geolocalizacion no soportado por el dispositivo")
+    }
 }

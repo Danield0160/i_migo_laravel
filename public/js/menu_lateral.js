@@ -130,6 +130,13 @@ function buscarEventoSectionApp(template){
             },
             addEventoVisible(id){
                 this.eventosVisibles.push(id)
+                this.eventosVisibles.sort((a,b)=>{
+                    let dist_a = datos[a].distancia
+                    let dist_b = datos[b].distancia
+                    if (dist_a<dist_b){return -1}
+                    if (dist_a>dist_b){return 1}
+                    else{return 0}
+                })
             },
             vaciarEventosVisibles(){
                 this.eventosVisibles=[]
@@ -137,13 +144,6 @@ function buscarEventoSectionApp(template){
         },
         computed:{
             eventos(){
-                console.log(this.eventosVisibles.sort((a,b)=>{
-                    let dist_a = datos[a].distancia
-                    let dist_b = datos[b].distancia
-                    if (dist_a<dist_b){return -1}
-                    if (dist_a>dist_b){return 1}
-                    else{return 0}
-                }))
                 return this.eventosVisibles
             }
         }

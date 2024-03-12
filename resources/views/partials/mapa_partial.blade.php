@@ -8,7 +8,12 @@
 </div>
 <div id="map-elements">
 
-    @include("partials.buscador_app")
+    <div id="buscador_container">
+        <button onclick="geolocalizar()">geolocalizacion</button>
+        <input type="text" id="buscador"><br>
+        <input type="range" name="distance" id="distance" min="5" max="250" value="50" oninput="this.nextElementSibling.value = this.value">
+        <output>50</output><span>km</span>
+    </div>
 
     <!-- Por cada evento pasado como dato a la vista crea su marcador -->
 

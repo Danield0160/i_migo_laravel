@@ -7,6 +7,7 @@
                 <h4>@{{datos[index].nombre}}</h4>
                 <p>@{{datos[index].descripcion}}</p>
                 <p>@{{datos[index].asistentes}} / @{{datos[index].limite_asistentes}}</p>
+                <span class="kilometraje">@{{Math.trunc(datos[index].distancia * 100)/100}} km</span>
             </div>
         </div>
     </div>
