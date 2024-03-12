@@ -2,7 +2,6 @@
     <input type="text">
     <div id="listado_eventos_visibles">
         <div v-for="index in eventos" class="evento_listado_container">
-            @{{console.log(datos[index])}}
             <img :src='"images/uploads/"+datos[index].imagen'alt="">
             <div class="contenido">
                 <h4>@{{datos[index].nombre}}</h4>

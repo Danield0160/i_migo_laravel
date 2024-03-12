@@ -99,7 +99,6 @@ function crearEventoSectionApp(template){
                 this.activo = true
             },
             desactivar(){
-                console.log("des")
                 this.activo = false
             }
         }
@@ -138,6 +137,13 @@ function buscarEventoSectionApp(template){
         },
         computed:{
             eventos(){
+                console.log(this.eventosVisibles.sort((a,b)=>{
+                    let dist_a = datos[a].distancia
+                    let dist_b = datos[b].distancia
+                    if (dist_a<dist_b){return -1}
+                    if (dist_a>dist_b){return 1}
+                    else{return 0}
+                }))
                 return this.eventosVisibles
             }
         }
@@ -149,7 +155,34 @@ function buscarEventoSectionApp(template){
 
 
 function desactivarGlobal(){
-    console.log(crearEventoSectionAppObject)
     crearEventoSectionAppObject.desactivar()
     buscarEventoSectionAppObject.desactivar()
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1);
+    var a =
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c; // Distance in km
+    return d;
+}
+
+function deg2rad(deg) {
+return deg * (Math.PI/180)
 }

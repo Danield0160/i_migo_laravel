@@ -268,6 +268,7 @@ google.maps.importLibrary("maps").then(
                     MapaGoogleObject.mapa.fitBounds(bounds);
 
                     // showPosition(posicion)
+                    actualizar_datos()
                 })
 
             }
@@ -370,6 +371,7 @@ async function actualizar_datos(){
     await $.get("./api/AllEvents",function(data){
         data.forEach(function(ele){
             datos[ele.id] = ele
+            datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,posicion.lat,posicion.lng)
         })
         data.forEach(function(ele){
             if(ele.id in eventosObject){

@@ -27,7 +27,6 @@
     datos_raw.forEach(function(val,index,arry){
         datos[val.id] = val;
     });
-    console.log(datos);
 </script>
     <div id="app">
 
