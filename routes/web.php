@@ -22,7 +22,6 @@ Route::get('/index', function () {return view('index');})->name("index");
 
 // Route::get("/crearEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[CrearEventoController::class,"index"]);
 // Route::get("/crearEvento/",[CrearEventoController::class,"index"])->name("crearEvento");
-// Route::post("/crearEvento/",[CrearEventoController::class,"crearEvento"])->name("crea");
 
 
 // Route::get("/buscarEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[BuscarEventoController::class,"index"]);
@@ -34,6 +33,7 @@ Route::get('/index', function () {return view('index');})->name("index");
 Route::get("/app",function(){return view("app");});
 Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
 Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
+Route::post("/crearEvento",[CrearEventoController::class,"crearEvento"])->name("crea");
 
 
 
