@@ -85,3 +85,5 @@ Route::middleware('auth')->group(function () {
 //hacer perfil
 //mapa cluster
 //hacer que si no hay posicion inicial, pantalla pidiendo buscar lugar
+//hacer que el obtener ubicacion sea un div en crear evento y que genere un minimapa propio
+// click derecho en el mapa, "ubicar aqui"

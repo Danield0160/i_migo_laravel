@@ -29,184 +29,198 @@
 
 // posicion del usuario, tanto geolocalizada o buscada
 var geoposicionUsuario = {lat:28.95142318634212,lng:-13.605115900577536}; //posicion default
+var datos={}; // datos en crudo que se recibe del servidor
 
 //clases
 var AdvancedMarkerViewClass; // clase de los marcadores normales
 var PopupClass; // clase de los marcadores personalizados
 
 
+cargarMapaClass=()=>{
+    return class MapaGoogle {
+        marcadores = []
+        constructor() {
 
-class MapaGoogle {
-    marcadores = []
-    constructor() {
-        this.mapa = new google.maps.Map(document.getElementById("map"), {
-            center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
-            zoom: 15,
-        });
-        $("#buttonGeolocation").on("click",()=>{this.geolocalizar()})
-        this.geolocalizar()
-
-        setTimeout(()=>actualizar_listado_mapas_visibles(),500)
-
-        // Wait for the map to be fully loaded before accessing its properties
-        google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
+            this.mapa = new google.maps.Map(document.getElementById("map"), {
+                center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
+                zoom: 15,
+            });
             google.maps.event.addListener(this.mapa, 'zoom_changed', this.actualizarIconoZoom.bind(this))
 
-            const button = document.createElement("button");
-            button.textContent = "Obtener ubicación";
-            button.classList.add("custom-map-control-button");
+            $("#buttonGeolocation").on("click",()=>{this.geolocalizar()})
+            this.geolocalizar()
 
-            this.mapa.controls[google.maps.ControlPosition.TOP_CENTER].push(button);
+            this.autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
+            google.maps.event.addListener(this.autocompletado_input,"places_changed",()=>this.cambiarLugar())
 
-
-
-            let eventoActivo=false
-            button.addEventListener("click", function () {
-                if(eventoActivo){return}
-                eventoActivo=true
-                // Remove all previous markers
-                for (let i = 0; i < this.marcadores.length; i++) {
-                    this.marcadores[i].setMap(null);
-                }
+            setTimeout(()=>actualizar_listado_mapas_visibles(),500)
 
 
-                // Create a marker at the center of the map
-                if(!this.marker){
-                    this.marker = new AdvancedMarkerViewClass({
-                        position: this.mapa.getCenter(),
-                        map: this.mapa,
-                        id:"marcador_de_ubicacion",
-                        icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' // Use a custom icon
-                    });
-                }else{
-                    this.marker.setMap(this.mapa)
-                }
 
-                // Update the marker position when the mouse moves
-                this.mouseMoveListener = this.mapa.addListener('mousemove', function (event) {
-                    console.log("mover")
-                    this.marker.setPosition(event.latLng);
-                }.bind(this));
+            this.buttonObtenerUbicacion = document.createElement("button");
+            this.buttonObtenerUbicacion.textContent = "Obtener ubicación";
+            this.buttonObtenerUbicacion.classList.add("custom-map-control-button");
+            this.mapa.controls[google.maps.ControlPosition.TOP_CENTER].push(this.buttonObtenerUbicacion);
+            this.eventoActivo=false
 
-                // Place the marker and remove the listeners when the map is clicked
-                this.clickListener = [this.mapa,this.marker].forEach(element => {
+            // Wait for the map to be fully loaded before accessing its properties
 
-                    element.addListener('click', function (event) {
-                        if(!eventoActivo){return}
-                        this.placeMarker(event.latLng);
-                        eventoActivo=false
-                        google.maps.event.removeListener(this.clickListener);
-                        google.maps.event.removeListener(this.mouseMoveListener);
+            this.buttonObtenerUbicacion.addEventListener("click", this.obtenerUbicacion.bind(this));
+        }
+        obtenerUbicacion(){
+            if(this.eventoActivo){return}
+            this.eventoActivo=true
+            // Remove all previous markers
+            for (let i = 0; i < this.marcadores.length; i++) {
+                this.marcadores[i].setMap(null);
+            }
 
-                        for (let i = 0; i < this.marcadores.length; i++) {
-                            this.marcadores[i].setMap(this.mapa);
-                        }
-
-                    }.bind(this));
+            // Create a marker at the center of the map
+            if(!this.marker){
+                this.marker = new AdvancedMarkerViewClass({
+                    position: this.mapa.getCenter(),
+                    map: this.mapa,
+                    id:"marcador_de_ubicacion",
+                    icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' // Use a custom icon
                 });
+            }else{
+                this.marker.setMap(this.mapa)
+            }
+
+            // Update the marker position when the mouse moves
+            this.mouseMoveListener = this.mapa.addListener('mousemove', function (event) {
+                this.marker.setPosition(event.latLng);
             }.bind(this));
-        });
-    }
-    placeMarker(location) {
-        if (this.marker) {
-            this.marker.setPosition(location);
-        } else {
-            this.marker = new google.maps.Marker({
-                position: location,
-                map: this.mapa
+
+            // Place the marker and remove the listeners when the map is clicked
+            this.clickListener = [this.mapa,this.marker].forEach(element => {
+
+                element.addListener('click', function (event) {
+                    if(!this.eventoActivo){return}
+                    this.placeMarker(event.latLng);
+                    this.eventoActivo=false
+                    google.maps.event.removeListener(this.clickListener);
+                    google.maps.event.removeListener(this.mouseMoveListener);
+
+                    for (let i = 0; i < this.marcadores.length; i++) {
+                        this.marcadores[i].setMap(this.mapa);
+                    }
+
+                }.bind(this));
+            })
+        }
+        cambiarLugar(){
+            let lugar = this.autocompletado_input.getPlaces()[0]
+            geoposicionUsuario = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
+
+            let bounds = new google.maps.LatLngBounds();
+            bounds.union(lugar.geometry.viewport);
+            this.mapa.fitBounds(bounds);
+
+            actualizar_datos()
+        }
+
+        placeMarker(location) {
+            if (this.marker) {
+                this.marker.setPosition(location);
+            } else {
+                this.marker = new google.maps.Marker({
+                    position: location,
+                    map: this.mapa
+                });
+            }
+            document.getElementById('latitud').value = location.lat();
+            document.getElementById('longitud').value = location.lng();
+            console.log([location.lat(), location.lng()])
+            return [location.lat(), location.lng()];
+        }
+
+        addMarker(lat, lng, nombre, titutlo_hover, icono = null) {
+            const marker = new AdvancedMarkerViewClass({
+                map: this.mapa,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+                title: titutlo_hover,
+                label: nombre,
+                icon: icono,
             });
         }
-        document.getElementById('latitud').value = location.lat();
-        document.getElementById('longitud').value = location.lng();
-        console.log([location.lat(), location.lng()])
-        return [location.lat(), location.lng()];
-    }
-
-    addMarker(lat, lng, nombre, titutlo_hover, icono = null) {
-        const marker = new AdvancedMarkerViewClass({
-            map: this.mapa,
-            position: {
-                lat: lat,
-                lng: lng
-            },
-            title: titutlo_hover,
-            label: nombre,
-            icon: icono,
-        });
-    }
-    removeMarkers(){
-        this.marcadores.forEach(function(ele){
-            ele.setMap(null)
-        })
-        this.marcadores = []
-    }
-
-    addCustomMarker(lat, lng, div,id) {
-        let popup = new PopupClass(new google.maps.LatLng(lat, lng), div);
-        popup.id = id
-        popup.setMap(this.mapa);
-        this.marcadores.push(popup)
-        div.style.opacity = 0
-        setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},10)
-        return popup
-    }
-
-    actualizarIconoZoom() {
-        if (this.mapa.getZoom() > 179999) {
-            document.querySelectorAll(".evento").forEach(function (ele, key, array) {
-                ele.classList.remove("popup-bubble-zoom-out")
-                ele.classList.remove("popup-bubble")
-                ele.classList.add("popup-bubble-zoom-in")
+        removeMarkers(){
+            this.marcadores.forEach(function(ele){
+                ele.setMap(null)
             })
-        } else if (this.mapa.getZoom() < 13) {
-            document.querySelectorAll(".evento").forEach(function (ele, key, array) {
-                ele.classList.remove("popup-bubble-zoom-in")
-                ele.classList.remove("popup-bubble")
-                ele.classList.add("popup-bubble-zoom-out")
-            })
-        } else {
-            document.querySelectorAll(".evento").forEach(function (ele, key, array) {
-                ele.classList.remove("popup-bubble-zoom-in")
-                ele.classList.add("popup-bubble")
-                ele.classList.remove("popup-bubble-zoom-out")
-            })
+            this.marcadores = []
         }
-    }
-    obtenerPopusVisibles() {
-        let popupsVisibles = []
-        for (let popup of this.marcadores) {
-            if (popup.esVisible()) {
-                popupsVisibles.push(popup)
+
+        addCustomMarker(lat, lng, div,id) {
+            let popup = new PopupClass(new google.maps.LatLng(lat, lng), div);
+            popup.id = id
+            popup.setMap(this.mapa);
+            this.marcadores.push(popup)
+            div.style.opacity = 0
+            setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},10)
+            return popup
+        }
+
+        actualizarIconoZoom() {
+            if (this.mapa.getZoom() > 179999) {
+                document.querySelectorAll(".evento").forEach(function (ele, key, array) {
+                    ele.classList.remove("popup-bubble-zoom-out")
+                    ele.classList.remove("popup-bubble")
+                    ele.classList.add("popup-bubble-zoom-in")
+                })
+            } else if (this.mapa.getZoom() < 13) {
+                document.querySelectorAll(".evento").forEach(function (ele, key, array) {
+                    ele.classList.remove("popup-bubble-zoom-in")
+                    ele.classList.remove("popup-bubble")
+                    ele.classList.add("popup-bubble-zoom-out")
+                })
+            } else {
+                document.querySelectorAll(".evento").forEach(function (ele, key, array) {
+                    ele.classList.remove("popup-bubble-zoom-in")
+                    ele.classList.add("popup-bubble")
+                    ele.classList.remove("popup-bubble-zoom-out")
+                })
             }
         }
-        return popupsVisibles
-    }
-    actualizarMedianteArrastrado(){
-        google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
-            setTimeout(actualizar_listado_mapas_visibles, 250)
-        })
-    }
-    geolocalizar(){
-        let terminar;
-        let terminado = new Promise((success)=>terminar=success)
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (data)=>{
-                    geoposicionUsuario.lat = data.coords.latitude
-                    geoposicionUsuario.lng = data.coords.longitude
-                    this.mapa.setCenter(geoposicionUsuario)
-                    terminar()
-                },
-                (error)=>{
-                    alert("geolocalizacion desactivada")
-                    terminar()
+        obtenerPopusVisibles() {
+            let popupsVisibles = []
+            for (let popup of this.marcadores) {
+                if (popup.esVisible()) {
+                    popupsVisibles.push(popup)
                 }
-            )
-        } else {
-            alert("geolocalizacion no soportado por el dispositivo")
-            terminar()
+            }
+            return popupsVisibles
         }
-        terminado.then(actualizar_datos)
+        actualizarMedianteArrastrado(){
+            google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
+                setTimeout(actualizar_listado_mapas_visibles, 250)
+            })
+        }
+        geolocalizar(){
+            let terminar;
+            let terminado = new Promise((success)=>terminar=success)
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (data)=>{
+                        geoposicionUsuario.lat = data.coords.latitude
+                        geoposicionUsuario.lng = data.coords.longitude
+                        this.mapa.setCenter(geoposicionUsuario)
+                        terminar()
+                    },
+                    (error)=>{
+                        alert("geolocalizacion desactivada")
+                        terminar()
+                    }
+                )
+            } else {
+                alert("geolocalizacion no soportado por el dispositivo")
+                terminar()
+            }
+            terminado.then(actualizar_datos)
+        }
     }
 }
 
@@ -215,8 +229,7 @@ class MapaGoogle {
 
 
 
-
-cargarOverlayClass = () => {
+cargarPopupClass = () => {
     return class PopupClass extends google.maps.OverlayView {
         position;
         containerDiv;
@@ -291,27 +304,13 @@ var MapaGoogleObject;
 google.maps.importLibrary("maps").then(
     () => {
         AdvancedMarkerViewClass = google.maps.Marker;
-        PopupClass = cargarOverlayClass()
+        PopupClass = cargarPopupClass()
 
-        MapaGoogleObject = new MapaGoogle()
 
-        google.maps.importLibrary("places").then(
-            () => {
-                let autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
-
-                google.maps.event.addListener(autocompletado_input,"places_changed",function(){
-                    lugar = autocompletado_input.getPlaces()[0]
-                    geoposicionUsuario = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
-
-                    bounds = new google.maps.LatLngBounds();
-                    bounds.union(lugar.geometry.viewport);
-                    MapaGoogleObject.mapa.fitBounds(bounds);
-
-                    actualizar_datos()
-                })
-
-            }
-        )
+        google.maps.importLibrary("places").then(()=>{
+            let MapaClass = cargarMapaClass()
+            MapaGoogleObject = new MapaClass()
+        })
 
 
     }
@@ -365,7 +364,6 @@ function actualizar_listado_mapas_visibles(){
 
     MapaGoogleObject.actualizarMedianteArrastrado()
 }
-var datos={};
 var eventosObject={}
 async function actualizar_datos(){
     // MapaGoogleObject.removeMarkers()
@@ -413,7 +411,6 @@ async function actualizar_datos(){
                         this.popup.remove()
                     }
                 },
-
                 template:`
                 <div class="evento" onclick="showEventDetails(this)">
                 <div class="icono"></div>
@@ -473,6 +470,7 @@ async function enviar_datos_evento(){
             console.log(data);
         }
     });
-
+    document.getElementById('latitud').value = null;
+    document.getElementById('longitud').value = null;
 }
 
