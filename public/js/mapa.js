@@ -43,7 +43,8 @@ class MapaGoogle {
             center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
             zoom: 15,
         });
-        geolocalizar()
+        $("#buttonGeolocation").on("click",()=>{this.geolocalizar()})
+        this.geolocalizar()
 
         setTimeout(()=>actualizar_listado_mapas_visibles(),500)
 
@@ -185,7 +186,35 @@ class MapaGoogle {
             setTimeout(actualizar_listado_mapas_visibles, 250)
         })
     }
+    geolocalizar(){
+        let terminar;
+        let terminado = new Promise((success)=>terminar=success)
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (data)=>{
+                    geoposicionUsuario.lat = data.coords.latitude
+                    geoposicionUsuario.lng = data.coords.longitude
+                    this.mapa.setCenter(geoposicionUsuario)
+                    terminar()
+                },
+                (error)=>{
+                    alert("geolocalizacion desactivada")
+                    terminar()
+                }
+            )
+        } else {
+            alert("geolocalizacion no soportado por el dispositivo")
+            terminar()
+        }
+        terminado.then(actualizar_datos)
+    }
 }
+
+
+
+
+
+
 
 cargarOverlayClass = () => {
     return class PopupClass extends google.maps.OverlayView {
@@ -257,10 +286,7 @@ cargarOverlayClass = () => {
     }
 }
 
-var resolver; // para guardar de forma extena la resolucion de la promesa
-var CargadoMapa = new Promise((res) => {
-    resolver = res
-});
+
 var MapaGoogleObject;
 google.maps.importLibrary("maps").then(
     () => {
@@ -268,10 +294,6 @@ google.maps.importLibrary("maps").then(
         PopupClass = cargarOverlayClass()
 
         MapaGoogleObject = new MapaGoogle()
-        resolver() // ya todo cargado, permite el paso a los elementos que requieran las importaciones
-        // MapaGoogleObject.addMarker(28.959265,-13.589889,"nombre")
-
-
 
         google.maps.importLibrary("places").then(
             () => {
@@ -285,7 +307,6 @@ google.maps.importLibrary("maps").then(
                     bounds.union(lugar.geometry.viewport);
                     MapaGoogleObject.mapa.fitBounds(bounds);
 
-                    // showPosition(geoposicionUsuario)
                     actualizar_datos()
                 })
 
@@ -347,7 +368,6 @@ function actualizar_listado_mapas_visibles(){
 var datos={};
 var eventosObject={}
 async function actualizar_datos(){
-    await CargadoMapa;
     // MapaGoogleObject.removeMarkers()
 
     await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+$("#distance").val(),function(data){
@@ -456,18 +476,3 @@ async function enviar_datos_evento(){
 
 }
 
-function geolocalizar(){
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (data)=>{
-                geoposicionUsuario.lat = data.coords.latitude
-                geoposicionUsuario.lng = data.coords.longitude
-                MapaGoogleObject.mapa.setCenter(geoposicionUsuario)
-            },
-            (error)=>{alert("geolocalizacion desactivada")}
-        )
-    } else {
-        alert("geolocalizacion no soportado por el dispositivo")
-    }
-    actualizar_datos()
-}
