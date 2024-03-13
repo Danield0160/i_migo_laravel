@@ -1,3 +1,4 @@
+// cargado de la api
 (g => {
     var h, a, k, p = "The Google Maps JavaScript API",
         c = "google",
@@ -26,19 +27,20 @@
     v: "weekly"
 });
 
-window.app = createApp({})
-var posicion
+// posicion del usuario, tanto geolocalizada o buscada
+var geoposicionUsuario = {lat:28.95142318634212,lng:-13.605115900577536}; //posicion default
+
+//clases
+var AdvancedMarkerViewClass; // clase de los marcadores normales
+var PopupClass; // clase de los marcadores personalizados
+
+
+
 class MapaGoogle {
     marcadores = []
     constructor() {
-        // if(posicion.lat){
-        // }
-        // else{
-            posicion ={ lat: 28.9504656, lng: -13.589889 }
-            showPosition()
-        // }
         this.mapa = new google.maps.Map(document.getElementById("map"), {
-            center: posicion,
+            center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
             zoom: 15,
         });
         setTimeout(()=>actualizar_listado_mapas_visibles(),500)
@@ -67,7 +69,7 @@ class MapaGoogle {
 
                 // Create a marker at the center of the map
                 if(!this.marker){
-                    this.marker = new AdvancedMarkerView({
+                    this.marker = new AdvancedMarkerViewClass({
                         position: this.mapa.getCenter(),
                         map: this.mapa,
                         id:"marcador_de_ubicacion",
@@ -118,7 +120,7 @@ class MapaGoogle {
     }
 
     addMarker(lat, lng, nombre, titutlo_hover, icono = null) {
-        const marker = new AdvancedMarkerView({
+        const marker = new AdvancedMarkerViewClass({
             map: this.mapa,
             position: {
                 lat: lat,
@@ -137,7 +139,7 @@ class MapaGoogle {
     }
 
     addCustomMarker(lat, lng, div,id) {
-        let popup = new Popup(new google.maps.LatLng(lat, lng), div);
+        let popup = new PopupClass(new google.maps.LatLng(lat, lng), div);
         popup.id = id
         popup.setMap(this.mapa);
         this.marcadores.push(popup)
@@ -184,7 +186,7 @@ class MapaGoogle {
 }
 
 cargarOverlayClass = () => {
-    return class Popup extends google.maps.OverlayView {
+    return class PopupClass extends google.maps.OverlayView {
         position;
         containerDiv;
         constructor(position, element) {
@@ -201,7 +203,7 @@ cargarOverlayClass = () => {
             this.containerDiv.classList.add("popup-container");
             this.containerDiv.appendChild(bubbleAnchor);
             // el popup bloquea la interaccion con el mapa.
-            Popup.preventMapHitsAndGesturesFrom(this.containerDiv);
+            PopupClass.preventMapHitsAndGesturesFrom(this.containerDiv);
 
 
         }
@@ -257,15 +259,11 @@ var resolver; // para guardar de forma extena la resolucion de la promesa
 var CargadoMapa = new Promise((res) => {
     resolver = res
 });
-var Popup;
-var Mapa;
-var AdvancedMarkerView;
 var MapaGoogleObject;
 google.maps.importLibrary("maps").then(
     () => {
-        Mapa = google.maps.Map;
-        AdvancedMarkerView = google.maps.Marker;
-        Popup = cargarOverlayClass()
+        AdvancedMarkerViewClass = google.maps.Marker;
+        PopupClass = cargarOverlayClass()
 
         MapaGoogleObject = new MapaGoogle()
         resolver() // ya todo cargado, permite el paso a los elementos que requieran las importaciones
@@ -279,13 +277,13 @@ google.maps.importLibrary("maps").then(
 
                 google.maps.event.addListener(autocompletado_input,"places_changed",function(){
                     lugar = autocompletado_input.getPlaces()[0]
-                    posicion = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
+                    geoposicionUsuario = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
 
                     bounds = new google.maps.LatLngBounds();
                     bounds.union(lugar.geometry.viewport);
                     MapaGoogleObject.mapa.fitBounds(bounds);
 
-                    // showPosition(posicion)
+                    // showPosition(geoposicionUsuario)
                     actualizar_datos()
                 })
 
@@ -338,8 +336,8 @@ function ocultar(event) {
 
 
 // navigator.geolocation.getCurrentPosition(()=>{});
-// var posicion
-// if(posicion.lat){
+// var geoposicionUsuario
+// if(geoposicionUsuario.lat){
 // }else{
 //     getLocation()
 // }
@@ -352,15 +350,15 @@ function ocultar(event) {
 //     }
 // }
 function showPosition(position) {
-    // posicion.lat?null:posicion.lat=position.coords.latitude;
-    // posicion.lng?null:posicion.lng=position.coords.longitude;
+    // geoposicionUsuario.lat?null:geoposicionUsuario.lat=position.coords.latitude;
+    // geoposicionUsuario.lng?null:geoposicionUsuario.lng=position.coords.longitude;
 
     // let barra = window.location.pathname.endsWith("/")?"":"/"
 
     // if(window.location.pathname.endsWith("Evento") | window.location.pathname.endsWith("Evento/")){
-    //     window.location.assign(window.location.pathname+barra+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
+    //     window.location.assign(window.location.pathname+barra+"lat:"+geoposicionUsuario.lat+"_lng:"+geoposicionUsuario.lng+"_dst:"+$("#distance").val());
     // }else {
-    //     window.location.replace("./"+"lat:"+posicion.lat+"_lng:"+posicion.lng+"_dst:"+$("#distance").val());
+    //     window.location.replace("./"+"lat:"+geoposicionUsuario.lat+"_lng:"+geoposicionUsuario.lng+"_dst:"+$("#distance").val());
     // }
 }
 
@@ -386,10 +384,10 @@ async function actualizar_datos(){
     await CargadoMapa;
     // MapaGoogleObject.removeMarkers()
 
-    await $.get("./api/NearEvents/"+posicion.lat+"/"+posicion.lng+"/"+$("#distance").val(),function(data){
+    await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+$("#distance").val(),function(data){
         data.forEach(function(ele){
             datos[ele.id] = ele
-            datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,posicion.lat,posicion.lng)
+            datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
         })
         data.forEach(function(ele){
             // datos_actualizados.push(ele.id)
@@ -529,9 +527,9 @@ function geolocalizar(){
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (data)=>{
-                posicion.lat = data.coords.latitude
-                posicion.lng = data.coords.longitude
-                MapaGoogleObject.mapa.setCenter(posicion)
+                geoposicionUsuario.lat = data.coords.latitude
+                geoposicionUsuario.lng = data.coords.longitude
+                MapaGoogleObject.mapa.setCenter(geoposicionUsuario)
                 actualizar_datos()
             },
             (error)=>{alert("geolocalizacion desactivada")}
@@ -540,3 +538,4 @@ function geolocalizar(){
         alert("geolocalizacion no soportado por el dispositivo")
     }
 }
+geolocalizar()

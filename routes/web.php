@@ -20,13 +20,13 @@ use App\Http\Controllers\BuscarEventoController;
 Route::get('/', function () {return redirect('index');});
 Route::get('/index', function () {return view('index');})->name("index");
 
-Route::get("/crearEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[CrearEventoController::class,"index"]);
-Route::get("/crearEvento/",[CrearEventoController::class,"index"])->name("crearEvento");
-Route::post("/crearEvento/",[CrearEventoController::class,"crearEvento"])->name("crea");
+// Route::get("/crearEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[CrearEventoController::class,"index"]);
+// Route::get("/crearEvento/",[CrearEventoController::class,"index"])->name("crearEvento");
+// Route::post("/crearEvento/",[CrearEventoController::class,"crearEvento"])->name("crea");
 
 
-Route::get("/buscarEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[BuscarEventoController::class,"index"]);
-Route::get("/buscarEvento",[BuscarEventoController::class,"index"]);
+// Route::get("/buscarEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[BuscarEventoController::class,"index"]);
+// Route::get("/buscarEvento",[BuscarEventoController::class,"index"]);
 
 
 
@@ -84,3 +84,4 @@ Route::middleware('auth')->group(function () {
 // terminar buscar evento, filtrar
 //hacer perfil
 //mapa cluster
+//hacer que si no hay posicion inicial, pantalla pidiendo buscar lugar
