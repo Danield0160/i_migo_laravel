@@ -53,6 +53,8 @@ class MapaGoogle {
 
             this.mapa.controls[google.maps.ControlPosition.TOP_CENTER].push(button);
 
+
+
             let eventoActivo=false
             button.addEventListener("click", function () {
                 if(eventoActivo){return}
@@ -61,19 +63,23 @@ class MapaGoogle {
                 for (let i = 0; i < this.marcadores.length; i++) {
                     this.marcadores[i].setMap(null);
                 }
-                this.marcadores = [];
+
 
                 // Create a marker at the center of the map
-                this.marker = new AdvancedMarkerView({
-                    position: this.mapa.getCenter(),
-                    map: this.mapa,
-                    id:"marcador_de_ubicacion",
-                    icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' // Use a custom icon
-                });
-                this.marcadores.push(this.marker);
+                if(!this.marker){
+                    this.marker = new AdvancedMarkerView({
+                        position: this.mapa.getCenter(),
+                        map: this.mapa,
+                        id:"marcador_de_ubicacion",
+                        icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' // Use a custom icon
+                    });
+                }else{
+                    this.marker.setMap(this.mapa)
+                }
 
                 // Update the marker position when the mouse moves
                 this.mouseMoveListener = this.mapa.addListener('mousemove', function (event) {
+                    console.log("mover")
                     this.marker.setPosition(event.latLng);
                 }.bind(this));
 
@@ -86,6 +92,10 @@ class MapaGoogle {
                         eventoActivo=false
                         google.maps.event.removeListener(this.clickListener);
                         google.maps.event.removeListener(this.mouseMoveListener);
+
+                        for (let i = 0; i < this.marcadores.length; i++) {
+                            this.marcadores[i].setMap(this.mapa);
+                        }
 
                     }.bind(this));
                 });

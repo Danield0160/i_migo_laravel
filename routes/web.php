@@ -75,13 +75,12 @@ Route::middleware('auth')->group(function () {
 //hacer que el popup vaya por id en vez de copiar innerhtml
 //websocket para refrescar eventos
 // arreglar showEventDetail
-//meter el buscador.blade en el mapa.blade
-// hacer que ordene por distancia el buscar evento
-//geolocalizacion
 //ajax buscar lugar
 // hacer footer
 //ocultar del mapa botones inutiles
 //sistema de tags
 //websocket, usar pusher o nodejs
 //mis eventos
-// terminar buscar evento
+// terminar buscar evento, filtrar
+//hacer perfil
+//mapa cluster

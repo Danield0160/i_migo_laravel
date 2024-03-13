@@ -31,7 +31,7 @@ class CrearEventoController extends Controller
         $fecha = $request->input("fecha")." ".$request->input("time");
         $patrocinado = $request->input("patrocinado")?true:false;
 
-        $request->validate(['imagen' => 'required|mimes:pdf,jpg,png|max:2048',]);
+        $request->validate(['imagen' => 'required|mimes:pdf,jpg,avif,png|max:2048',]);
         $imageName = time().'.'.$request->file("imagen")->extension();
         $request->file("imagen")->move(public_path('images/uploads'), $imageName);
 
