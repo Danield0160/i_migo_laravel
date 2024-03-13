@@ -90,6 +90,11 @@ function crearEventoSectionApp(template){
     EventoSectionApp = createApp({
         data(){
             $("#crear_evento_button").on("click",function(){crearEventoSectionAppObject.activar()})
+            ocultarBoton =async ()=>{await  AllLoaded;
+                MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "0";
+                MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
+            }
+            ocultarBoton()
             return {activo:false};
         },
         template:template,
@@ -97,13 +102,18 @@ function crearEventoSectionApp(template){
             activar(){
                 desactivarGlobal()
                 this.activo = true
+                MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "1"
+                MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "";
+
             },
             desactivar(){
+                MapaGoogleObject.eliminarEventosObtenerUbucacion(true)
+                MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "0"
+                MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
                 this.activo = false
             }
         }
     })
-
     crearEventoSectionAppObject = EventoSectionApp.mount("#crearEventoSection")
 }
 

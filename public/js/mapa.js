@@ -35,12 +35,12 @@ var datos={}; // datos en crudo que se recibe del servidor
 var AdvancedMarkerViewClass; // clase de los marcadores normales
 var PopupClass; // clase de los marcadores personalizados
 
-
+//se estructura asi porque dentro se utiliza las clases que se importan de forma asincrona
 cargarMapaClass=()=>{
     return class MapaGoogle {
         marcadores = []
-        constructor() {
 
+        constructor() {
             this.mapa = new google.maps.Map(document.getElementById("map"), {
                 center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
                 zoom: 15,
@@ -54,7 +54,6 @@ cargarMapaClass=()=>{
             google.maps.event.addListener(this.autocompletado_input,"places_changed",()=>this.cambiarLugar())
 
             setTimeout(()=>actualizar_listado_mapas_visibles(),500)
-
 
 
             this.buttonObtenerUbicacion = document.createElement("button");
@@ -93,21 +92,29 @@ cargarMapaClass=()=>{
             }.bind(this));
 
             // Place the marker and remove the listeners when the map is clicked
-            this.clickListener = [this.mapa,this.marker].forEach(element => {
+            // this.clickListener = [this.mapa,this.marker].forEach(element => {
+            this.clickListeners = [];
+            [this.mapa,this.marker].forEach((element) => {
 
-                element.addListener('click', function (event) {
-                    if(!this.eventoActivo){return}
+                let temp = element.addListener('click', function (event) {
+                    if(!this.eventoActivo ){return}
                     this.placeMarker(event.latLng);
-                    this.eventoActivo=false
-                    google.maps.event.removeListener(this.clickListener);
-                    google.maps.event.removeListener(this.mouseMoveListener);
-
-                    for (let i = 0; i < this.marcadores.length; i++) {
-                        this.marcadores[i].setMap(this.mapa);
-                    }
-
+                    this.eliminarEventosObtenerUbucacion()
                 }.bind(this));
+                this.clickListeners.push(temp)
             })
+        }
+        eliminarEventosObtenerUbucacion(forzozo=false){
+            if(!this.eventoActivo){return}
+            if(forzozo){this.marker.setMap(null)}
+            this.eventoActivo = false
+            google.maps.event.removeListener(this.mouseMoveListener)
+            this.clickListeners.forEach(function(ele){
+                google.maps.event.removeListener(ele)
+            })
+            for (let i = 0; i < this.marcadores.length; i++) {
+                this.marcadores[i].setMap(this.mapa);
+            }
         }
         cambiarLugar(){
             let lugar = this.autocompletado_input.getPlaces()[0]
@@ -187,6 +194,7 @@ cargarMapaClass=()=>{
         }
         obtenerPopusVisibles() {
             let popupsVisibles = []
+            if(this.eventoActivo){return}
             for (let popup of this.marcadores) {
                 if (popup.esVisible()) {
                     popupsVisibles.push(popup)
@@ -301,6 +309,9 @@ cargarPopupClass = () => {
 
 
 var MapaGoogleObject;
+var terminadoDeCargar;
+var AllLoaded = new Promise((success)=>terminadoDeCargar=success)
+
 google.maps.importLibrary("maps").then(
     () => {
         AdvancedMarkerViewClass = google.maps.Marker;
@@ -310,6 +321,7 @@ google.maps.importLibrary("maps").then(
         google.maps.importLibrary("places").then(()=>{
             let MapaClass = cargarMapaClass()
             MapaGoogleObject = new MapaClass()
+            terminadoDeCargar()
         })
 
 
@@ -354,9 +366,9 @@ function ocultar(event) {
 
 function actualizar_listado_mapas_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
+    popupsVisibles?null:popupsVisibles=[]
 
     buscarEventoSectionAppObject.vaciarEventosVisibles()
-
     popupsVisibles.forEach(function(ele){
         buscarEventoSectionAppObject.addEventoVisible(ele.id)
     })
