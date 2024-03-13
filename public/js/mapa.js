@@ -31,11 +31,19 @@
 var geoposicionUsuario = {lat:28.95142318634212,lng:-13.605115900577536}; //posicion default
 var datos={}; // datos en crudo que se recibe del servidor
 
-//clases
+// promesa para detectar que se ha terminado de cargar e instanciar las clases
+var terminadoDeCargar;
+var AllLoaded = new Promise((success)=>terminadoDeCargar=success)
+
+//clases, se estructura asi porque dentro se utiliza clases que se importan de forma asincrona
 var AdvancedMarkerViewClass; // clase de los marcadores normales
 var PopupClass; // clase de los marcadores personalizados
 
-//se estructura asi porque dentro se utiliza las clases que se importan de forma asincrona
+//instancia del mapa
+var MapaGoogleObject;
+
+
+//se estructura asi porque dentro se utiliza clases que se importan de forma asincrona
 cargarMapaClass=()=>{
     return class MapaGoogle {
         marcadores = []
@@ -208,7 +216,7 @@ cargarMapaClass=()=>{
             })
         }
         geolocalizar(){
-            let terminar;
+            let terminar; // se hace esto porque el navigator.geolocation parece que funciona de forma asincrona
             let terminado = new Promise((success)=>terminar=success)
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -218,7 +226,7 @@ cargarMapaClass=()=>{
                         this.mapa.setCenter(geoposicionUsuario)
                         terminar()
                     },
-                    (error)=>{
+                    ()=>{
                         alert("geolocalizacion desactivada")
                         terminar()
                     }
@@ -231,8 +239,6 @@ cargarMapaClass=()=>{
         }
     }
 }
-
-
 
 
 
@@ -308,9 +314,7 @@ cargarPopupClass = () => {
 }
 
 
-var MapaGoogleObject;
-var terminadoDeCargar;
-var AllLoaded = new Promise((success)=>terminadoDeCargar=success)
+
 
 google.maps.importLibrary("maps").then(
     () => {
