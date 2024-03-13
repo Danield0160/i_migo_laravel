@@ -43,6 +43,8 @@ class MapaGoogle {
             center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
             zoom: 15,
         });
+        geolocalizar()
+
         setTimeout(()=>actualizar_listado_mapas_visibles(),500)
 
         // Wait for the map to be fully loaded before accessing its properties
@@ -330,44 +332,8 @@ function ocultar(event) {
     event.target.id == "modal" ? event.target.style.display = "none" : null
 }
 
-//https://developers.google.com/maps/documentation/javascript/examples/overlay-popup
-//https://developers.google.com/maps/documentation/javascript/markers?hl=es-419
-//https://developers.google.com/maps/documentation/?hl=es_419#places
-
-
-// navigator.geolocation.getCurrentPosition(()=>{});
-// var geoposicionUsuario
-// if(geoposicionUsuario.lat){
-// }else{
-//     getLocation()
-// }
-
-
-// function getLocation() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     } else {
-//     }
-// }
-function showPosition(position) {
-    // geoposicionUsuario.lat?null:geoposicionUsuario.lat=position.coords.latitude;
-    // geoposicionUsuario.lng?null:geoposicionUsuario.lng=position.coords.longitude;
-
-    // let barra = window.location.pathname.endsWith("/")?"":"/"
-
-    // if(window.location.pathname.endsWith("Evento") | window.location.pathname.endsWith("Evento/")){
-    //     window.location.assign(window.location.pathname+barra+"lat:"+geoposicionUsuario.lat+"_lng:"+geoposicionUsuario.lng+"_dst:"+$("#distance").val());
-    // }else {
-    //     window.location.replace("./"+"lat:"+geoposicionUsuario.lat+"_lng:"+geoposicionUsuario.lng+"_dst:"+$("#distance").val());
-    // }
-}
-
 function actualizar_listado_mapas_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
-    // let listado = document.getElementById("trash")
-    // // let listado = document.getElementById("listado_eventos_visibles")
-    // if(!listado){return}
-    // listado.innerHTML = ""
 
     buscarEventoSectionAppObject.vaciarEventosVisibles()
 
@@ -447,42 +413,12 @@ async function actualizar_datos(){
             let evento = app.mount(div)
             eventosObject[ele.id] = evento
 
-
-
-            // div.innerHTML =`
-            // <div class="evento" onclick="showEventDetails(this)">
-            // <div class="icono"></div>
-            // <div class="contenido">
-            // <div class="contenido-imagen">
-            // <img src="images/uploads/${ele.imagen}" alt="Imagen del evento">
-            // </div>
-            // <div class="contenido-datos">
-            // <h2><i>${ele.nombre}</i></h2>
-            // <p><b>Fecha:</b> ${fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}</p>
-            // <p><b>Hora:</b> ${fecha.getHours()} : ${String(fecha.getMinutes()).padStart("2","0")}</p>
-            // <p><b>Asistentes</b>: ${ele.asistentes} / ${ele.limite_asistentes}</p>
-            // </div>
-            // </div>
-            // </div>`
             function add(ele,div){
                 evento.popup = MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
             }
             add(ele,div)
 
         })
-        // Object.keys(datos).forEach(function(index){
-        //     console.log(datos_actualizados.toString())
-        //     console.log(index)
-        //     console.log(!datos_actualizados.includes(index))
-        //     if(!(datos_actualizados.includes(index))){
-        //         console.log("borrando " + index)
-        //         setTimeout(() => {
-
-        //             eventosObject[index].popup.remove()
-        //             delete(eventosObject[index])
-        //         }, 700);
-        //     }
-        // })
 
         let datos_act = data.map((dato)=>dato.id)
         Object.keys(datos).forEach(function(index){
@@ -493,11 +429,9 @@ async function actualizar_datos(){
             }
         })
 
-
         setTimeout(actualizar_listado_mapas_visibles,450)
     })
 }
-actualizar_datos()
 
 
 async function enviar_datos_evento(){
@@ -521,7 +455,6 @@ async function enviar_datos_evento(){
     });
 
 }
-navigator.geolocation.getCurrentPosition(()=>{})
 
 function geolocalizar(){
     if (navigator.geolocation) {
@@ -530,12 +463,11 @@ function geolocalizar(){
                 geoposicionUsuario.lat = data.coords.latitude
                 geoposicionUsuario.lng = data.coords.longitude
                 MapaGoogleObject.mapa.setCenter(geoposicionUsuario)
-                actualizar_datos()
             },
             (error)=>{alert("geolocalizacion desactivada")}
         )
     } else {
         alert("geolocalizacion no soportado por el dispositivo")
     }
+    actualizar_datos()
 }
-geolocalizar()
