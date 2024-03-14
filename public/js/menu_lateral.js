@@ -153,7 +153,6 @@ function buscarEventoSectionApp(template){
             },
             mostrar(index){
                 showEventAppObject.showEventDetails(index)
-                console.log(index)
             }
         },
         computed:{
@@ -186,7 +185,6 @@ showEventApp = createApp({
     },
     methods:{
         showEventDetails(nuevoIndice){
-            console.log("modal")
             this.modal.style.display = "block"
             this.index = nuevoIndice
         }

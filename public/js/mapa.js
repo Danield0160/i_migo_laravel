@@ -113,8 +113,7 @@ cargarMapaClass=()=>{
             })
         }
         eliminarEventosObtenerUbicacion(forzozo=false){
-            console.log("eliminando: " + forzozo)
-            if(forzozo && this.marker){console.log("for");this.marker.setMap(null)}
+            if(forzozo && this.marker){this.marker.setMap(null)}
             if(!this.eventoActivo){return}
             this.eventoActivo = false
             google.maps.event.removeListener(this.mouseMoveListener)
@@ -471,7 +470,6 @@ async function actualizar_datos(){
 
 async function enviar_datos_evento(){
     let formData = new FormData($("#formulario_crear")[0])
-    console.log(formData)
     $.ajax({
         type:'POST',
         url: "/crearEvento",
@@ -489,7 +487,6 @@ async function enviar_datos_evento(){
             console.log(data);
         }
     });
-    console.log("post-envio")
     document.getElementById('latitud').value = null;
     document.getElementById('longitud').value = null;
     MapaGoogleObject.eliminarEventosObtenerUbicacion(true)
