@@ -251,7 +251,6 @@ cargarPopupClass = () => {
             super();
             this.position = {lat:position.lat(),lng:position.lng()};
             element.classList.add("popup-bubble");
-            console.log(this.position)
 
             // decorador de la burbuja (triangulo de abajo)
             const bubbleAnchor = document.createElement("div");
@@ -374,7 +373,6 @@ function ocultar(event) {
 function actualizar_listado_popus_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
     popupsVisibles?null:popupsVisibles=[]
-    console.log(popupsVisibles)
     buscarEventoSectionAppObject.vaciarEventosVisibles()
     popupsVisibles.forEach(function(ele){
         buscarEventoSectionAppObject.addEventoVisible(ele.id)
@@ -458,9 +456,8 @@ async function actualizar_datos(){
         Object.keys(datos).forEach(function(index){
             if(!datos_act.includes(Number(index))){ //TODO: hacer que marcadores sea diccionario con id como key
                 let indice = MapaGoogleObject.marcadores.map(ele=>ele.id).indexOf(eventosObject[index].popup.id)
-                console.log(indice)
                 if (indice ==-1){return}
-                console.log(MapaGoogleObject.marcadores.splice(indice,1))
+                MapaGoogleObject.marcadores.splice(indice,1)
                 delete(datos[index])
                 eventosObject[index].popup.remove()
                 delete(eventosObject[index])
