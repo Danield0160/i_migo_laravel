@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActualizacionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapaController;
@@ -35,7 +36,7 @@ Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
 Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
 Route::post("/crearEvento",[CrearEventoController::class,"crearEvento"])->name("crea");
 
-
+Route::get("mensaje",[ActualizacionController::class,"mensaje"]);
 
 require __DIR__.'/auth.php';
 
@@ -88,3 +89,4 @@ Route::middleware('auth')->group(function () {
 //hacer que el obtener ubicacion sea un div en crear evento y que genere un minimapa propio
 // click derecho en el mapa, "ubicar aqui"
 //sistema de manejamiento de fotos, (para que no se repita la misma foto)
+//modificar y eliminar eventos

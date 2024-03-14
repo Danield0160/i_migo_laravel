@@ -180,7 +180,7 @@ showEventApp = createApp({
         return{
             modal:$("#modal")[0],
             index:null,
-            datos:datos
+            data:datos
         }
     },
     methods:{
@@ -195,7 +195,7 @@ showEventApp = createApp({
         },
         evento(){
             if(this.index == null){return {}}
-            return this.datos[this.index]
+            return this.data[this.index]
         }
     },template:
     "<h1>{{evento['nombre']}}</h1>"

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
 
+use App\Events\ActualizacionEvento;
+
 class CrearEventoController extends Controller
 {
 
@@ -51,6 +53,8 @@ class CrearEventoController extends Controller
         $evento->save();
 
         $mapa = new MapaController();
+
+        event(new ActualizacionEvento);
 
         // return back();
     }
