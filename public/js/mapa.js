@@ -249,8 +249,9 @@ cargarPopupClass = () => {
         containerDiv;
         constructor(position, element) {
             super();
-            this.position = position;
+            this.position = {lat:position.lat(),lng:position.lng()};
             element.classList.add("popup-bubble");
+            console.log(this.position)
 
             // decorador de la burbuja (triangulo de abajo)
             const bubbleAnchor = document.createElement("div");
@@ -446,7 +447,6 @@ async function actualizar_datos(){
             })
             let evento = app.mount(div)
             eventosObject[ele.id] = evento
-
             // function add(ele,div){
                 evento.popup = MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
             // }
