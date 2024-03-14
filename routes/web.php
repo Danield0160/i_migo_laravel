@@ -30,7 +30,7 @@ Route::get('/index', function () {return view('index');})->name("index");
 
 
 
-Route::get("/app",function(){return view("app");});
+Route::get("/app",function(){return view("app");})->name("app");
 Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
 Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
 Route::post("/crearEvento",[CrearEventoController::class,"crearEvento"])->name("crea");

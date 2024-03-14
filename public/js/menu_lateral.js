@@ -107,7 +107,7 @@ function crearEventoSectionApp(template){
 
             },
             desactivar(){
-                MapaGoogleObject.eliminarEventosObtenerUbucacion(true)
+                MapaGoogleObject.eliminarEventosObtenerUbicacion(true)
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "0"
                 MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
                 this.activo = false
@@ -121,7 +121,7 @@ var buscarEventoSectionAppObject;
 function buscarEventoSectionApp(template){
     EventoSectionApp = createApp({
         data(){
-            $("#buscar_eventos_button")[0].onclick =function(){console.log("busc click");buscarEventoSectionAppObject.activar()}
+            $("#buscar_eventos_button")[0].onclick =function(){buscarEventoSectionAppObject.activar()}
             return {
                 activo:false,
                 eventosVisibles:[],
@@ -150,6 +150,10 @@ function buscarEventoSectionApp(template){
             },
             vaciarEventosVisibles(){
                 this.eventosVisibles=[]
+            },
+            mostrar(index){
+                showEventAppObject.showEventDetails(index)
+                console.log(index)
             }
         },
         computed:{
@@ -171,7 +175,34 @@ function desactivarGlobal(){
 
 
 
-
+var showEventAppObject;
+showEventApp = createApp({
+    data(){
+        return{
+            modal:$("#modal")[0],
+            index:null,
+            datos:datos
+        }
+    },
+    methods:{
+        showEventDetails(nuevoIndice){
+            console.log("modal")
+            this.modal.style.display = "block"
+            this.index = nuevoIndice
+        }
+    },
+    computed:{
+        datos(){
+            return this.datos
+        },
+        evento(){
+            if(this.index == null){return {}}
+            return this.datos[this.index]
+        }
+    },template:
+    "<h1>{{evento['nombre']}}</h1>"
+})
+showEventAppObject = showEventApp.mount($("#modal-content")[0])
 
 
 

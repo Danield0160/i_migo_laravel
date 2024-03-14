@@ -61,7 +61,7 @@ cargarMapaClass=()=>{
             this.autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
             google.maps.event.addListener(this.autocompletado_input,"places_changed",()=>this.cambiarLugar())
 
-            setTimeout(()=>actualizar_listado_mapas_visibles(),500)
+            setTimeout(()=>actualizar_listado_popus_visibles(),500)
 
 
             this.buttonObtenerUbicacion = document.createElement("button");
@@ -107,14 +107,15 @@ cargarMapaClass=()=>{
                 let temp = element.addListener('click', function (event) {
                     if(!this.eventoActivo ){return}
                     this.placeMarker(event.latLng);
-                    this.eliminarEventosObtenerUbucacion()
+                    this.eliminarEventosObtenerUbicacion()
                 }.bind(this));
                 this.clickListeners.push(temp)
             })
         }
-        eliminarEventosObtenerUbucacion(forzozo=false){
+        eliminarEventosObtenerUbicacion(forzozo=false){
+            console.log("eliminando: " + forzozo)
+            if(forzozo && this.marker){console.log("for");this.marker.setMap(null)}
             if(!this.eventoActivo){return}
-            if(forzozo){this.marker.setMap(null)}
             this.eventoActivo = false
             google.maps.event.removeListener(this.mouseMoveListener)
             this.clickListeners.forEach(function(ele){
@@ -175,7 +176,7 @@ cargarMapaClass=()=>{
             popup.setMap(this.mapa);
             this.marcadores.push(popup)
             div.style.opacity = 0
-            setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},10)
+            setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},20)
             return popup
         }
 
@@ -212,7 +213,7 @@ cargarMapaClass=()=>{
         }
         actualizarMedianteArrastrado(){
             google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
-                setTimeout(actualizar_listado_mapas_visibles, 250)
+                setTimeout(actualizar_listado_popus_visibles, 250)
             })
         }
         geolocalizar(){
@@ -332,43 +333,45 @@ google.maps.importLibrary("maps").then(
     }
 );
 
-function showEventDetails(div, datos) {
-    var modal = document.getElementById('modal');
-    var modalContent = document.getElementById('modal-content');
-    var eventoDiv = div;
+// function showEventDetails(div, datos) {
+//     var modal = document.getElementById('modal');
+//     var modalContent = document.getElementById('modal-content');
+//     var eventoDiv = div;
 
-    // Copia el contenido del evento al modal
-    modalContent.innerHTML = eventoDiv.innerHTML;
+//     // Copia el contenido del evento al modal
+//     modalContent.innerHTML = eventoDiv.innerHTML;
 
-    // Selecciona el div contenido-datos dentro del modalContent
-    var contenidoDatosDiv = modalContent.querySelector('.contenido-datos');
+//     // Selecciona el div contenido-datos dentro del modalContent
+//     var contenidoDatosDiv = modalContent.querySelector('.contenido-datos');
 
-    // Agrega la descripción y el botón de unirse al div contenido-datos
-    var descripcion = document.createElement('p');
-    var descripcionTexto = document.createElement('span');
-    descripcion.textContent = 'Descripción: ';
-    // descripcionTexto.textContent = datos['descripcion'];
+//     // Agrega la descripción y el botón de unirse al div contenido-datos
+//     var descripcion = document.createElement('p');
+//     var descripcionTexto = document.createElement('span');
+//     descripcion.textContent = 'Descripción: ';
+//     // descripcionTexto.textContent = datos['descripcion'];
 
-    // Establece el estilo de la descripción a negrita y el texto de descripción a cursiva
-    descripcion.style.fontWeight = 'bold';
-    descripcionTexto.style.fontStyle = 'italic';
+//     // Establece el estilo de la descripción a negrita y el texto de descripción a cursiva
+//     descripcion.style.fontWeight = 'bold';
+//     descripcionTexto.style.fontStyle = 'italic';
 
-    contenidoDatosDiv.appendChild(descripcion);
-    contenidoDatosDiv.appendChild(descripcionTexto);
+//     contenidoDatosDiv.appendChild(descripcion);
+//     contenidoDatosDiv.appendChild(descripcionTexto);
 
-    var unirseBtn = document.createElement('button');
-    unirseBtn.textContent = 'Unirse';
-    contenidoDatosDiv.appendChild(unirseBtn);
+//     var unirseBtn = document.createElement('button');
+//     unirseBtn.textContent = 'Unirse';
+//     contenidoDatosDiv.appendChild(unirseBtn);
 
-    // Muestra el modal
-    modal.style.display = 'block';
-}
+//     // Muestra el modal
+//     modal.style.display = 'block';
+// }
+
+
 
 function ocultar(event) {
     event.target.id == "modal" ? event.target.style.display = "none" : null
 }
 
-function actualizar_listado_mapas_visibles(){
+function actualizar_listado_popus_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
     popupsVisibles?null:popupsVisibles=[]
 
@@ -382,15 +385,12 @@ function actualizar_listado_mapas_visibles(){
 }
 var eventosObject={}
 async function actualizar_datos(){
-    // MapaGoogleObject.removeMarkers()
-
-    await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+$("#distance").val(),function(data){
+    await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
         data.forEach(function(ele){
             datos[ele.id] = ele
             datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
         })
         data.forEach(function(ele){
-            // datos_actualizados.push(ele.id)
             if(ele.id in eventosObject){
                 Object.keys(ele).forEach(function(key){
                     if(key == "fecha"){
@@ -411,7 +411,9 @@ async function actualizar_datos(){
                     return {
                         id:ele.id,
                         fecha:fecha,
-                        dato:datos
+                        dato:datos,
+                        popup:null,
+                        showEventAppObject:showEventAppObject
                     }
                 },
                 computed:{
@@ -428,7 +430,7 @@ async function actualizar_datos(){
                     }
                 },
                 template:`
-                <div class="evento" onclick="showEventDetails(this)">
+                <div class="evento" v-on:click="showEventAppObject.showEventDetails(id)">
                 <div class="icono"></div>
                 <div class="contenido">
                 <div class="contenido-imagen">
@@ -446,10 +448,10 @@ async function actualizar_datos(){
             let evento = app.mount(div)
             eventosObject[ele.id] = evento
 
-            function add(ele,div){
+            // function add(ele,div){
                 evento.popup = MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
-            }
-            add(ele,div)
+            // }
+            // add(ele,div)
 
         })
 
@@ -462,13 +464,14 @@ async function actualizar_datos(){
             }
         })
 
-        setTimeout(actualizar_listado_mapas_visibles,450)
+        setTimeout(actualizar_listado_popus_visibles,150)
     })
 }
 
 
 async function enviar_datos_evento(){
     let formData = new FormData($("#formulario_crear")[0])
+    console.log(formData)
     $.ajax({
         type:'POST',
         url: "/crearEvento",
@@ -486,7 +489,9 @@ async function enviar_datos_evento(){
             console.log(data);
         }
     });
+    console.log("post-envio")
     document.getElementById('latitud').value = null;
     document.getElementById('longitud').value = null;
+    MapaGoogleObject.eliminarEventosObtenerUbicacion(true)
 }
 

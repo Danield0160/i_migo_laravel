@@ -1,7 +1,7 @@
 <div v-if="activo">
     <input type="text">
     <div id="listado_eventos_visibles">
-        <div v-for="index in eventos" class="evento_listado_container">
+        <div v-for="index in eventos" class="evento_listado_container" v-on:click="mostrar(index)">
             <img :src='"images/uploads/"+datos[index].imagen'alt="">
             <div class="contenido">
                 <h4>@{{datos[index].nombre}}</h4>
