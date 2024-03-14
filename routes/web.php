@@ -90,3 +90,6 @@ Route::middleware('auth')->group(function () {
 // click derecho en el mapa, "ubicar aqui"
 //sistema de manejamiento de fotos, (para que no se repita la misma foto)
 //modificar y eliminar eventos
+//filtrado para unirte a eventos
+
+//arreglar ip en otro ordenador

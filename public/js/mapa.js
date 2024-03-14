@@ -297,6 +297,7 @@ cargarPopupClass = () => {
             }
         }
         esVisible() {
+            //TODO: arreglar aqui quizas
             const divPosition = this.getProjection().fromLatLngToDivPixel(
                 this.position,
             );
@@ -374,7 +375,7 @@ function ocultar(event) {
 function actualizar_listado_popus_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
     popupsVisibles?null:popupsVisibles=[]
-
+    console.log(popupsVisibles)
     buscarEventoSectionAppObject.vaciarEventosVisibles()
     popupsVisibles.forEach(function(ele){
         buscarEventoSectionAppObject.addEventoVisible(ele.id)
@@ -457,8 +458,10 @@ async function actualizar_datos(){
         let datos_act = data.map((dato)=>dato.id)
         Object.keys(datos).forEach(function(index){
             if(!datos_act.includes(Number(index))){
-                eventosObject[index].popup.remove()
+                let indice = MapaGoogleObject.marcadores.indexOf(eventosObject[index])
+                MapaGoogleObject.marcadores.splice(indice,1)
                 delete(datos[index])
+                eventosObject[index].popup.remove()
                 delete(eventosObject[index])
             }
         })
