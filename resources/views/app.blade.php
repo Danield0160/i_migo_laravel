@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{asset('css/lateral.css')}}">
     <link rel="stylesheet" href="{{asset('css/index.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-@vite('resources/js/app.js')
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
@@ -53,6 +52,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 // https://www.youtube.com/watch?v=8RL584c7EsI
+@vite('resources/js/app.js')
 <script>
 setTimeout(() => {
     window.Echo.channel('Actualizacion_evento').

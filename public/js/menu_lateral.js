@@ -191,11 +191,11 @@ showEventApp = createApp({
     },
     computed:{
         datos(){
-            return this.datos
+            return this.data
         },
         evento(){
             if(this.index == null){return {}}
-            return this.data[this.index]
+            return this.datos[this.index]
         }
     },template:
     "<h1>{{evento['nombre']}}</h1>"
