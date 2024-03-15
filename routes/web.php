@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-///TODO:
+////TODO:
 //! old
 // Navbar con boton de atras y con buscador
 // js mapa, un boton que al clickar se le pegue al raton un icono, y que al hacer
@@ -95,3 +95,4 @@ Route::middleware('auth')->group(function () {
 //arreglar ip en otro ordenador para websocket y crear evento
 //https
 //boton para ocultar popups en crear Evento
+//definir la estructura del menu y del submenu

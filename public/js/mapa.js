@@ -53,6 +53,9 @@ cargarMapaClass=()=>{
             this.mapa = new google.maps.Map(document.getElementById("map"), {
                 center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
                 zoom: 15,
+                disableDefaultUI: true,
+                mapTypeControl: true,
+
             });
             google.maps.event.addListener(this.mapa, 'zoom_changed', this.actualizarIconoZoom.bind(this))
 
@@ -432,7 +435,7 @@ async function actualizar_datos(){
                     return {
                         id:ele.id,
                         fecha:fecha,
-                        dato:datos,
+                        dato:datos, //TODO: reestructurar para que tenga sus datos propios
                         popup:null,
                         showEventAppObject:showEventAppObject
                     }
@@ -452,22 +455,22 @@ async function actualizar_datos(){
                 },
                 template:`
                 <div class="evento" v-on:click="showEventAppObject.showEventDetails(id)">
-                <div class="icono"></div>
-                <div class="contenido">
-                <div class="contenido-imagen">
-                <img :src='"images/uploads/"+evento.imagen' alt="Imagen del evento">
-                </div>
-                <div class="contenido-datos">
-                <h2><i>{{evento.nombre}}</i></h2>
-                <p><b>Fecha:</b> {{fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}}</p>
-                <p><b>Hora:</b> {{fecha.getHours()}} : {{String(fecha.getMinutes()).padStart("2","0")}}</p>
-                <p><b>Asistentes</b>: {{evento.asistentes}} / {{evento.limite_asistentes}}</p>
-                </div>
-                </div>
+                    <div class="icono"></div>
+                    <div class="contenido">
+                        <div class="contenido-imagen">
+                            <img :src='"images/uploads/"+evento.imagen' alt="Imagen del evento">
+                        </div>
+                        <div class="contenido-datos">
+                            <h2><i>{{evento.nombre}}</i></h2>
+                            <p><b>Fecha:</b> {{fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}}</p>
+                            <p><b>Hora:</b> {{fecha.getHours()}} : {{String(fecha.getMinutes()).padStart("2","0")}}</p>
+                            <p><b>Asistentes</b>: {{evento.asistentes}} / {{evento.limite_asistentes}}</p>
+                        </div>
+                    </div>
                 </div>`
             })
             let eventoObject = eventoApp.mount(div)
-            MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id,eventoObject)
+            MapaGoogleObject.addCustomMarker(ele.lat, ele.lng, div.children[0], ele.id, eventoObject)
 
         })
         //eliminar eventos que ya no existen en el mapa
