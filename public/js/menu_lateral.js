@@ -125,8 +125,6 @@ function buscarEventoSectionApp(template){
             return {
                 activo:false,
                 eventosVisibles:[],
-                updateKey:0,
-                datos: datos //TODO:reestructurar para que sea los eventos de GoogleMapObject.marcadores?
             };
         },
         template:template,
@@ -141,8 +139,8 @@ function buscarEventoSectionApp(template){
             addEventoVisible(id){
                 this.eventosVisibles.push(id)
                 this.eventosVisibles.sort((a,b)=>{
-                    let dist_a = datos[a].distancia
-                    let dist_b = datos[b].distancia
+                    let dist_a = this.eventos[a].distancia
+                    let dist_b = this.eventos[b].distancia
                     if (dist_a<dist_b){return -1}
                     if (dist_a>dist_b){return 1}
                     else{return 0}
@@ -157,7 +155,7 @@ function buscarEventoSectionApp(template){
         },
         computed:{
             eventos(){
-                return this.eventosVisibles
+                return MapaGoogleObject.marcadores
             }
         }
 
@@ -180,7 +178,6 @@ showEventApp = createApp({
         return{
             modal:$("#modal")[0],
             index:null,
-            data:datos
         }
     },
     methods:{
@@ -190,12 +187,9 @@ showEventApp = createApp({
         }
     },
     computed:{
-        datos(){
-            return this.data
-        },
         evento(){
             if(this.index == null){return {}}
-            return this.datos[this.index]
+            return MapaGoogleObject.marcadores[this.index].datos
         }
     },template:
     "<h1>{{evento['nombre']}}</h1>"

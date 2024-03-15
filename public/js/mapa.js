@@ -29,7 +29,7 @@
 
 // posicion del usuario, tanto geolocalizada o buscada
 var geoposicionUsuario = {lat:28.95142318634212,lng:-13.605115900577536}; //posicion default
-var datos={}; // datos en crudo que se recibe del servidor
+//! var datos={}; // datos en crudo que se recibe del servidor
 
 // promesa para detectar que se ha terminado de cargar e instanciar las clases
 var terminadoDeCargar;
@@ -408,34 +408,35 @@ async function actualizar_datos(){
     await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
         // modifica el var datos con los nuevos datos y calcula la distancia
         //TODO: quitar? reestructurar para que "datos" sea por GoogleMapObject
-        data.forEach(function(ele){
-            datos[ele.id] = ele
-            datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
-        })
+        // data.forEach(function(ele){
+        //     datos[ele.id] = ele
+        //     datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
+        // })
         // modifica el var datos con los nuevos datos y crea su objeto fecha
-        data.forEach(function(ele){
+        data.forEach(function(datos){
+
+            let eventoDatos = datos
+            eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
+            eventoDatos.fecha = new Date(datos["fecha"])
+
             //si ya existia el evento, lo actualiza
-            if(Object.keys(MapaGoogleObject.marcadores).includes(String(ele.id))){
-                Object.keys(ele).forEach(function(key){
-                    if(key == "fecha"){
-                        MapaGoogleObject.marcadores[ele.id].evento["fecha"] = new Date(ele["fecha"])
-                    }else{
-                        MapaGoogleObject.marcadores[ele.id].evento[key] = ele[key]
-                    }
+            if(Object.keys(MapaGoogleObject.marcadores).includes(String(datos.id))){
+                Object.keys(datos).forEach(function(key){
+                    MapaGoogleObject.marcadores[datos.id].evento[key] = eventoDatos[key]
                 })
                 return
             }
-            div = document.createElement("div")
 
-            fecha = new Date(ele.fecha)
+            div = document.createElement("div")
+            fecha = new Date(datos.fecha)
 
 
             let eventoApp = createApp({
                 data(){
                     return {
-                        id:ele.id,
+                        id:datos.id,
                         fecha:fecha,
-                        dato:datos, //TODO: reestructurar para que tenga sus datos propios
+                        dato:eventoDatos,
                         popup:null,
                         showEventAppObject:showEventAppObject
                     }
@@ -445,7 +446,7 @@ async function actualizar_datos(){
                         return this.dato
                     },
                     evento(){
-                        return this.datos[this.id]
+                        return this.datos
                     }
                 },
                 method:{
@@ -470,16 +471,17 @@ async function actualizar_datos(){
                 </div>`
             })
             let eventoObject = eventoApp.mount(div)
-            MapaGoogleObject.addCustomMarker(ele.lat, ele.lng, div.children[0], ele.id, eventoObject)
+            MapaGoogleObject.addCustomMarker(datos.lat, datos.lng, div.children[0], datos.id, eventoObject)
 
         })
+
         //eliminar eventos que ya no existen en el mapa
-        let datos_act = data.map((dato)=>dato.id)
-        Object.keys(datos).forEach(function(index){
-            if(!datos_act.includes(Number(index))){
-                MapaGoogleObject.marcadores[index].popup.remove()
-                delete(MapaGoogleObject.marcadores[index])
-                delete(datos[index])
+        let indiceDatosActivo = data.map((dato)=>dato.id)
+        Object.keys(MapaGoogleObject.marcadores).forEach(function(indiceMarcador){
+            if(!indiceDatosActivo.includes(Number(indiceMarcador))){
+                MapaGoogleObject.marcadores[indiceMarcador].popup.remove()
+                delete(MapaGoogleObject.marcadores[indiceMarcador])
+                // delete(datos[index])
             }
         })
 

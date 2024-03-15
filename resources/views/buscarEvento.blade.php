@@ -1,13 +1,13 @@
 <div v-if="activo">
     <input type="text">
     <div id="listado_eventos_visibles">
-        <div v-for="index in eventos" class="evento_listado_container" v-on:click="mostrar(index)">
-            <img :src='"images/uploads/"+datos[index].imagen'alt="">
+        <div v-for="index in eventosVisibles" class="evento_listado_container" v-on:click="mostrar(index)">
+            <img :src='"images/uploads/"+eventos[index].datos.imagen'alt="">
             <div class="contenido">
-                <h4>@{{datos[index].nombre}}</h4>
-                <p>@{{datos[index].descripcion}}</p>
-                <p>@{{datos[index].asistentes}} / @{{datos[index].limite_asistentes}}</p>
-                <span class="kilometraje">@{{Math.trunc(datos[index].distancia * 100)/100}} km</span>
+                <h4>@{{eventos[index].datos.nombre}}</h4>
+                <p>@{{eventos[index].datos.descripcion}}</p>
+                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.limite_asistentes}}</p>
+                <span class="kilometraje">@{{Math.trunc(eventos[index].datos.distancia * 100)/100}} km</span>
             </div>
         </div>
     </div>
