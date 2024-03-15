@@ -96,3 +96,5 @@ Route::middleware('auth')->group(function () {
 //boton para ocultar popups en crear Evento
 //definir la estructura del menu y del submenu
 //offline
+
+//asd
