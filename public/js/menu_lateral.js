@@ -151,6 +151,14 @@ function buscarEventoSectionApp(template){
             },
             mostrar(index){
                 showEventAppObject.showEventDetails(index)
+            },
+            prueba(el,done){
+                console.log("asd")
+                gsap.to(el,{
+                    opacity: .5,
+                    onComplete: done
+
+                })
             }
         },
         computed:{
