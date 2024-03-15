@@ -78,7 +78,6 @@ Route::middleware('auth')->group(function () {
 // arreglar showEventDetail
 //ajax buscar lugar
 // hacer footer
-//ocultar del mapa botones inutiles
 //sistema de tags
 //websocket, usar pusher o nodejs
 //mis eventos
