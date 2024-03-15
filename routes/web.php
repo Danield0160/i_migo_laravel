@@ -97,4 +97,3 @@ Route::middleware('auth')->group(function () {
 //definir la estructura del menu y del submenu
 //offline
 
-//asdasd
