@@ -223,15 +223,17 @@ cargarMapaClass=()=>{
             }
             return popupsVisibles
         }
-
+        //TODO: refactorizar actualizacion mediante arrastrasdo
         actualizarMedianteArrastrado(){
             google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
                 setTimeout(actualizar_listado_popus_visibles, 250)
             })
         }
+        //coge la geolocalizacion, si falla, lo gestiona
         geolocalizar(){
             let terminar; // se hace esto porque el navigator.geolocation parece que funciona de forma asincrona
             let terminado = new Promise((success)=>terminar=success)
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (data)=>{
@@ -256,7 +258,7 @@ cargarMapaClass=()=>{
 
 
 
-
+//se estructura asi porque dentro se utiliza clases que se importan de forma asincrona
 cargarPopupClass = () => {
     return class PopupClass extends google.maps.OverlayView {
         position;
@@ -309,6 +311,7 @@ cargarPopupClass = () => {
                 this.containerDiv.style.display = display;
             }
         }
+        // comprueba si el popup esta dentro de la ventana del mapa
         esVisible() {
             const divPosition = this.getProjection().fromLatLngToDivPixel(
                 this.position,
@@ -319,6 +322,7 @@ cargarPopupClass = () => {
             // this.containerDiv.children[0].children[0].setAttribute("visible",display) // añade al div evento un atributo que marca si es visible en el mapa
             return display
         }
+        //oculta del mapa
         remove(){
             this.setMap(null)
         }
@@ -327,7 +331,7 @@ cargarPopupClass = () => {
 
 
 
-
+// importacion de las clases de la api
 google.maps.importLibrary("maps").then(
     () => {
         AdvancedMarkerViewClass = google.maps.Marker;
@@ -336,8 +340,8 @@ google.maps.importLibrary("maps").then(
 
         google.maps.importLibrary("places").then(()=>{
             let MapaClass = cargarMapaClass()
-            MapaGoogleObject = new MapaClass()
-            terminadoDeCargar()
+            MapaGoogleObject = new MapaClass() // isntancia del objeto mapa
+            terminadoDeCargar() // resolucion de la promesa de cargado
         })
 
 
@@ -377,14 +381,16 @@ google.maps.importLibrary("maps").then(
 // }
 
 
-
+// funcion encargada de ocultar el overlay que se abre al clickar un popup
 function ocultar(event) {
     event.target.id == "modal" ? event.target.style.display = "none" : null
 }
 
+//actualiza el lsitado de eventos visibles en la pestaña de buscar eventos
 function actualizar_listado_popus_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
     popupsVisibles?null:popupsVisibles=[]
+
     buscarEventoSectionAppObject.vaciarEventosVisibles()
     popupsVisibles.forEach(function(ele){
         buscarEventoSectionAppObject.addEventoVisible(ele.id)
@@ -393,12 +399,17 @@ function actualizar_listado_popus_visibles(){
 
     MapaGoogleObject.actualizarMedianteArrastrado()
 }
+
+//lamada a la api con la posicion del mapa, y la distancia para conseguir los eventos cercanos
 async function actualizar_datos(){
     await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
+        // modifica el var datos con los nuevos datos y calcula la distancia
+        //TODO: quitar?
         data.forEach(function(ele){
             datos[ele.id] = ele
             datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
         })
+        // modifica el var datos con los nuevos datos y crea su objeto fecha
         data.forEach(function(ele){
             if(Object.keys(MapaGoogleObject.marcadores).includes(String(ele.id))){
                 Object.keys(ele).forEach(function(key){
