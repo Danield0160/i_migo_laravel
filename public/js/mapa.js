@@ -61,7 +61,7 @@ cargarMapaClass=()=>{
             this.autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
             google.maps.event.addListener(this.autocompletado_input,"places_changed",()=>this.cambiarLugar())
 
-            setTimeout(()=>actualizar_listado_popus_visibles(),500)
+            setTimeout(()=>actualizar_listado_popus_visibles(),800)
 
 
             this.buttonObtenerUbicacion = document.createElement("button");
@@ -296,7 +296,6 @@ cargarPopupClass = () => {
             }
         }
         esVisible() {
-            //TODO: arreglar aqui quizas
             const divPosition = this.getProjection().fromLatLngToDivPixel(
                 this.position,
             );
