@@ -45,6 +45,7 @@ var MapaGoogleObject;
 
 //se estructura asi porque dentro se utiliza clases que se importan de forma asincrona
 cargarMapaClass=()=>{
+    // clase que representa al mapa
     return class MapaGoogle {
         marcadores = {}
 
@@ -68,21 +69,24 @@ cargarMapaClass=()=>{
             this.buttonObtenerUbicacion.textContent = "Obtener ubicación";
             this.buttonObtenerUbicacion.classList.add("custom-map-control-button");
             this.mapa.controls[google.maps.ControlPosition.TOP_CENTER].push(this.buttonObtenerUbicacion);
-            this.eventoActivo=false
+            this.estaObteniendoUbicacion=false
 
             // Wait for the map to be fully loaded before accessing its properties
 
             this.buttonObtenerUbicacion.addEventListener("click", this.obtenerUbicacion.bind(this));
         }
+        // "evento" para que el usuario coja la ubicacion para la creacion de eventos
         obtenerUbicacion(){
-            if(this.eventoActivo){return}
-            this.eventoActivo=true
-            // Remove all previous markers
-            for (let i = 0; i < this.marcadores.length; i++) {
-                this.marcadores[i].setMap(null);
-            }
+            if(this.estaObteniendoUbicacion){return} //evita que actives dos veces lo mismo
+            this.estaObteniendoUbicacion=true
+            // limpia el mapa
 
-            // Create a marker at the center of the map
+            Object.keys(this.marcadores).forEach(id => {
+                this.marcadores[id].popup.setMap(null);
+            });
+
+
+            // crea y añade al mapa el marcador que indica la posicion elegida
             if(!this.marker){
                 this.marker = new AdvancedMarkerViewClass({
                     position: this.mapa.getCenter(),
@@ -91,39 +95,43 @@ cargarMapaClass=()=>{
                     icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png' // Use a custom icon
                 });
             }else{
+                // si ya existe simplemente lo activa
                 this.marker.setMap(this.mapa)
             }
 
-            // Update the marker position when the mouse moves
+            // actualiza la posicion del marcador con el movimiento del raton
             this.mouseMoveListener = this.mapa.addListener('mousemove', function (event) {
                 this.marker.setPosition(event.latLng);
             }.bind(this));
 
-            // Place the marker and remove the listeners when the map is clicked
-            // this.clickListener = [this.mapa,this.marker].forEach(element => {
+            // coloca el marcador cuando se clicka el mapa (o el propio raton)
             this.clickListeners = [];
             [this.mapa,this.marker].forEach((element) => {
 
                 let temp = element.addListener('click', function (event) {
-                    if(!this.eventoActivo ){return}
+                    if(!this.estaObteniendoUbicacion ){return}
                     this.placeMarker(event.latLng);
                     this.eliminarEventosObtenerUbicacion()
                 }.bind(this));
                 this.clickListeners.push(temp)
             })
         }
+        //elimina los listener de this.obtenerUbicacion
         eliminarEventosObtenerUbicacion(forzozo=false){
+            //elimina del mapa el marcador, para cuando se envia o se cambia de pestaña
             if(forzozo && this.marker){this.marker.setMap(null)}
-            if(!this.eventoActivo){return}
-            this.eventoActivo = false
+            if(!this.estaObteniendoUbicacion){return}
+            this.estaObteniendoUbicacion = false
             google.maps.event.removeListener(this.mouseMoveListener)
             this.clickListeners.forEach(function(ele){
                 google.maps.event.removeListener(ele)
             })
-            for (let i = 0; i < this.marcadores.length; i++) {
-                this.marcadores[i].setMap(this.mapa);
-            }
+            //vuelve a poner en el mapa los eventos cercanos
+            Object.keys(this.marcadores).forEach(id => {
+                this.marcadores[id].popup.setMap(this.mapa);
+            })
         }
+        //lee el google.searchBox, cambia la ubicacion y actualiza los datos //TODO: cambiar de procedimiento a funcion
         cambiarLugar(){
             let lugar = this.autocompletado_input.getPlaces()[0]
             geoposicionUsuario = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
@@ -134,7 +142,8 @@ cargarMapaClass=()=>{
 
             actualizar_datos()
         }
-
+        //clava el marcador en el mapa el marcador del "evento" obtener ubicacion de crear evento, y pone su posicion
+        // en el formulario de creacion de evento
         placeMarker(location) {
             if (this.marker) {
                 this.marker.setPosition(location);
@@ -146,39 +155,42 @@ cargarMapaClass=()=>{
             }
             document.getElementById('latitud').value = location.lat();
             document.getElementById('longitud').value = location.lng();
-            console.log([location.lat(), location.lng()])
             return [location.lat(), location.lng()];
         }
 
-        addMarker(lat, lng, nombre, titutlo_hover, icono = null) {
-            const marker = new AdvancedMarkerViewClass({
-                map: this.mapa,
-                position: {
-                    lat: lat,
-                    lng: lng
-                },
-                title: titutlo_hover,
-                label: nombre,
-                icon: icono,
-            });
-        }
-        removeMarkers(){
-            this.marcadores.forEach(function(ele){
-                ele.setMap(null)
-            })
-            this.marcadores = {}
-        }
+        // addMarker(lat, lng, nombre, titutlo_hover, icono = null) {
+        //     const marker = new AdvancedMarkerViewClass({
+        //         map: this.mapa,
+        //         position: {
+        //             lat: lat,
+        //             lng: lng
+        //         },
+        //         title: titutlo_hover,
+        //         label: nombre,
+        //         icon: icono,
+        //     });
+        // }
 
-        addCustomMarker(lat, lng, div,id, eventoObject) {
+        // //oculta los marcadores y los elimina
+        // removeMarkers(){
+        //     this.marcadores.forEach(function(ele){
+        //         ele.setMap(null)
+        //     })
+        //     this.marcadores = {}
+        // }
+
+        //crea un objeto evento, le asocia un objeto popup con un div pasado como parametro
+        addCustomMarker(lat, lng, div, id, eventoObject) {
             let popup = new PopupClass(new google.maps.LatLng(lat, lng), div);
             popup.id = id
-            popup.setMap(this.mapa);
+            this.estaObteniendoUbicacion? null : popup.setMap(this.mapa);
             eventoObject.popup = popup
-            this.marcadores[id] =eventoObject
+            this.marcadores[id] = eventoObject
             div.style.opacity = 0
             setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},20) //delay para que se actualize en base a zoom
         }
 
+        //cambia la apariencia de los popups en base al zoom del mapa
         actualizarIconoZoom() {
             if (this.mapa.getZoom() > 179999) {
                 document.querySelectorAll(".evento").forEach(function (ele, key, array) {
@@ -200,9 +212,10 @@ cargarMapaClass=()=>{
                 })
             }
         }
+        //obtener los popups que esten visibles en la ventana del mapa
         obtenerPopusVisibles() {
             let popupsVisibles = []
-            if(this.eventoActivo){return}
+            if(this.estaObteniendoUbicacion){return}
             for (let evento of Object.values(this.marcadores)) {
                 if (evento.popup.esVisible()) {
                     popupsVisibles.push(evento.popup)
@@ -210,6 +223,7 @@ cargarMapaClass=()=>{
             }
             return popupsVisibles
         }
+
         actualizarMedianteArrastrado(){
             google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
                 setTimeout(actualizar_listado_popus_visibles, 250)

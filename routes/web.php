@@ -94,3 +94,4 @@ Route::middleware('auth')->group(function () {
 
 //arreglar ip en otro ordenador para websocket y crear evento
 //https
+//boton para ocultar popups en crear Evento
