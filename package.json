@@ -4,6 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
+        "reset BD":"php artisan migrate:refresh --seed",
         "a":"npm run dev",
         "b":"php artisan serve",
         "c":"php artisan websockets:serve"
