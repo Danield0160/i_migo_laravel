@@ -126,7 +126,7 @@ function buscarEventoSectionApp(template){
                 activo:false,
                 eventosVisibles:[],
                 updateKey:0,
-                datos: datos
+                datos: datos //TODO:reestructurar para que sea los eventos de GoogleMapObject.marcadores?
             };
         },
         template:template,

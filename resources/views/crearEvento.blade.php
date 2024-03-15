@@ -48,7 +48,7 @@
         <input name="imagen" id="imagen" type="file" class="form-control-file @error('imagen') is-invalid @enderror">
     </div>
 
-    <button onclick="enviar_datos_evento()" class="btn btn-primary mt-2">Enviar</button>
+    <button onclick="enviar_datos_crear_evento()" class="btn btn-primary mt-2">Enviar</button>
 
 </div>
 </form>

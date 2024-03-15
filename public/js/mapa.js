@@ -404,13 +404,14 @@ function actualizar_listado_popus_visibles(){
 async function actualizar_datos(){
     await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
         // modifica el var datos con los nuevos datos y calcula la distancia
-        //TODO: quitar?
+        //TODO: quitar? reestructurar para que "datos" sea por GoogleMapObject
         data.forEach(function(ele){
             datos[ele.id] = ele
             datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
         })
         // modifica el var datos con los nuevos datos y crea su objeto fecha
         data.forEach(function(ele){
+            //si ya existia el evento, lo actualiza
             if(Object.keys(MapaGoogleObject.marcadores).includes(String(ele.id))){
                 Object.keys(ele).forEach(function(key){
                     if(key == "fecha"){
@@ -483,8 +484,8 @@ async function actualizar_datos(){
     })
 }
 
-
-async function enviar_datos_evento(){
+// envia los datos para la creacion del evento
+async function enviar_datos_crear_evento(){
     let formData = new FormData($("#formulario_crear")[0])
     $.ajax({
         type:'POST',
