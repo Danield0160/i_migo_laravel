@@ -46,7 +46,7 @@ var MapaGoogleObject;
 //se estructura asi porque dentro se utiliza clases que se importan de forma asincrona
 cargarMapaClass=()=>{
     return class MapaGoogle {
-        marcadores = []
+        marcadores = {}
 
         constructor() {
             this.mapa = new google.maps.Map(document.getElementById("map"), {
@@ -166,17 +166,17 @@ cargarMapaClass=()=>{
             this.marcadores.forEach(function(ele){
                 ele.setMap(null)
             })
-            this.marcadores = []
+            this.marcadores = {}
         }
 
-        addCustomMarker(lat, lng, div,id) {
+        addCustomMarker(lat, lng, div,id, eventoObject) {
             let popup = new PopupClass(new google.maps.LatLng(lat, lng), div);
             popup.id = id
             popup.setMap(this.mapa);
-            this.marcadores.push(popup)
+            eventoObject.popup = popup
+            this.marcadores[id] =eventoObject
             div.style.opacity = 0
-            setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},20)
-            return popup
+            setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},20) //delay para que se actualize en base a zoom
         }
 
         actualizarIconoZoom() {
@@ -203,9 +203,9 @@ cargarMapaClass=()=>{
         obtenerPopusVisibles() {
             let popupsVisibles = []
             if(this.eventoActivo){return}
-            for (let popup of this.marcadores) {
-                if (popup.esVisible()) {
-                    popupsVisibles.push(popup)
+            for (let evento of Object.values(this.marcadores)) {
+                if (evento.popup.esVisible()) {
+                    popupsVisibles.push(evento.popup)
                 }
             }
             return popupsVisibles
@@ -251,7 +251,6 @@ cargarPopupClass = () => {
             super();
             this.position = {lat:position.lat(),lng:position.lng()};
             element.classList.add("popup-bubble");
-            console.log(this.position)
 
             // decorador de la burbuja (triangulo de abajo)
             const bubbleAnchor = document.createElement("div");
@@ -309,8 +308,6 @@ cargarPopupClass = () => {
         }
         remove(){
             this.setMap(null)
-            let indice = MapaGoogleObject.marcadores.indexOf(this)
-            indice!=-1?MapaGoogleObject.marcadores.splice(indice,1):null
         }
     }
 }
@@ -375,7 +372,6 @@ function ocultar(event) {
 function actualizar_listado_popus_visibles(){
     let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
     popupsVisibles?null:popupsVisibles=[]
-    console.log(popupsVisibles)
     buscarEventoSectionAppObject.vaciarEventosVisibles()
     popupsVisibles.forEach(function(ele){
         buscarEventoSectionAppObject.addEventoVisible(ele.id)
@@ -384,7 +380,6 @@ function actualizar_listado_popus_visibles(){
 
     MapaGoogleObject.actualizarMedianteArrastrado()
 }
-var eventosObject={}
 async function actualizar_datos(){
     await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
         data.forEach(function(ele){
@@ -392,22 +387,21 @@ async function actualizar_datos(){
             datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
         })
         data.forEach(function(ele){
-            if(ele.id in eventosObject){
+            if(ele.id in Object.keys(MapaGoogleObject.marcadores)){
                 Object.keys(ele).forEach(function(key){
                     if(key == "fecha"){
-                        eventosObject[ele.id].evento[key] = new Date(ele[key])
+                        MapaGoogleObject.marcadores[ele.id].evento["fecha"] = new Date(ele["fecha"])
                     }else{
-                        eventosObject[ele.id].evento[key] = ele[key]
+                        MapaGoogleObject.marcadores[ele.id].evento[key] = ele[key]
                     }
                 })
                 return
             }
             div = document.createElement("div")
             fecha = new Date(ele.fecha)
-            $("#trash")[0].appendChild(div)
 
 
-            let app = createApp({
+            let eventoApp = createApp({
                 data(){
                     return {
                         id:ele.id,
@@ -446,23 +440,17 @@ async function actualizar_datos(){
                 </div>
                 </div>`
             })
-            let evento = app.mount(div)
-            eventosObject[ele.id] = evento
-            // function add(ele,div){
-                evento.popup = MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id)
-            // }
-            // add(ele,div)
+            let eventoObject = eventoApp.mount(div)
+            MapaGoogleObject.addCustomMarker(ele.lat,ele.lng,div.children[0],ele.id,eventoObject)
 
         })
-
+        //eliminar eventos que ya no existen en el mapa
         let datos_act = data.map((dato)=>dato.id)
         Object.keys(datos).forEach(function(index){
             if(!datos_act.includes(Number(index))){
-                let indice = MapaGoogleObject.marcadores.indexOf(eventosObject[index])
-                MapaGoogleObject.marcadores.splice(indice,1)
+                MapaGoogleObject.marcadores[index].popup.remove()
+                delete(MapaGoogleObject.marcadores[index])
                 delete(datos[index])
-                eventosObject[index].popup.remove()
-                delete(eventosObject[index])
             }
         })
 

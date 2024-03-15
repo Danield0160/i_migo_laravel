@@ -18,7 +18,6 @@
     <title>Document</title>
 </head>
 <body>
-<div id="trash" class="oculto"></div>
 {{-- {{debugbar()->info($datos[0]->id)}} --}}
 
     <div id="app">
@@ -52,14 +51,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 // https://www.youtube.com/watch?v=8RL584c7EsI
-@vite('resources/js/app.js')
-<script>
-setTimeout(() => {
-    window.Echo.channel('Actualizacion_evento').
-    listen(".App\\Events\\ActualizacionEvento",(e)=>{
-        actualizar_datos()
-    })
-}, 200);
-</script>
+
+// @vite('resources/js/app.js')
+// <script>
+// setTimeout(() => {
+//     try {
+
+//         window.Echo.channel('Actualizacion_evento').
+//         listen(".App\\Events\\ActualizacionEvento",(e)=>{
+//             actualizar_datos()
+//         })
+//     } catch (error) {
+//         actualizar_datos()
+//     }
+// }, 5000);
+// </script>
 
 </html>

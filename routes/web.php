@@ -92,4 +92,5 @@ Route::middleware('auth')->group(function () {
 //modificar y eliminar eventos
 //filtrado para unirte a eventos
 
-//arreglar ip en otro ordenador
+//arreglar ip en otro ordenador para websocket y crear evento
+//https
