@@ -227,7 +227,7 @@ cargarMapaClass=()=>{
                         terminar()
                     },
                     ()=>{
-                        alert("geolocalizacion desactivada")
+                        console.log("geolocalizacion desactivada")
                         terminar()
                     }
                 )
@@ -386,7 +386,7 @@ async function actualizar_datos(){
             datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
         })
         data.forEach(function(ele){
-            if(ele.id in Object.keys(MapaGoogleObject.marcadores)){
+            if(Object.keys(MapaGoogleObject.marcadores).includes(String(ele.id))){
                 Object.keys(ele).forEach(function(key){
                     if(key == "fecha"){
                         MapaGoogleObject.marcadores[ele.id].evento["fecha"] = new Date(ele["fecha"])
@@ -397,6 +397,7 @@ async function actualizar_datos(){
                 return
             }
             div = document.createElement("div")
+
             fecha = new Date(ele.fecha)
 
 
