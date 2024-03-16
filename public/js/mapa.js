@@ -73,12 +73,39 @@ cargarMapaClass=()=>{
             this.buttonObtenerUbicacion.classList.add("custom-map-control-button");
             this.mapa.controls[google.maps.ControlPosition.TOP_CENTER].push(this.buttonObtenerUbicacion);
             this.estaObteniendoUbicacion=false
-
-            // Wait for the map to be fully loaded before accessing its properties
-
             this.buttonObtenerUbicacion.addEventListener("click", this.obtenerUbicacion.bind(this));
+
+            //menu contextual
+            this.mapa.addListener("rightclick",(event)=>{
+                this.crearMenuContextual(event.latLng.lat(),event.latLng.lng())
+            })
+
         }
         // "evento" para que el usuario coja la ubicacion para la creacion de eventos
+        crearMenuContextual(latitud,longitud){
+            let div = document.createElement("div")
+            let boton = document.createElement("button")
+            boton.innerHTML = "ubicar aqui"
+            boton.style.width = "100%"
+            div.appendChild(boton)
+            div.style.backgroundColor = "white"
+            div.style.position = "relative"
+            div.style.top = "-15px"
+            div.style.left = "-10px"
+            let popup = new PopupClass(new google.maps.LatLng(Number(latitud), Number(longitud)), div, false);
+            popup.setMap(this.mapa)
+
+            div.addEventListener("mouseleave",()=>{popup.remove();div.remove()})
+            div.addEventListener("click",()=>{popup.remove();div.remove()})
+
+            div.onclick = ()=>{
+                let ubicacion = new google.maps.LatLng(Number(latitud), Number(longitud))
+                this.mapa.setCenter(ubicacion)
+                geoposicionUsuario= {lat: latitud, lng:longitud}
+                actualizar_datos()
+            }
+        }
+
         obtenerUbicacion(){
             if(this.estaObteniendoUbicacion){return} //evita que actives dos veces lo mismo
             this.estaObteniendoUbicacion=true
@@ -161,26 +188,6 @@ cargarMapaClass=()=>{
             return [location.lat(), location.lng()];
         }
 
-        // addMarker(lat, lng, nombre, titutlo_hover, icono = null) {
-        //     const marker = new AdvancedMarkerViewClass({
-        //         map: this.mapa,
-        //         position: {
-        //             lat: lat,
-        //             lng: lng
-        //         },
-        //         title: titutlo_hover,
-        //         label: nombre,
-        //         icon: icono,
-        //     });
-        // }
-
-        // //oculta los marcadores y los elimina
-        // removeMarkers(){
-        //     this.marcadores.forEach(function(ele){
-        //         ele.setMap(null)
-        //     })
-        //     this.marcadores = {}
-        // }
 
         //crea un objeto evento, le asocia un objeto popup con un div pasado como parametro
         addCustomMarker(lat, lng, div, id, eventoObject) {
@@ -266,14 +273,14 @@ cargarPopupClass = () => {
     return class PopupClass extends google.maps.OverlayView {
         position;
         containerDiv;
-        constructor(position, element) {
+        constructor(position, element, hacerAnchor = true) {
             super();
             this.position = {lat:position.lat(),lng:position.lng()};
             element.classList.add("popup-bubble");
 
             // decorador de la burbuja (triangulo de abajo)
             const bubbleAnchor = document.createElement("div");
-            bubbleAnchor.classList.add("popup-bubble-anchor");
+            hacerAnchor?bubbleAnchor.classList.add("popup-bubble-anchor"):null;
             bubbleAnchor.appendChild(element);
             // contenedor del popup
             this.containerDiv = document.createElement("div");
@@ -414,15 +421,14 @@ async function actualizar_datos(){
         // })
         // modifica el var datos con los nuevos datos y crea su objeto fecha
         data.forEach(function(datos){
-
             let eventoDatos = datos
             eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
             eventoDatos.fecha = new Date(datos["fecha"])
 
             //si ya existia el evento, lo actualiza
             if(Object.keys(MapaGoogleObject.marcadores).includes(String(datos.id))){
-                Object.keys(datos).forEach(function(key){
-                    MapaGoogleObject.marcadores[datos.id].evento[key] = eventoDatos[key]
+                Object.keys(eventoDatos).forEach(function(atributo){
+                    MapaGoogleObject.marcadores[eventoDatos.id].evento[atributo] = eventoDatos[atributo]
                 })
                 return
             }
@@ -480,6 +486,7 @@ async function actualizar_datos(){
         Object.keys(MapaGoogleObject.marcadores).forEach(function(indiceMarcador){
             if(!indiceDatosActivo.includes(Number(indiceMarcador))){
                 MapaGoogleObject.marcadores[indiceMarcador].popup.remove()
+                buscarEventoSectionAppObject.vaciarEventosVisibles()
                 delete(MapaGoogleObject.marcadores[indiceMarcador])
                 // delete(datos[index])
             }
