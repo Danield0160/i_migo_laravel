@@ -76,7 +76,7 @@ cargarMapaClass=()=>{
             this.buttonObtenerUbicacion.addEventListener("click", this.obtenerUbicacion.bind(this));
 
             //menu contextual
-            this.mapa.addListener("rightclick",(event)=>{
+            this.mapa.addListener("contextmenu",(event)=>{
                 this.crearMenuContextual(event.latLng.lat(),event.latLng.lng())
             })
 
