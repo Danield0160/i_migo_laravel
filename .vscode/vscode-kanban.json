@@ -125,12 +125,11 @@
       "category": "Daniel"
     }
   ],
-  "testing": [],
-  "done": [
+  "testing": [
     {
       "creation_time": "2024-03-15T21:35:56.582Z",
       "description": {
-        "content": "Hacer que al clickar en el mapa con el click derecho, aparezca un menu para que te ubique ahí",
+        "content": "Hacer que al clickar en el mapa con el click derecho, aparezca un menu para que te ubique ahí,\nfalta que se quite con el tiempo",
         "mime": "text/markdown"
       },
       "id": "6",
@@ -138,5 +137,6 @@
       "title": "click derecho mapa",
       "category": "Daniel"
     }
-  ]
+  ],
+  "done": []
 }
