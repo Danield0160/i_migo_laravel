@@ -116,17 +116,16 @@
       "title": "Terminar el showEventDetails"
     }
   ],
-  "in-progress": [
+  "in-progress": [],
+  "testing": [],
+  "done": [
     {
       "creation_time": "2024-03-16T18:55:48.108Z",
       "id": "13",
       "references": [],
       "title": "animacion entrada y salida de popups en el mapa",
       "category": "Daniel"
-    }
-  ],
-  "testing": [],
-  "done": [
+    },
     {
       "creation_time": "2024-03-15T21:35:56.582Z",
       "description": {
@@ -135,7 +134,7 @@
       },
       "id": "6",
       "references": [],
-      "title": "click derecho mapa",
+      "title": "click derecho mapa, menu contextual",
       "category": "Daniel"
     }
   ]
