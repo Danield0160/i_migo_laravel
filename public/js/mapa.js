@@ -95,8 +95,10 @@ cargarMapaClass=()=>{
             let popup = new PopupClass(new google.maps.LatLng(Number(latitud), Number(longitud)), div, false);
             popup.setMap(this.mapa)
 
-            div.addEventListener("mouseleave",()=>{popup.remove();div.remove()})
-            div.addEventListener("click",()=>{popup.remove();div.remove()})
+            function quitar(){popup.remove();div.remove()}
+            div.addEventListener("mouseleave",quitar)
+            div.addEventListener("click",quitar)
+            setTimeout(quitar,1500)
 
             div.onclick = ()=>{
                 let ubicacion = new google.maps.LatLng(Number(latitud), Number(longitud))
