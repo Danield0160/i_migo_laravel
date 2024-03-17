@@ -295,12 +295,20 @@ cargarPopupClass = () => {
         }
         /** Called when the popup is added to the map. */
         onAdd() {
+            this.containerDiv.style.opacity = 0
+            this.containerDiv.children[0].style.top = "-20px"
+
             this.getPanes().floatPane.appendChild(this.containerDiv);
+            $(this.containerDiv).animate({opacity:1},300)
+            $(this.containerDiv.children[0]).animate({top:0},300)
         }
         /** Called when the popup is removed from the map. */
         onRemove() {
             if (this.containerDiv.parentElement) {
-                this.containerDiv.parentElement.removeChild(this.containerDiv);
+                $(this.containerDiv.children[0]).animate({top:"-20px"},300)
+                $(this.containerDiv).animate({opacity:0},300,function(){
+                    this.containerDiv.parentElement.removeChild(this.containerDiv);
+                }.bind(this))
             }
         }
         /** Called each frame when the popup needs to draw itself. */
