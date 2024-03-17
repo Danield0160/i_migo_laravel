@@ -1,12 +1,6 @@
 {
   "todo": [
     {
-      "creation_time": "2024-03-16T18:55:48.108Z",
-      "id": "13",
-      "references": [],
-      "title": "animacion entrada y salida de popups en el mapa"
-    },
-    {
       "creation_time": "2024-03-15T21:19:06.987Z",
       "description": {
         "content": "Poner en el mapa un boton, con el icono de un ojo (y que cambie a un ojo tachado, o algo asi) que sirva para ocultar los eventos (la visibilidad de los eventos priorizara este boton (testear con el \"obtener ubicacion\" que tembien oculta y hace visible los",
@@ -124,6 +118,16 @@
   ],
   "in-progress": [
     {
+      "creation_time": "2024-03-16T18:55:48.108Z",
+      "id": "13",
+      "references": [],
+      "title": "animacion entrada y salida de popups en el mapa",
+      "category": "Daniel"
+    }
+  ],
+  "testing": [],
+  "done": [
+    {
       "creation_time": "2024-03-15T21:35:56.582Z",
       "description": {
         "content": "Hacer que al clickar en el mapa con el click derecho, aparezca un menu para que te ubique ahí",
@@ -134,7 +138,5 @@
       "title": "click derecho mapa",
       "category": "Daniel"
     }
-  ],
-  "testing": [],
-  "done": []
+  ]
 }
