@@ -149,6 +149,9 @@ function buscarEventoSectionApp(template){
             vaciarEventosVisibles(){
                 this.eventosVisibles=[]
             },
+            quitarEventoVisible(id){
+                this.eventosVisibles.splice(this.eventosVisibles.indexOf(id),1)
+            },
             mostrar(index){
                 showEventAppObject.showEventDetails(index)
             },

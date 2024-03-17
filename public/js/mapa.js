@@ -492,18 +492,17 @@ async function actualizar_datos(){
         })
 
         //eliminar eventos que ya no existen en el mapa
-        let indiceDatosActivo = data.map((dato)=>dato.id)
+        let indicesDatosActivo = data.map((dato)=>dato.id)
         Object.keys(MapaGoogleObject.marcadores).forEach(function(indiceMarcador){
-            if(!indiceDatosActivo.includes(Number(indiceMarcador))){
+            if(!indicesDatosActivo.includes(Number(indiceMarcador))){
                 MapaGoogleObject.marcadores[indiceMarcador].popup.remove()
-                buscarEventoSectionAppObject.vaciarEventosVisibles()
+                buscarEventoSectionAppObject.quitarEventoVisible(indiceMarcador)
                 delete(MapaGoogleObject.marcadores[indiceMarcador])
-                // delete(datos[index])
             }
         })
 
-        setTimeout(actualizar_listado_popus_visibles,150)
     })
+    setTimeout(actualizar_listado_popus_visibles,350)
 }
 
 // envia los datos para la creacion del evento
