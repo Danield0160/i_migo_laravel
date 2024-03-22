@@ -14,7 +14,11 @@
       "creation_time": "2024-03-15T21:45:06.500Z",
       "id": "11",
       "references": [],
-      "title": "Chats"
+      "title": "Chats",
+      "description": {
+        "content": "Sistema de chats",
+        "mime": "text/markdown"
+      }
     },
     {
       "creation_time": "2024-03-16T18:58:16.706Z",
