@@ -1,14 +1,58 @@
 {
+  "alberto": [],
   "todo": [
+    {
+      "creation_time": "2024-03-15T21:13:51.332Z",
+      "description": {
+        "content": "Al ir introduciendo caracteres debera de ir filtrando segun nombre y descripcion",
+        "mime": "text/markdown"
+      },
+      "id": "1",
+      "references": [],
+      "title": "Filtrado de la lista de eventos de \"Buscar eventos\"",
+      "category": "Alberto",
+      "prio": 0,
+      "type": "emergency"
+    },
+    {
+      "creation_time": "2024-03-23T17:12:33.281Z",
+      "description": {
+        "content": "Modifica la pagina del login (dale un estilo mas acorde), y haz que cuando te registres se envie por un email un enlance que tendras que clickar para activar la cuenta",
+        "mime": "text/markdown"
+      },
+      "id": "15",
+      "references": [],
+      "title": "Sistema de autentificacion por email",
+      "category": "Alberto",
+      "type": "emergency"
+    },
+    {
+      "creation_time": "2024-03-15T21:44:38.378Z",
+      "description": {
+        "content": "Rehacerlo (Por el codigo estara comentado o en algun fichero el antihuo show event details)",
+        "mime": "text/markdown"
+      },
+      "id": "10",
+      "references": [],
+      "title": "Terminar el showEventDetails",
+      "type": "emergency",
+      "category": "Alberto"
+    },
     {
       "creation_time": "2024-03-15T21:19:06.987Z",
       "description": {
-        "content": "Poner en el mapa un boton, con el icono de un ojo (y que cambie a un ojo tachado, o algo asi) que sirva para ocultar los eventos (la visibilidad de los eventos priorizara este boton (testear con el \"obtener ubicacion\" que tembien oculta y hace visible los",
+        "content": "Clickar y mirar en \"Details\" para mas info",
         "mime": "text/markdown"
       },
       "id": "2",
       "references": [],
-      "title": "Boton para ocultar eventos"
+      "title": "Boton para ocultar eventos",
+      "details": {
+        "content": "Poner en el mapa un boton, con el icono de un ojo (y que cambie a un ojo tachado, o algo asi) que sirva para ocultar los eventos (la visibilidad de los eventos priorizara este boton (testear con el \"obtener ubicacion\" que tembien oculta y hace visible los eventos, al crear un evento su visibilidad se basara en el estado de ese boton",
+        "mime": "text/markdown"
+      },
+      "type": "emergency",
+      "category": "Alberto"
     },
     {
       "creation_time": "2024-03-15T21:45:06.500Z",
@@ -29,16 +73,6 @@
       "id": "14",
       "references": [],
       "title": "estructuracion del menu, y hacer submenu"
-    },
-    {
-      "creation_time": "2024-03-15T21:13:51.332Z",
-      "description": {
-        "content": "Al ir introduciendo caracteres debera de ir filtrando segun nombre y descripcion",
-        "mime": "text/markdown"
-      },
-      "id": "1",
-      "references": [],
-      "title": "Filtrado de la lista de eventos de \"Buscar eventos\""
     },
     {
       "creation_time": "2024-03-15T21:40:27.980Z",
@@ -108,29 +142,6 @@
       "id": "4",
       "references": [],
       "title": "subpestaña de \"mis eventos\", \"eventos unidos\""
-    },
-    {
-      "creation_time": "2024-03-15T21:44:38.378Z",
-      "description": {
-        "content": "Rehacerlo",
-        "mime": "text/markdown"
-      },
-      "id": "10",
-      "references": [],
-      "title": "Terminar el showEventDetails"
-    },
-    {
-      "assignedTo": {
-        "name": "Daniel Rosales"
-      },
-      "creation_time": "2024-03-23T17:12:33.281Z",
-      "description": {
-        "content": "cuando te registres se enviara por un email un enlance que tendras que clickar para activar la cuenta",
-        "mime": "text/markdown"
-      },
-      "id": "15",
-      "references": [],
-      "title": "Sistema de autentificacion por email"
     }
   ],
   "in-progress": [],
