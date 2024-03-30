@@ -2,6 +2,22 @@
   "alberto": [],
   "todo": [
     {
+      "creation_time": "2024-03-15T21:19:06.987Z",
+      "description": {
+        "content": "Clickar y mirar en \"Details\" para mas info",
+        "mime": "text/markdown"
+      },
+      "id": "2",
+      "references": [],
+      "title": "Boton para ocultar eventos",
+      "details": {
+        "content": "Poner en el mapa un boton, con el icono de un ojo (y que cambie a un ojo tachado, o algo asi) que sirva para ocultar los eventos (la visibilidad de los eventos priorizara este boton (testear con el \"obtener ubicacion\" que tembien oculta y hace visible los eventos, al crear un evento su visibilidad se basara en el estado de ese boton",
+        "mime": "text/markdown"
+      },
+      "type": "emergency",
+      "category": "Alberto"
+    },
+    {
       "creation_time": "2024-03-15T21:13:51.332Z",
       "description": {
         "content": "Al ir introduciendo caracteres debera de ir filtrando segun nombre y descripcion",
@@ -39,22 +55,6 @@
       "category": "Alberto"
     },
     {
-      "creation_time": "2024-03-15T21:19:06.987Z",
-      "description": {
-        "content": "Clickar y mirar en \"Details\" para mas info",
-        "mime": "text/markdown"
-      },
-      "id": "2",
-      "references": [],
-      "title": "Boton para ocultar eventos",
-      "details": {
-        "content": "Poner en el mapa un boton, con el icono de un ojo (y que cambie a un ojo tachado, o algo asi) que sirva para ocultar los eventos (la visibilidad de los eventos priorizara este boton (testear con el \"obtener ubicacion\" que tembien oculta y hace visible los eventos, al crear un evento su visibilidad se basara en el estado de ese boton",
-        "mime": "text/markdown"
-      },
-      "type": "emergency",
-      "category": "Alberto"
-    },
-    {
       "creation_time": "2024-03-15T21:45:06.500Z",
       "id": "11",
       "references": [],
@@ -67,7 +67,7 @@
     {
       "creation_time": "2024-03-16T18:58:16.706Z",
       "description": {
-        "content": "Social -> amigos/chats\nMis eventos-> eventos unidos / Eventos creados\nBuscar eventos\n\nPerfil (estara abajo, se mostrara como otra pestaña mas para version movil)",
+        "content": "*Social -> amigos / chats\n*Mis eventos-> eventos unidos / Eventos creados(+ crear evento)\n*Buscar eventos\n\n*Perfil (estara abajo, se mostrara como otra pestaña mas para version movil)",
         "mime": "text/markdown"
       },
       "id": "14",
@@ -144,7 +144,36 @@
       "title": "subpestaña de \"mis eventos\", \"eventos unidos\""
     }
   ],
-  "in-progress": [],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "category": "Daniel",
+      "creation_time": "2024-03-30T23:24:46.208Z",
+      "description": {
+        "content": "Creacion de api de tags disponibles, asignacion de tags en \"crear evento\", tabla intermedia bbdd N-M, vista del tag del evento en las 3 o 2 popups ",
+        "mime": "text/markdown"
+      },
+      "id": "16",
+      "references": [],
+      "title": "Sistema de Tags"
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "category": "Daniel",
+      "creation_time": "2024-03-30T23:31:54.552Z",
+      "description": {
+        "content": "Hacer que alguas opciones solo esten visibles si estas logueado (como crear evento) y si no lo estas, que salga un boton para loguearte.\nAsegurar que todo funcione solo si estas logueado",
+        "mime": "text/markdown"
+      },
+      "id": "17",
+      "references": [],
+      "title": "Terminar \"estar logueado\""
+    }
+  ],
   "testing": [],
   "done": [
     {
