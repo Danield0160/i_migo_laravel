@@ -85,16 +85,6 @@
       "title": "Google maps marker cluster"
     },
     {
-      "creation_time": "2024-03-15T21:43:44.685Z",
-      "description": {
-        "content": "Hacer que en el lateral izquierdo, abajo haya un div que tendra la opcion de log out, modificar perfil (funcionara parecido a crear evento), en el div aparecera una foto de perfil, el nombre, y su id ",
-        "mime": "text/markdown"
-      },
-      "id": "9",
-      "references": [],
-      "title": "Hacer perfil"
-    },
-    {
       "creation_time": "2024-03-15T21:39:50.173Z",
       "description": {
         "content": "Hacer que el boton este en el lateral izquiero, que al pulsarlo te ponga en el boton \"haz click en el mapa\" y que cuando elijas ubicacion, se ponga en verde (o que salga un mapa pequeño en el lateral izquierdo con un marcador en esa ubicacion)",
@@ -145,6 +135,17 @@
     }
   ],
   "in-progress": [
+    {
+      "creation_time": "2024-03-15T21:43:44.685Z",
+      "description": {
+        "content": "Hacer que en el lateral izquierdo, abajo haya un div que tendra la opcion de log out, modificar perfil (funcionara parecido a crear evento), en el div aparecera una foto de perfil, el nombre, y su id ",
+        "mime": "text/markdown"
+      },
+      "id": "9",
+      "references": [],
+      "title": "Hacer perfil",
+      "category": "Daniel"
+    },
     {
       "assignedTo": {
         "name": "Daniel Rosales"
