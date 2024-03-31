@@ -173,6 +173,16 @@
       "id": "17",
       "references": [],
       "title": "Terminar \"estar logueado\""
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "category": "Daniel",
+      "creation_time": "2024-03-31T22:13:57.831Z",
+      "id": "18",
+      "references": [],
+      "title": "Arreglar ordenamiento por distancia en buscar evento"
     }
   ],
   "testing": [],
