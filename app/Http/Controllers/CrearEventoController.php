@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\MapaController;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Event_tag;
 use Illuminate\Support\Facades\Storage;
 
 use App\Events\ActualizacionEvento;
@@ -25,6 +26,7 @@ class CrearEventoController extends Controller
 
 
     public function crearEvento(Request $request){
+
         $nombre = $request->input("name");
         $desc = $request->input("descripcion");
         $limite = $request->input("limite");
@@ -39,7 +41,6 @@ class CrearEventoController extends Controller
 
         $imageName?null:$imageName="logo.png";
 
-
         $evento = new Event;
         $evento->id_creador = auth()->id();
         $evento->nombre = $nombre;
@@ -52,7 +53,17 @@ class CrearEventoController extends Controller
         $evento->patrocinado = $patrocinado;
         $evento->save();
 
-        $mapa = new MapaController();
+
+        if($request->get("tags")){
+            foreach (explode(",",$request->get("tags")) as $key => $value) {
+                $evento_tag = new Event_tag;
+                $evento_tag->id_evento = $evento->id;
+                $evento_tag->id_tag = $value;
+                $evento_tag->save();
+            }
+        }
+
+        // $mapa = new MapaController();
 
         event(new ActualizacionEvento);
 

@@ -95,7 +95,10 @@ function crearEventoSectionApp(template){
                 MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
             }
             ocultarBoton()
-            return {activo:false};
+            return {
+                activo:false,
+                tags: {}
+            };
         },
         template:template,
         methods:{
@@ -115,6 +118,13 @@ function crearEventoSectionApp(template){
         }
     })
     crearEventoSectionAppObject = EventoSectionApp.mount("#crearEventoSection")
+    $.get("./api/AllTags",function(raw_data){
+        data ={}
+        raw_data.forEach(dato => {
+            data[dato.id] = {categoria:dato.categoria,id:dato.id}
+        });
+        crearEventoSectionAppObject.tags = data
+    })
 }
 
 var buscarEventoSectionAppObject;
@@ -139,8 +149,8 @@ function buscarEventoSectionApp(template){
             addEventoVisible(id){
                 this.eventosVisibles.push(id)
                 this.eventosVisibles.sort((a,b)=>{
-                    let dist_a = this.eventos[a].distancia
-                    let dist_b = this.eventos[b].distancia
+                    let dist_a = this.eventos[a].evento.distancia
+                    let dist_b = this.eventos[b].evento.distancia
                     if (dist_a<dist_b){return -1}
                     if (dist_a>dist_b){return 1}
                     else{return 0}

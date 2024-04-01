@@ -65,6 +65,15 @@
       }
     },
     {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-01T12:32:02.089Z",
+      "id": "19",
+      "references": [],
+      "title": "Css tags"
+    },
+    {
       "creation_time": "2024-03-16T18:58:16.706Z",
       "description": {
         "content": "*Social -> amigos / chats\n*Mis eventos-> eventos unidos / Eventos creados(+ crear evento)\n*Buscar eventos\n\n*Perfil (estara abajo, se mostrara como otra pestaña mas para version movil)",
@@ -132,6 +141,19 @@
       "id": "4",
       "references": [],
       "title": "subpestaña de \"mis eventos\", \"eventos unidos\""
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-01T12:35:16.195Z",
+      "description": {
+        "content": "regex, comprobaciones, que limpie si se manda y es correcto, que se mantenga si es fallido y te lo diga",
+        "mime": "text/markdown"
+      },
+      "id": "20",
+      "references": [],
+      "title": "Mejora del formulario crear evento"
     }
   ],
   "in-progress": [
@@ -151,20 +173,6 @@
         "name": "Daniel Rosales"
       },
       "category": "Daniel",
-      "creation_time": "2024-03-30T23:24:46.208Z",
-      "description": {
-        "content": "Creacion de api de tags disponibles, asignacion de tags en \"crear evento\", tabla intermedia bbdd N-M, vista del tag del evento en las 3 o 2 popups ",
-        "mime": "text/markdown"
-      },
-      "id": "16",
-      "references": [],
-      "title": "Sistema de Tags"
-    },
-    {
-      "assignedTo": {
-        "name": "Daniel Rosales"
-      },
-      "category": "Daniel",
       "creation_time": "2024-03-30T23:31:54.552Z",
       "description": {
         "content": "Hacer que alguas opciones solo esten visibles si estas logueado (como crear evento) y si no lo estas, que salga un boton para loguearte.\nAsegurar que todo funcione solo si estas logueado",
@@ -173,16 +181,6 @@
       "id": "17",
       "references": [],
       "title": "Terminar \"estar logueado\""
-    },
-    {
-      "assignedTo": {
-        "name": "Daniel Rosales"
-      },
-      "category": "Daniel",
-      "creation_time": "2024-03-31T22:13:57.831Z",
-      "id": "18",
-      "references": [],
-      "title": "Arreglar ordenamiento por distancia en buscar evento"
     }
   ],
   "testing": [],
@@ -195,6 +193,16 @@
       "category": "Daniel"
     },
     {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "category": "Daniel",
+      "creation_time": "2024-03-31T22:13:57.831Z",
+      "id": "18",
+      "references": [],
+      "title": "Arreglar ordenamiento por distancia en buscar evento"
+    },
+    {
       "creation_time": "2024-03-15T21:35:56.582Z",
       "description": {
         "content": "Hacer que al clickar en el mapa con el click derecho, aparezca un menu para que te ubique ahí",
@@ -204,6 +212,24 @@
       "references": [],
       "title": "click derecho mapa, menu contextual",
       "category": "Daniel"
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "category": "Daniel",
+      "creation_time": "2024-03-30T23:24:46.208Z",
+      "description": {
+        "content": "Creacion de api de tags disponibles, asignacion de tags en \"crear evento\", tabla intermedia bbdd N-M, vista del tag del evento",
+        "mime": "text/markdown"
+      },
+      "id": "16",
+      "references": [],
+      "title": "Sistema de Tags",
+      "details": {
+        "content": "Creacion de api de tags disponibles, hecho\nasignacion de tags en \"crear evento\", hecho\nbbdd, hecho\naceptacion del form, hecho\nvista del tag del evento, hecho",
+        "mime": "text/markdown"
+      }
     }
   ]
 }

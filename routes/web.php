@@ -4,6 +4,7 @@ use App\Http\Controllers\ActualizacionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MapaController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\CrearEventoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BuscarEventoController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\BuscarEventoController;
 
 Route::get('/', function () {return redirect('index');});
 Route::get('/index', function () {return view('index');})->name("index");
+Route::get("/app",function(){return view("app");})->name("app");
 
 // Route::get("/crearEvento/lat:{latitud}_lng:{longitud}_dst:{distancia}",[CrearEventoController::class,"index"]);
 // Route::get("/crearEvento/",[CrearEventoController::class,"index"])->name("crearEvento");
@@ -30,11 +32,14 @@ Route::get('/index', function () {return view('index');})->name("index");
 
 
 
-
-Route::get("/app",function(){return view("app");})->name("app");
-Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
-Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
 Route::post("/crearEvento",[CrearEventoController::class,"crearEvento"])->name("crea");
+
+Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
+Route::get("/api/AllTags",[TagController::class,"obtener_todos"]);
+Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
+
+
+
 
 Route::get("mensaje",[ActualizacionController::class,"mensaje"]);
 
@@ -53,6 +58,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+
 
 
 ////TODO:

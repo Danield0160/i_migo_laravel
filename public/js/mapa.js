@@ -423,17 +423,13 @@ function actualizar_listado_popus_visibles(){
 //lamada a la api con la posicion del mapa, y la distancia para conseguir los eventos cercanos
 async function actualizar_datos(){
     await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
-        // modifica el var datos con los nuevos datos y calcula la distancia
-        //TODO: quitar? reestructurar para que "datos" sea por GoogleMapObject
-        // data.forEach(function(ele){
-        //     datos[ele.id] = ele
-        //     datos[ele.id].distancia = getDistanceFromLatLonInKm(datos[ele.id].lat,datos[ele.id].lng,geoposicionUsuario.lat,geoposicionUsuario.lng)
-        // })
-        // modifica el var datos con los nuevos datos y crea su objeto fecha
         data.forEach(function(datos){
             let eventoDatos = datos
             eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
             eventoDatos.fecha = new Date(datos["fecha"])
+
+            console.log(datos.tags)
+            eventoDatos.tags = datos["tags"].split(",").map((x)=>crearEventoSectionAppObject.tags[x].categoria) //TODO: hacer variable global TAGS
 
             //si ya existia el evento, lo actualiza
             if(Object.keys(MapaGoogleObject.marcadores).includes(String(datos.id))){
@@ -508,6 +504,16 @@ async function actualizar_datos(){
 // envia los datos para la creacion del evento
 async function enviar_datos_crear_evento(){
     let formData = new FormData($("#formulario_crear")[0])
+    var boxes = document.getElementsByClassName('checkbox_create_event_tag');
+    var checked = [];
+    for (var i = 0; boxes[i]; ++i) {
+        if (boxes[i].checked) {
+            checked.push(boxes[i].value);
+            boxes[i].checked = false
+        }
+    }
+    formData.append("tags",checked)
+
     $.ajax({
         type:'POST',
         url: "/crearEvento",

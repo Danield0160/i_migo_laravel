@@ -20,6 +20,8 @@ class MapaController extends Controller
         //     debugbar()->info($value->nombre,$value->distancia);
         // }
 
-        return Event::obtenerEventosCercanos($lat,$lng,$dist);
+        $nearEvents = Event::obtenerEventosCercanos($lat,$lng,$dist);
+
+        return $nearEvents;
     }
 };

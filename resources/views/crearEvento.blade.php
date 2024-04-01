@@ -48,6 +48,20 @@
         <input name="imagen" id="imagen" type="file" class="form-control-file @error('imagen') is-invalid @enderror">
     </div>
 
+
+    <details>
+        <summary>Tags</summary>
+        <fieldset name="tags" id="tags" style="overflow: scroll; height:155px" >
+            <div v-for="tag in tags">
+                <label>@{{tag.categoria}}
+                    <input type="checkbox" :value="tag.id" class="checkbox_create_event_tag"/>
+                </label>
+            </div>
+        </fieldset>
+    </details>
+
+
+
     <button onclick="enviar_datos_crear_evento()" class="btn btn-primary mt-2">Enviar</button>
 
 </div>
