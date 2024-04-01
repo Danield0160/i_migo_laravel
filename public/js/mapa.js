@@ -428,7 +428,6 @@ async function actualizar_datos(){
             eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
             eventoDatos.fecha = new Date(datos["fecha"])
 
-            console.log(datos.tags)
             eventoDatos.tags = datos["tags"].split(",").map((x)=>crearEventoSectionAppObject.tags[x].categoria) //TODO: hacer variable global TAGS
 
             //si ya existia el evento, lo actualiza
