@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
             "password"=>password_hash("Csas1234",PASSWORD_BCRYPT),
             "fecha_nacimiento"=>"2001/03/05",
             "premiun"=>true,
-            "redes"=>"www.twitter.com;www.facebook.com"
+            "redes"=>"www.twitter.com;www.facebook.com",
+            "profile_photo_id"=>1
         ]);
         DB::table("users")->insert([
             "name"=>"usuario",
@@ -27,7 +28,8 @@ class UserSeeder extends Seeder
             "password"=>password_hash("Csas1234",PASSWORD_BCRYPT),
             "fecha_nacimiento"=>"2001/03/05",
             "premiun"=>false,
-            "redes"=>null
+            "redes"=>null,
+            "profile_photo_id"=>2
         ]);
     }
 }

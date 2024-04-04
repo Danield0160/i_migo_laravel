@@ -2,6 +2,7 @@
 #lateral-izq{
     display: inline-block;
     width: 33%;
+    position: relative;
 }
 #lateral-der{
     width: 100%;
@@ -205,6 +206,7 @@ i {
 	}
 }
 
+/* animacion vue popups entrada y salida */
 .list-enter-active,
 .list-leave-active {
     transition: all 0.5s ease;
@@ -215,3 +217,74 @@ i {
     transform: translateX(30px);
 }
 
+
+/* perfil */
+#footer_profile{
+    background-color: rgb(136, 104, 104);
+    display: block;
+}
+
+#footer_profile>.image{
+    margin: auto;
+    background-color: aqua;
+    border-radius: 50%;
+    width: min-content;
+    overflow: hidden;
+
+}
+#footer_profile img{
+    width: 150px;
+    height: 150px;
+    vertical-align: middle;
+}
+
+
+#footer_profile>.logout{
+    background-color: rgb(189, 221, 189);
+    position: absolute;
+    right: 0;
+}
+
+#footer_profile .name{
+    background-color: beige;
+    margin: 0;
+    font-weight: bold;
+    font-size: large;
+}
+#footer_profile .id{
+    background-color: rgb(146, 146, 243);
+    margin: 0;
+
+}
+/* boton para subir imagenes */
+#choose_imagen_nueva{
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    background-color: white;
+    font-size: xx-large;
+    font-weight: bold;
+    text-align: center;
+}
+#file_upload{
+    display: none;
+}
+#listado_imagenes{
+    overflow: scroll;
+    height: 250px;
+}
+#listado_imagenes img{
+    width: 100%;
+}
+#preview img{
+    height: 50px;
+}
+
+
+
+
+
+
+.phpdebugbar-minimized{
+    opacity: .3;
+}

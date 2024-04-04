@@ -42,11 +42,16 @@
         <label class="form-check-label" for="patrocinado">Patrocinio</label>
     </div>
 
-    <div class="form-group mt-2">
+    {{-- <div class="form-group mt-2">
         <label for="imagen">Imagen</label>
         <br>
         <input name="imagen" id="imagen" type="file" class="form-control-file @error('imagen') is-invalid @enderror">
-    </div>
+    </div> --}}
+
+    <div id="choose_image_event"></div>
+    <input type="text" name="imagen" id="imagen_id" style="display: none">
+
+
 
 
     <details>
@@ -62,7 +67,7 @@
 
 
 
-    <button onclick="enviar_datos_crear_evento()" class="btn btn-primary mt-2">Enviar</button>
+    <button @click="enviar_datos_crear_evento()" class="btn btn-primary mt-2">Enviar</button>
 
 </div>
 </form>

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><script>const { createApp, ref } = Vue</script>
+    <script>SELECTOR_IMAGENES_TEMPLATE = ` @include("partials.selector_imagenes") `</script>
     <title>Document</title>
 </head>
 <body>
@@ -28,14 +29,14 @@
             </div>
 
             <div id="cuerpo_app">
+                <div id="perfilSection"></div>
                 <div id="crearEventoSection"></div>
-                <hr>
                 <div id="buscarEventoSection"></div>
                 <div></div>
             </div>
 
             <div id="footer_app">
-                @include("partials.footer_navbar_app")
+
             </div>
         </div>
 
@@ -47,6 +48,7 @@
     <script src="{{asset('js/menu_lateral.js')}}"></script>
     <script>crearEventoSectionApp(`@include('crearEvento')`)</script>
     <script>buscarEventoSectionApp(` @include('buscarEvento') `)</script>
+    <script>crearProfileSectionApp(` @include("partials.footer_profile_app") `)</script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 

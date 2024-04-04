@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //
         Schema::table('users', function (Blueprint $table) {
-            $table->date("fecha_nacimiento")->nullable();
-            $table->boolean("premiun")->default(false);
-            $table->string("redes")->nullable();
 
-
+            $table->bigInteger("profile_photo_id")->nullable();
+            // $table->foreignId("profile_photo_id")->references("id")->on("photos")->onDelete("cascade");
         });
     }
 
@@ -25,7 +24,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+
+        Schema::dropColumns("users",['profile_photo_id']);
+
 
     }
 };

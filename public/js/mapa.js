@@ -65,7 +65,7 @@ cargarMapaClass=()=>{
             this.autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
             google.maps.event.addListener(this.autocompletado_input,"places_changed",()=>this.cambiarLugar())
 
-            setTimeout(()=>actualizar_listado_popus_visibles(),800)
+            setTimeout(()=>actualizar_listado_popus_visibles(),1800)
 
 
             this.buttonObtenerUbicacion = document.createElement("button");
@@ -428,7 +428,9 @@ async function actualizar_datos(){
             eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
             eventoDatos.fecha = new Date(datos["fecha"])
 
-            eventoDatos.tags = datos["tags"].split(",").map((x)=>crearEventoSectionAppObject.tags[x].categoria) //TODO: hacer variable global TAGS
+            if(datos.tags){
+                eventoDatos.tags = datos["tags"].split(",").map((x)=>TAGS[x].categoria) //TODO: hacer variable global TAGS
+            }
 
             //si ya existia el evento, lo actualiza
             if(Object.keys(MapaGoogleObject.marcadores).includes(String(datos.id))){
@@ -500,38 +502,5 @@ async function actualizar_datos(){
     setTimeout(actualizar_listado_popus_visibles,350)
 }
 
-// envia los datos para la creacion del evento
-async function enviar_datos_crear_evento(){
-    let formData = new FormData($("#formulario_crear")[0])
-    var boxes = document.getElementsByClassName('checkbox_create_event_tag');
-    var checked = [];
-    for (var i = 0; boxes[i]; ++i) {
-        if (boxes[i].checked) {
-            checked.push(boxes[i].value);
-            boxes[i].checked = false
-        }
-    }
-    formData.append("tags",checked)
 
-    $.ajax({
-        type:'POST',
-        url: "/crearEvento",
-        data:formData,
-        cache:false,
-        contentType: false,
-        processData: false,
-        success:function(data){
-            console.log("success");
-            console.log(data);
-            setTimeout(actualizar_datos,250)
-        },
-        error: function(data){
-            console.log("error");
-            console.log(data);
-        }
-    });
-    document.getElementById('latitud').value = null;
-    document.getElementById('longitud').value = null;
-    MapaGoogleObject.eliminarEventosObtenerUbicacion(true)
-}
 

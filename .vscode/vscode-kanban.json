@@ -71,7 +71,11 @@
       "creation_time": "2024-04-01T12:32:02.089Z",
       "id": "19",
       "references": [],
-      "title": "Css tags"
+      "title": "Css tags",
+      "description": {
+        "content": "en crear evento y buscar evento",
+        "mime": "text/markdown"
+      }
     },
     {
       "creation_time": "2024-03-16T18:58:16.706Z",
@@ -94,6 +98,28 @@
       "title": "Google maps marker cluster"
     },
     {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-03T20:54:58.704Z",
+      "id": "21",
+      "references": [],
+      "title": "Hacer eventos solo para amigos"
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-01T12:35:16.195Z",
+      "description": {
+        "content": "regex, comprobaciones, que limpie si se manda y es correcto, que se mantenga si es fallido y te lo diga",
+        "mime": "text/markdown"
+      },
+      "id": "20",
+      "references": [],
+      "title": "Mejora del formulario crear evento"
+    },
+    {
       "creation_time": "2024-03-15T21:39:50.173Z",
       "description": {
         "content": "Hacer que el boton este en el lateral izquiero, que al pulsarlo te ponga en el boton \"haz click en el mapa\" y que cuando elijas ubicacion, se ponga en verde (o que salga un mapa pequeño en el lateral izquierdo con un marcador en esa ubicacion)",
@@ -108,16 +134,6 @@
       "id": "12",
       "references": [],
       "title": "Sistema de amigos"
-    },
-    {
-      "creation_time": "2024-03-15T21:34:28.393Z",
-      "description": {
-        "content": "Al crear evento tendras la opcion de elegir una foto ya subida por ti",
-        "mime": "text/markdown"
-      },
-      "id": "5",
-      "references": [],
-      "title": "Sistema de manejamiento de fotos"
     },
     {
       "assignedTo": {
@@ -141,32 +157,23 @@
       "id": "4",
       "references": [],
       "title": "subpestaña de \"mis eventos\", \"eventos unidos\""
-    },
-    {
-      "assignedTo": {
-        "name": "Daniel Rosales"
-      },
-      "creation_time": "2024-04-01T12:35:16.195Z",
-      "description": {
-        "content": "regex, comprobaciones, que limpie si se manda y es correcto, que se mantenga si es fallido y te lo diga",
-        "mime": "text/markdown"
-      },
-      "id": "20",
-      "references": [],
-      "title": "Mejora del formulario crear evento"
     }
   ],
   "in-progress": [
     {
       "creation_time": "2024-03-15T21:43:44.685Z",
       "description": {
-        "content": "Hacer que en el lateral izquierdo, abajo haya un div que tendra la opcion de log out, modificar perfil (funcionara parecido a crear evento), en el div aparecera una foto de perfil, el nombre, y su id ",
+        "content": "falta:\nmodificar perfil",
         "mime": "text/markdown"
       },
       "id": "9",
       "references": [],
       "title": "Hacer perfil",
-      "category": "Daniel"
+      "category": "Daniel",
+      "details": {
+        "content": "Hacer que en el lateral izquierdo, abajo haya un div que tendra la opcion de log out, modificar perfil (funcionara parecido a crear evento), en el div aparecera una foto de perfil, el nombre, y su id ",
+        "mime": "text/markdown"
+      }
     },
     {
       "assignedTo": {
@@ -230,6 +237,17 @@
         "content": "Creacion de api de tags disponibles, hecho\nasignacion de tags en \"crear evento\", hecho\nbbdd, hecho\naceptacion del form, hecho\nvista del tag del evento, hecho",
         "mime": "text/markdown"
       }
+    },
+    {
+      "creation_time": "2024-03-15T21:34:28.393Z",
+      "description": {
+        "content": "Al crear evento tendras la opcion de elegir una foto ya subida por ti",
+        "mime": "text/markdown"
+      },
+      "id": "5",
+      "references": [],
+      "title": "Sistema de manejamiento de fotos",
+      "category": "Daniel"
     }
   ]
 }

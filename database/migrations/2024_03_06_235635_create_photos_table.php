@@ -24,6 +24,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Schema::table('users', function (Blueprint $table) {
+        //     $table->dropUnique('profile_photo_id');
+        //     $table->dropForeign('profile_photo_id');
+        // });
         Schema::dropIfExists('photos');
+
     }
 };

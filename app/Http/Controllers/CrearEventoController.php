@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\MapaController;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Photo;
 use App\Models\Event_tag;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,12 +36,6 @@ class CrearEventoController extends Controller
         $fecha = $request->input("fecha")." ".$request->input("time");
         $patrocinado = $request->input("patrocinado")?true:false;
 
-        $request->validate(['imagen' => 'required|mimes:pdf,jpg,avif,png|max:2048',]);
-        $imageName = time().'.'.$request->file("imagen")->extension();
-        $request->file("imagen")->move(public_path('images/uploads'), $imageName);
-
-        $imageName?null:$imageName="logo.png";
-
         $evento = new Event;
         $evento->id_creador = auth()->id();
         $evento->nombre = $nombre;
@@ -49,8 +44,21 @@ class CrearEventoController extends Controller
         $evento->lat = $latitud;
         $evento->lng = $longitud;
         $evento->fecha = $fecha;
-        $evento->imagen = $imageName;
         $evento->patrocinado = $patrocinado;
+
+        // $request->validate(['imagen' => 'required|mimes:pdf,jpg,avif,png|max:2048',]);
+        // $imageName = time().'.'.$request->file("imagen")->extension();
+        // $request->file("imagen")->move(public_path('images/uploads'), $imageName);
+        // $imageName?null:$imageName="logo.png";
+
+        // $photo = new Photo;
+        // $photo->id_creador = $request->user()->id;
+        // $photo->ruta = $imageName;
+        // $photo->save();
+
+        debugbar()->info($request);
+
+        $evento->imagen_id = $request->imagen;
         $evento->save();
 
 
@@ -62,6 +70,10 @@ class CrearEventoController extends Controller
                 $evento_tag->save();
             }
         }
+
+
+
+
 
         // $mapa = new MapaController();
 

@@ -5,7 +5,7 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item active">
-                    <a id="dashboard_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                    <a id="profile_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Profile</a>
                 </li>
                 <li class="nav-item">
                     <a id="buscar_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Buscar Eventos</a>

@@ -7,6 +7,7 @@ use App\Http\Controllers\MapaController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CrearEventoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\BuscarEventoController;
 /*
 |--------------------------------------------------------------------------
@@ -32,10 +33,15 @@ Route::get("/app",function(){return view("app");})->name("app");
 
 
 
-Route::post("/crearEvento",[CrearEventoController::class,"crearEvento"])->name("crea");
+Route::post("/api/CrearEvento",[CrearEventoController::class,"crearEvento"])->name("crea");
 
-Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
+Route::get("/api/MyProfile",[UserController::class,"obtener_mi_usuario"]);
+Route::get("/api/MyProfile/ChangePhoto/{id}",[UserController::class,"poner_foto_perfil"]); //TODO ajustarlo para que sea post o put
+Route::post("/api/uploadImage",[PhotoController::class,"guardar_imagen"]); //TODO ajustarlo para que sea post o put
+
 Route::get("/api/AllTags",[TagController::class,"obtener_todos"]);
+Route::get("/api/MyPhotos",[PhotoController::class,"obtener_fotos"]);
+Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);
 Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
 
 

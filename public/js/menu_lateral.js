@@ -79,8 +79,183 @@ jQuery(document).ready(function($){
 
 
 
+// PROFILE_DATA;
+
+//TAGS, las tags existentes
+$.get("./api/AllTags",function(raw_data){
+    data ={}
+    raw_data.forEach(dato => {
+        data[dato.id] = {categoria:dato.categoria,id:dato.id}
+    });
+    TAGS = data
+})
+
+//USER_IMAGES, las iamgenes que son del usuario
+var resolver_cargado_iamgenes;
+var promesa_imagenes = new Promise((res)=>resolver_cargado_iamgenes=res)
+function cargar_imagenes(appObject=null){
+
+    $.get("./api/MyPhotos",function(raw_data){
+        data ={}
+        raw_data.forEach(dato => {
+            data[dato.id] = {ruta:dato.ruta, id:dato.id}
+        });
+        USER_IMAGES = data
+        resolver_cargado_iamgenes()
+
+        if(appObject){
+            appObject.datos=USER_IMAGES
+        }
+    })
+}
+cargar_imagenes()
+
+var cargado_perfil;
+var promesa_perfil= new Promise((res)=>cargado_perfil=res)
+function cargar_perfil(){
+    $.get("./api/MyProfile",function(data){
+        PROFILE_DATA = data[0]
+        cargado_perfil()
+        if(profileSectionAppObject){
+            profileSectionAppObject.data = PROFILE_DATA
+        }
+    })
+}
+cargar_perfil()
 
 
+
+
+async function crearChooseImageSectionApp(perfilOEvento, montaje){
+    await promesa_imagenes
+    chooseImageSection = createApp({
+        data(){
+            return {
+                activo:false,
+                datos:USER_IMAGES,
+                modo: perfilOEvento,
+                preview:null
+            };
+        },
+        template:SELECTOR_IMAGENES_TEMPLATE,
+        methods:{
+            activar(){
+                this.activo = true
+            },
+            desactivar(){
+                this.activo = false
+            },
+            imagen(id){
+                return "images/uploads/"+USER_IMAGES[id].ruta
+            },
+            iniciar_escucha(){
+                setTimeout(()=>
+                    document.getElementById('choose_imagen_nueva').addEventListener('change', (e)=> {
+                        if (e.target.files[0]) {
+                            // preview =document.createElement("img")
+                            // var reader  = new FileReader();
+                            // reader.onloadend = function () {
+                            //     preview.src = reader.result;
+                            // }
+                            // reader.readAsDataURL(e.target.files[0]);
+
+                            // preview.src = e.target.files[0].name
+                            // document.getElementById('listado_imagenes').appendChild(preview)
+
+                            this.subir_imagen()
+                        }})
+                ,100)
+            },
+            subir_imagen(){
+                let formData = new FormData($("#formulario_subir_foto")[0])
+
+                $.ajax({
+                    type:'POST',
+                    url: "/api/uploadImage",
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        console.log("success");
+                        console.log(data);
+                        setTimeout(()=>cargar_imagenes(chooseImageSectionObject),250)
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
+
+            },
+            elegir_imagen(image){
+                if(this.modo == "perfil"){
+
+                    $.ajax({
+                        url: "/api/MyProfile/ChangePhoto/"+image.id,
+                        type: 'GET',
+                        success: function(data) {
+                            cargar_perfil()
+                        }
+                    });
+
+
+                }else if(this.modo == "evento"){
+                    document.querySelector("#imagen_id").value = image.id
+                    this.preview = "images/uploads/"+image.ruta
+                }
+
+                this.desactivar()
+            }
+        },computed:{
+            imagenes(){
+                return this.datos
+            }
+        }
+    })
+    chooseImageSectionObject =chooseImageSection.mount("#"+montaje)
+}
+
+
+
+
+
+var profileSectionAppObject;
+async function crearProfileSectionApp(template){
+    await promesa_perfil;
+    ProfileSectionApp = createApp({
+        data(){
+            crearChooseImageSectionApp("perfil","choose_images_profiles")
+            $("#profile_button").on("click",function(){profileSectionAppObject.activar()})
+            return {
+                activo:true,
+                data:PROFILE_DATA
+            };
+        },
+        template:template,
+        methods:{
+            activar(){
+                desactivarGlobal()
+                this.activo = true
+                crearChooseImageSectionApp("perfil","choose_images_profiles")
+            },
+            desactivar(){
+                this.activo = false
+            },
+            crearChooseImageSectionApp(perfilOEvento,disparador,montaje){
+                crearChooseImageSectionApp(perfilOEvento,disparador,montaje)
+            },
+            imagen(id){
+                return "images/uploads/"+USER_IMAGES[id].ruta
+            }
+        },computed:{
+            datos(){
+                return this.data
+            }
+        }
+    })
+    profileSectionAppObject = ProfileSectionApp.mount("#perfilSection")
+}
 
 
 
@@ -90,6 +265,7 @@ function crearEventoSectionApp(template){
     EventoSectionApp = createApp({
         data(){
             $("#crear_evento_button").on("click",function(){crearEventoSectionAppObject.activar()})
+            // crearChooseImageSectionApp("evento","choose_image_event")
             ocultarBoton =async ()=>{await  AllLoaded;
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "0";
                 MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
@@ -97,7 +273,6 @@ function crearEventoSectionApp(template){
             ocultarBoton()
             return {
                 activo:false,
-                tags: {}
             };
         },
         template:template,
@@ -106,7 +281,8 @@ function crearEventoSectionApp(template){
                 desactivarGlobal()
                 this.activo = true
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "1"
-                MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "";
+                MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = ""; //TODO revisar esto
+                crearChooseImageSectionApp("evento","choose_image_event")
 
             },
             desactivar(){
@@ -114,17 +290,50 @@ function crearEventoSectionApp(template){
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "0"
                 MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
                 this.activo = false
+            },
+            crearChooseImageSectionApp(perfilOEvento,disparador,montaje){
+                crearChooseImageSectionApp(perfilOEvento,disparador,montaje)
+            },
+            enviar_datos_crear_evento(){
+                let formData = new FormData($("#formulario_crear")[0])
+                var boxes = document.getElementsByClassName('checkbox_create_event_tag');
+                var checked = [];
+                for (var i = 0; boxes[i]; ++i) {
+                    if (boxes[i].checked) {
+                        checked.push(boxes[i].value);
+                        boxes[i].checked = false
+                    }
+                }
+                formData.append("tags",checked)
+
+                $.ajax({
+                    type:'POST',
+                    url: "/api/CrearEvento",
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        console.log("success");
+                        console.log(data);
+                        setTimeout(actualizar_datos,250)
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
+                document.getElementById('latitud').value = null;
+                document.getElementById('longitud').value = null;
+                MapaGoogleObject.eliminarEventosObtenerUbicacion(true)
+            }
+        },computed:{
+            tags(){
+                return TAGS;
             }
         }
     })
     crearEventoSectionAppObject = EventoSectionApp.mount("#crearEventoSection")
-    $.get("./api/AllTags",function(raw_data){
-        data ={}
-        raw_data.forEach(dato => {
-            data[dato.id] = {categoria:dato.categoria,id:dato.id}
-        });
-        crearEventoSectionAppObject.tags = data
-    })
 }
 
 var buscarEventoSectionAppObject;
@@ -164,14 +373,6 @@ function buscarEventoSectionApp(template){
             },
             mostrar(index){
                 showEventAppObject.showEventDetails(index)
-            },
-            prueba(el,done){
-                console.log("asd")
-                gsap.to(el,{
-                    opacity: .5,
-                    onComplete: done
-
-                })
             }
         },
         computed:{
@@ -189,6 +390,7 @@ function buscarEventoSectionApp(template){
 function desactivarGlobal(){
     crearEventoSectionAppObject.desactivar()
     buscarEventoSectionAppObject.desactivar()
+    profileSectionAppObject.desactivar()
 }
 
 
