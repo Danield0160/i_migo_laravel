@@ -13,8 +13,10 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script><script>const { createApp, ref } = Vue</script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> --}}
+    {{-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> --}}
+    <script>const { createApp, ref } = Vue</script>
     <script>SELECTOR_IMAGENES_TEMPLATE = ` @include("partials.selector_imagenes") `</script>
     <title>Document</title>
 </head>
@@ -24,31 +26,40 @@
     <div id="app">
 
         <div id="lateral-izq">
-            <div id="header_app">
-                @include("partials.header_navbar_app")
-            </div>
+            @auth
+                <div id="header_app">
+                    @include("partials.header_navbar_app")
+                </div>
 
-            <div id="cuerpo_app">
-                <div id="perfilSection"></div>
-                <div id="crearEventoSection"></div>
-                <div id="buscarEventoSection"></div>
-                <div></div>
-            </div>
+                <div id="cuerpo_app">
+                    <div id="buscarEventoSection"></div>
+                    <div id="misEventoSection"></div>
+                    <div id="crearEventoSection"></div>
+                    <div id="perfilSection"></div>
+                    <div></div>
+                </div>
 
-            <div id="footer_app">
-
-            </div>
+                <div id="footer_app"></div>
+            @endauth
+            @guest
+                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Inicia Sesión</a></li>
+            @endguest
         </div>
 
         <div id="lateral-der">
             @include("partials.mapa_partial")
         </div>
+
+
     </div>
+    @auth
 
     <script src="{{asset('js/menu_lateral.js')}}"></script>
-    <script>crearEventoSectionApp(`@include('crearEvento')`)</script>
     <script>buscarEventoSectionApp(` @include('buscarEvento') `)</script>
+    <script>misEventoSectionApp(` @include('misEventos') `)</script>
+    <script>crearEventoSectionApp(`@include('crearEvento')`)</script>
     <script>crearProfileSectionApp(` @include("partials.footer_profile_app") `)</script>
+    @endauth
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 

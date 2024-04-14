@@ -79,7 +79,7 @@ jQuery(document).ready(function($){
 
 
 
-// PROFILE_DATA;
+
 
 //TAGS, las tags existentes
 $.get("./api/AllTags",function(raw_data){
@@ -110,19 +110,6 @@ function cargar_imagenes(appObject=null){
 }
 cargar_imagenes()
 
-var cargado_perfil;
-var promesa_perfil= new Promise((res)=>cargado_perfil=res)
-function cargar_perfil(){
-    $.get("./api/MyProfile",function(data){
-        PROFILE_DATA = data[0]
-        cargado_perfil()
-        if(profileSectionAppObject){
-            profileSectionAppObject.data = PROFILE_DATA
-        }
-    })
-}
-cargar_perfil()
-
 
 
 
@@ -142,8 +129,11 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
             activar(){
                 this.activo = true
             },
-            desactivar(){
+            desactivar(forzar = false){
                 this.activo = false
+                if(forzar){
+                    chooseImageSection.unmount()
+                }
             },
             imagen(id){
                 return "images/uploads/"+USER_IMAGES[id].ruta
@@ -152,16 +142,6 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
                 setTimeout(()=>
                     document.getElementById('choose_imagen_nueva').addEventListener('change', (e)=> {
                         if (e.target.files[0]) {
-                            // preview =document.createElement("img")
-                            // var reader  = new FileReader();
-                            // reader.onloadend = function () {
-                            //     preview.src = reader.result;
-                            // }
-                            // reader.readAsDataURL(e.target.files[0]);
-
-                            // preview.src = e.target.files[0].name
-                            // document.getElementById('listado_imagenes').appendChild(preview)
-
                             this.subir_imagen()
                         }})
                 ,100)
@@ -190,22 +170,21 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
             },
             elegir_imagen(image){
                 if(this.modo == "perfil"){
-
                     $.ajax({
-                        url: "/api/MyProfile/ChangePhoto/"+image.id,
+                        url: "/api/MyProfile/ChangePhoto/"+image.id, //TODO cambiar a put
                         type: 'GET',
                         success: function(data) {
-                            cargar_perfil()
+                            profileSectionAppObject.cargar_perfil()
                         }
                     });
+                    this.desactivar(true)
 
 
                 }else if(this.modo == "evento"){
                     document.querySelector("#imagen_id").value = image.id
                     this.preview = "images/uploads/"+image.ruta
+                    this.desactivar()
                 }
-
-                this.desactivar()
             }
         },computed:{
             imagenes(){
@@ -218,18 +197,14 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
 
 
 
-
-
 var profileSectionAppObject;
 async function crearProfileSectionApp(template){
-    await promesa_perfil;
     ProfileSectionApp = createApp({
         data(){
-            crearChooseImageSectionApp("perfil","choose_images_profiles")
             $("#profile_button").on("click",function(){profileSectionAppObject.activar()})
             return {
                 activo:true,
-                data:PROFILE_DATA
+                data:null
             };
         },
         template:template,
@@ -237,7 +212,6 @@ async function crearProfileSectionApp(template){
             activar(){
                 desactivarGlobal()
                 this.activo = true
-                crearChooseImageSectionApp("perfil","choose_images_profiles")
             },
             desactivar(){
                 this.activo = false
@@ -247,14 +221,28 @@ async function crearProfileSectionApp(template){
             },
             imagen(id){
                 return "images/uploads/"+USER_IMAGES[id].ruta
+            },
+            cargar_perfil(){
+                cargar_perfil()
             }
         },computed:{
             datos(){
                 return this.data
+            },
+            cargado(){
+                return this.data != null
             }
         }
     })
     profileSectionAppObject = ProfileSectionApp.mount("#perfilSection")
+
+    // PROFILE_DATA;
+    function cargar_perfil(){
+        $.get("./api/MyProfile",function(data){
+            profileSectionAppObject.data = data[0]
+        })
+    }
+    cargar_perfil()
 }
 
 
@@ -316,7 +304,7 @@ function crearEventoSectionApp(template){
                     success:function(data){
                         console.log("success");
                         console.log(data);
-                        setTimeout(actualizar_datos,250)
+                        setTimeout(()=>{actualizar_datos();misEventoSectionAppObject.cargar_datos()},250)
                     },
                     error: function(data){
                         console.log("error");
@@ -373,11 +361,81 @@ function buscarEventoSectionApp(template){
             },
             mostrar(index){
                 showEventAppObject.showEventDetails(index)
+            },
+            unirse_a_evento(event){
+                formData = new FormData(event.target.parentElement)
+                $.ajax({
+                    type:'POST',
+                    url: "/api/JoinEvent",
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        console.log("success");
+                        console.log(data);
+                        setTimeout(()=>{
+                            setTimeout(()=>actualizar_datos(),250);
+                            misEventoSectionAppObject.cargar_datos()
+                        },250)
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
+            },
+            salirse_de_evento(event){
+                formData = new FormData(event.target.parentElement)
+                $.ajax({
+                    type:'POST',
+                    url: "/api/LeaveEvent",
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        console.log("success");
+                        console.log(data);
+                        setTimeout(()=>{
+                            misEventoSectionAppObject.cargar_datos();
+                            setTimeout(()=>actualizar_datos(),250)
+                        },250)
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
+            },
+            me_puedo_unir(id){
+                if(id in misEventoSectionAppObject.eventos_unidos){
+                    return false
+                }
+                if(id in misEventoSectionAppObject.eventos_creados){
+                    return false
+                }
+                return true
+            },
+            me_puedo_salir(id){
+                if(id in misEventoSectionAppObject.eventos_unidos){
+                    return true
+                }
+                return false
+            },
+            es_propietario(id){
+                if (id in misEventoSectionAppObject.eventos_creados){
+                    return true
+                }
+                return false
             }
         },
         computed:{
             eventos(){
                 return MapaGoogleObject.marcadores
+            },
+            TAGS(){
+                return TAGS
             }
         }
 
@@ -387,11 +445,120 @@ function buscarEventoSectionApp(template){
 }
 
 
-function desactivarGlobal(){
-    crearEventoSectionAppObject.desactivar()
-    buscarEventoSectionAppObject.desactivar()
-    profileSectionAppObject.desactivar()
+
+
+
+var misEventoSectionAppObject;
+function misEventoSectionApp(template){
+    MisEventoSectionApp = createApp({
+        data(){
+            $("#mis_eventos_button")[0].onclick =function(){misEventoSectionAppObject.activar()}
+            return {
+                activo:false,
+                modo:"Eventos unidos",
+                mis_eventos:null,
+                eventos_unidos:null,
+                eventos_creados:null,
+                geoposicionUsuario:geoposicionUsuario
+            };
+        },
+        template:template,
+        methods:{
+            activar(){
+                desactivarGlobal()
+                this.activo = true
+            },
+            desactivar(){
+                this.activo = false
+            },
+            cargar_datos(){
+                cargar_mis_eventos_creados()
+                cargar_mis_eventos_unidos()
+            },
+            salirse_de_evento(event){
+                formData = new FormData(event.target.parentElement)
+                $.ajax({
+                    type:'POST',
+                    url: "/api/LeaveEvent",
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        console.log("success");
+                        console.log(data);
+                        setTimeout(()=>{
+                            cargar_mis_eventos_unidos();
+                            setTimeout(()=>actualizar_datos(),250)
+                        },250)
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
+            },
+            eliminar_evento(){
+                formData = new FormData(event.target.parentElement)
+                $.ajax({
+                    type:'POST',
+                    url: "/api/DeleteEvent",
+                    data:formData,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        console.log("success");
+                        console.log(data);
+                        setTimeout(()=>{
+                            cargar_mis_eventos_creados();
+                            setTimeout(()=>actualizar_datos(),250)
+                        },250)
+                    },
+                    error: function(data){
+                        console.log("error");
+                        console.log(data);
+                    }
+                });
+            },
+            distancia(lat,lng){
+                return getDistanceFromLatLonInKm(lat,lng,this.geoposicionUsuario.lat,this.geoposicionUsuario.lng)
+
+            }
+        },
+    })
+
+    misEventoSectionAppObject = MisEventoSectionApp.mount("#misEventoSection")
+
+
+    // Mis eventos data;
+    function cargar_mis_eventos_unidos(){
+        $.get("./api/MyJoinedEvents",function(raw_data){
+            data = {}
+            raw_data.forEach((dato)=>data[dato.id]=dato)
+            misEventoSectionAppObject.eventos_unidos = data
+        })
+    }
+    cargar_mis_eventos_unidos()
+
+    function cargar_mis_eventos_creados(){
+        $.get("./api/MyCreatedEvents",function(raw_data){
+            data = {}
+            raw_data.forEach((dato)=>data[dato.id]=dato)
+            misEventoSectionAppObject.eventos_creados = data
+        })
+    }
+    cargar_mis_eventos_creados()
 }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -421,10 +588,12 @@ showEventAppObject = showEventApp.mount($("#modal-content")[0])
 
 
 
-
-
-
-
+function desactivarGlobal(){
+    crearEventoSectionAppObject.desactivar()
+    buscarEventoSectionAppObject.desactivar()
+    profileSectionAppObject.desactivar()
+    misEventoSectionAppObject.desactivar()
+}
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km

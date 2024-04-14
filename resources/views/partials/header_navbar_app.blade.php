@@ -4,17 +4,20 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-                <li class="nav-item active">
-                    <a id="profile_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Profile</a>
-                </li>
                 <li class="nav-item">
                     <a id="buscar_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Buscar Eventos</a>
+                </li>
+                <li class="nav-item">
+                    <a id="mis_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Mis eventos</a>
                 </li>
                 <li class="nav-item">
                     <a id="crear_evento_button" class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>crear Evento</a>
                 </li>
                 <li class="nav-item">
-                    <a id="chat_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Chats</a>
+                    <a id="chat_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Social</a>
+                </li>
+                <li class="nav-item active">
+                    <a id="profile_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Profile</a>
                 </li>
             </ul>
         </div>

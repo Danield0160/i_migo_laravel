@@ -55,6 +55,19 @@
       "category": "Alberto"
     },
     {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-14T13:06:18.151Z",
+      "description": {
+        "content": "En algunas zonas hay settimeout para que no haya conflictos, se deberia de prpbar a reducir el tiempo, o quitarlos, o cambiarlos por promesas",
+        "mime": "text/markdown"
+      },
+      "id": "27",
+      "references": [],
+      "title": "ajustar los settimeout"
+    },
+    {
       "creation_time": "2024-03-15T21:45:06.500Z",
       "id": "11",
       "references": [],
@@ -88,6 +101,19 @@
       "title": "estructuracion del menu, y hacer submenu"
     },
     {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-08T12:32:49.602Z",
+      "description": {
+        "content": "Poner todos los nombre con el mismo case, poner buenos nombres, hacer mejor uso del Eloquent ,del soft delete y de las conexiones entre tablas, ",
+        "mime": "text/markdown"
+      },
+      "id": "22",
+      "references": [],
+      "title": "Formatear todo el proyecto"
+    },
+    {
       "creation_time": "2024-03-15T21:40:27.980Z",
       "description": {
         "content": "Configurar cluster",
@@ -105,6 +131,33 @@
       "id": "21",
       "references": [],
       "title": "Hacer eventos solo para amigos"
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-12T23:16:50.257Z",
+      "id": "26",
+      "references": [],
+      "title": "limite de eventos mensuales"
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-14T23:12:03.181Z",
+      "id": "28",
+      "references": [],
+      "title": "llenar el seeder con datos con sentido"
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-12T22:49:45.729Z",
+      "id": "25",
+      "references": [],
+      "title": "marcador que indica tu posicion"
     },
     {
       "assignedTo": {
@@ -130,6 +183,24 @@
       "title": "Mejorar \"obtener Ubicacion\""
     },
     {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-12T22:07:01.659Z",
+      "id": "23",
+      "references": [],
+      "title": "opcion de ubicar evento en el mapa"
+    },
+    {
+      "assignedTo": {
+        "name": "Daniel Rosales"
+      },
+      "creation_time": "2024-04-12T22:49:32.580Z",
+      "id": "24",
+      "references": [],
+      "title": "ruta hacia el evento"
+    },
+    {
       "creation_time": "2024-03-15T21:45:14.026Z",
       "id": "12",
       "references": [],
@@ -137,26 +208,12 @@
     },
     {
       "assignedTo": {
-        "name": "Alberto"
+        "name": "Daniel Rosales"
       },
-      "creation_time": "2024-03-15T21:25:05.861Z",
-      "description": {
-        "content": "Pestaña para ver los eventos que has creado, te permitira modificar y eliminar, en el caso de eliminar tendra que salir un popup de confirmacion (mirar https://sweetalert2.github.io/ y su \"confirm\")",
-        "mime": "text/markdown"
-      },
-      "id": "3",
+      "creation_time": "2024-04-14T23:12:59.320Z",
+      "id": "29",
       "references": [],
-      "title": "subpestaña de \"mis eventos\", \"eventos creados\""
-    },
-    {
-      "creation_time": "2024-03-15T21:30:59.364Z",
-      "description": {
-        "content": "Pestaña para ver los eventos a los que te has unido, debera de tener toda la informacion relevante, asi como su distancia, tendra un boton para salirte del evento (sweetalert para confirmar), y un boton para ver su ubicacion en el mapa (poner un marcador ",
-        "mime": "text/markdown"
-      },
-      "id": "4",
-      "references": [],
-      "title": "subpestaña de \"mis eventos\", \"eventos unidos\""
+      "title": "Terminar el registro/login"
     }
   ],
   "in-progress": [
@@ -174,6 +231,29 @@
         "content": "Hacer que en el lateral izquierdo, abajo haya un div que tendra la opcion de log out, modificar perfil (funcionara parecido a crear evento), en el div aparecera una foto de perfil, el nombre, y su id ",
         "mime": "text/markdown"
       }
+    },
+    {
+      "assignedTo": {
+        "name": "Alberto"
+      },
+      "creation_time": "2024-03-15T21:25:05.861Z",
+      "description": {
+        "content": "Pestaña para ver los eventos que has creado, te permitira modificar y eliminar, en el caso de eliminar tendra que salir un popup de confirmacion (mirar https://sweetalert2.github.io/ y su \"confirm\")",
+        "mime": "text/markdown"
+      },
+      "id": "3",
+      "references": [],
+      "title": "subpestaña de \"mis eventos\", \"eventos creados\""
+    },
+    {
+      "creation_time": "2024-03-15T21:30:59.364Z",
+      "description": {
+        "content": "Pestaña para ver los eventos a los que te has unido, debera de tener toda la informacion relevante, asi como su distancia, tendra un boton para salirte del evento (sweetalert para confirmar), y un boton para ver su ubicacion en el mapa (poner un marcador",
+        "mime": "text/markdown"
+      },
+      "id": "4",
+      "references": [],
+      "title": "subpestaña de \"mis eventos\", \"eventos unidos\""
     },
     {
       "assignedTo": {
@@ -221,6 +301,17 @@
       "category": "Daniel"
     },
     {
+      "creation_time": "2024-03-15T21:34:28.393Z",
+      "description": {
+        "content": "Al crear evento tendras la opcion de elegir una foto ya subida por ti",
+        "mime": "text/markdown"
+      },
+      "id": "5",
+      "references": [],
+      "title": "Sistema de manejamiento de fotos",
+      "category": "Daniel"
+    },
+    {
       "assignedTo": {
         "name": "Daniel Rosales"
       },
@@ -237,17 +328,6 @@
         "content": "Creacion de api de tags disponibles, hecho\nasignacion de tags en \"crear evento\", hecho\nbbdd, hecho\naceptacion del form, hecho\nvista del tag del evento, hecho",
         "mime": "text/markdown"
       }
-    },
-    {
-      "creation_time": "2024-03-15T21:34:28.393Z",
-      "description": {
-        "content": "Al crear evento tendras la opcion de elegir una foto ya subida por ti",
-        "mime": "text/markdown"
-      },
-      "id": "5",
-      "references": [],
-      "title": "Sistema de manejamiento de fotos",
-      "category": "Daniel"
     }
   ]
 }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer("id_creador")->nullable();
             $table->string("nombre");
             $table->string("descripcion");
-            $table->bigInteger("imagen_id")->nullable(); //cambiar por id
-            $table->integer("asistentes")->default(0);
+            $table->bigInteger("imagen_id")->nullable();
+            // $table->integer("asistentes")->default(0);
             $table->integer("limite_asistentes")->nullable();
             $table->double("lat");
             $table->double("lng");

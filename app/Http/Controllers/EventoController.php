@@ -8,11 +8,14 @@ use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Photo;
 use App\Models\Event_tag;
+use App\Models\Event_user;
 use Illuminate\Support\Facades\Storage;
 
 use App\Events\ActualizacionEvento;
 
-class CrearEventoController extends Controller
+use function Symfony\Component\String\b;
+
+class EventoController extends Controller
 {
 
     public function index(Request $request) {
@@ -72,21 +75,45 @@ class CrearEventoController extends Controller
         }
 
 
-
-
-
         // $mapa = new MapaController();
-
         event(new ActualizacionEvento);
-
         // return back();
     }
 
 
-    public function storeImage(Request $request){
-        $request->validate([
-            'file' => 'required|mimes:png,txt,xlx,xls,pdf|max:2048'
-            ]);
-        $imagen = $request.file("file_upload");
+    public function obtenerEventosUnidos(){
+        return Event::obtenerMisEventosUnidos();
+    }
+
+    public function obtenerEventosCreados(){
+        return Event::obtenerMisEventosCreados();
+    }
+
+
+    public function unirse_a_evento(Request $request){
+
+        $evento =Event::find($request->input("event_id"));
+        if($evento->getAsistentesAttribute() >= $evento->limite_asistentes){
+            throw \Illuminate\Validation\ValidationException::withMessages(["limite excedido"]);
+        };
+
+
+        $event_user = new Event_user;
+        $event_user->event_id = $request->input("event_id");
+        $event_user->user_id = auth()->id();
+        $event_user->save();
+
+    }
+
+    public function salir_de_evento(Request $request){
+        $event_user = Event_user::where("event_id","=", $request->input("event_id"))
+            ->where("user_id","=",auth()->id())
+            ->get()[0];
+        $event_user->delete();
+    }
+
+    public function eliminar_evento(Request $request){
+        $event = Event::where("id","=", $request->input("event_id"), "and", "user_id","=",auth()->id())->get()[0];
+        $event->delete();
     }
 }

@@ -1,9 +1,10 @@
-<div id="footer_profile"  v-if="activo">
+<div id="footer_profile"  v-if="cargado && activo">
     <div class="image">
         <img :src="imagen(datos.profile_photo_id)" alt="">
     </div>
 
     <div id="choose_images_profiles"></div>
+    @{{crearChooseImageSectionApp("perfil","choose_images_profiles")}}
 
     <div class="info">
         <p class="name">

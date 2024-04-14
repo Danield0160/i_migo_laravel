@@ -25,4 +25,10 @@ class PhotoController extends Controller
         $photo->ruta = $imageName;
         $photo->save();
     }
+
+    public static function otbtener_imagen(Request $request){
+        $photo = Photo::find($request->id);
+        $ruta  = "images/uploads/" . $photo->ruta;
+        return response()->file($ruta);
+    }
 }

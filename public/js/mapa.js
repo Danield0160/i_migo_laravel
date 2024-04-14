@@ -104,6 +104,7 @@ cargarMapaClass=()=>{
                 let ubicacion = new google.maps.LatLng(Number(latitud), Number(longitud))
                 this.mapa.setCenter(ubicacion)
                 geoposicionUsuario= {lat: latitud, lng:longitud}
+                misEventoSectionAppObject.geoposicionUsuario = geoposicionUsuario
                 actualizar_datos()
             }
         }
@@ -421,16 +422,16 @@ function actualizar_listado_popus_visibles(){
 }
 
 //lamada a la api con la posicion del mapa, y la distancia para conseguir los eventos cercanos
-async function actualizar_datos(){
+async function actualizar_datos(){ //TODO mejorar actualizacion de datos, quizas poner todos los eventos en una varible o separarlo en distintas funciones (este sirve para mapa y buscar)
     await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
         data.forEach(function(datos){
             let eventoDatos = datos
             eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
             eventoDatos.fecha = new Date(datos["fecha"])
 
-            if(datos.tags){
-                eventoDatos.tags = datos["tags"].split(",").map((x)=>TAGS[x].categoria) //TODO: hacer variable global TAGS
-            }
+            // if(datos.tags){
+            //     eventoDatos.tags = datos["tags"].split(",").map((x)=>TAGS[x].categoria) //TODO: hacer variable global TAGS
+            // }
 
             //si ya existia el evento, lo actualiza
             if(Object.keys(MapaGoogleObject.marcadores).includes(String(datos.id))){
@@ -467,12 +468,13 @@ async function actualizar_datos(){
                         this.popup.remove()
                     }
                 },
+                //template para los div eventos del mapa
                 template:`
                 <div class="evento" v-on:click="showEventAppObject.showEventDetails(id)">
                     <div class="icono"></div>
                     <div class="contenido">
                         <div class="contenido-imagen">
-                            <img :src='"images/uploads/"+evento.imagen' alt="Imagen del evento">
+                            <img :src='"images/"+evento.imagen_id' alt="Imagen del evento">
                         </div>
                         <div class="contenido-datos">
                             <h2><i>{{evento.nombre}}</i></h2>
