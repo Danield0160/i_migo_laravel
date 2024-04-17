@@ -369,7 +369,7 @@ function buscarEventoSectionApp(template){
                 }
                 showEventAppObject.showEventDetails(index)
             },
-            ubicar(evento){
+            ubicar(evento){ //TODO: hacer que en vez de quitar todos los eventos, los vuelva opacity 0, para que siga saliendo en "buscar evento"
                 console.log(evento.lat,evento.lng)
                 Object.values(MapaGoogleObject.marcadores).map((x)=>{
                     if(x.id != evento.id){
