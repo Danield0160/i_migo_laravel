@@ -17,7 +17,8 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> --}}
     {{-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> --}}
     <script>const { createApp, ref } = Vue</script>
-    <script>SELECTOR_IMAGENES_TEMPLATE = ` @include("partials.selector_imagenes") `</script>
+    <script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
+    <script src="{{asset('js/menu_lateral.js')}}"></script>
     <title>Document</title>
 </head>
 <body>
@@ -26,39 +27,41 @@
     <div id="app">
 
         <div id="lateral-izq">
+        <script>SELECTOR_IMAGENES_TEMPLATE = ` @include("ApplicationPage.partials.selector_imagenes") `</script>
+
             @auth
                 <div id="header_app">
-                    @include("partials.header_navbar_app")
+                    @include("ApplicationPage.partials.header_navbar_app")
                 </div>
 
                 <div id="cuerpo_app">
                     <div id="buscarEventoSection"></div>
+                    <script>buscarEventoSectionApp(` @include('ApplicationPage.LeftSide.buscarEvento') `)</script>
+
                     <div id="misEventoSection"></div>
+                    <script>misEventoSectionApp(` @include('ApplicationPage.LeftSide.misEventos') `)</script>
+
                     <div id="crearEventoSection"></div>
+                    <script>crearEventoSectionApp(`@include('ApplicationPage.LeftSide.crearEvento')`)</script>
+
                     <div id="perfilSection"></div>
-                    <div></div>
+                    <script>crearProfileSectionApp(` @include("ApplicationPage.LeftSide.profile") `)</script>
                 </div>
 
-                <div id="footer_app"></div>
             @endauth
             @guest
-                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Inicia Sesión</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Iniciar Sesión</a></li>
             @endguest
         </div>
 
         <div id="lateral-der">
-            @include("partials.mapa_partial")
+            @include("ApplicationPage.RightSide.mapa_partial")
         </div>
 
 
     </div>
     @auth
 
-    <script src="{{asset('js/menu_lateral.js')}}"></script>
-    <script>buscarEventoSectionApp(` @include('buscarEvento') `)</script>
-    <script>misEventoSectionApp(` @include('misEventos') `)</script>
-    <script>crearEventoSectionApp(`@include('crearEvento')`)</script>
-    <script>crearProfileSectionApp(` @include("partials.footer_profile_app") `)</script>
     @endauth
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

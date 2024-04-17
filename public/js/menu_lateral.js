@@ -220,7 +220,10 @@ async function crearProfileSectionApp(template){
                 crearChooseImageSectionApp(perfilOEvento,disparador,montaje)
             },
             imagen(id){
-                return "images/uploads/"+USER_IMAGES[id].ruta
+                if(USER_IMAGES[id]){
+                    return "images/uploads/"+USER_IMAGES[id].ruta
+                }
+                return "images/1"
             },
             cargar_perfil(){
                 cargar_perfil()

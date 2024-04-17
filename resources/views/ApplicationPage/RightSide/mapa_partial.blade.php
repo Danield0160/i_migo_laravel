@@ -1,4 +1,3 @@
-<script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
 @php
     \Carbon\Carbon::setLocale('es');
 @endphp
