@@ -41,7 +41,7 @@ Route::post("/api/uploadImage",[PhotoController::class,"guardar_imagen"]);
 
 Route::get("/api/AllTags",[TagController::class,"obtener_todos"]);
 Route::get("/api/MyPhotos",[PhotoController::class,"obtener_fotos"]);
-//TODO: obtener imagen en base al id
+
 Route::get("/images/{id}",[PhotoController::class,"otbtener_imagen"]);
 
 // Route::get("/api/AllEvents",[MapaController::class,"obtener_todos"]);

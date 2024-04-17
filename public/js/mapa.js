@@ -334,6 +334,9 @@ cargarPopupClass = () => {
         }
         // comprueba si el popup esta dentro de la ventana del mapa
         esVisible() {
+            if(this.map == null){
+                return false
+            }
             const divPosition = this.getProjection().fromLatLngToDivPixel(
                 this.position,
             );

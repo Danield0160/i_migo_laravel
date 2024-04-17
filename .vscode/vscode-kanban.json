@@ -18,19 +18,6 @@
       "category": "Alberto"
     },
     {
-      "creation_time": "2024-03-15T21:13:51.332Z",
-      "description": {
-        "content": "Al ir introduciendo caracteres debera de ir filtrando segun nombre y descripcion",
-        "mime": "text/markdown"
-      },
-      "id": "1",
-      "references": [],
-      "title": "Filtrado de la lista de eventos de \"Buscar eventos\"",
-      "category": "Alberto",
-      "prio": 0,
-      "type": "emergency"
-    },
-    {
       "creation_time": "2024-03-23T17:12:33.281Z",
       "description": {
         "content": "Modifica la pagina del login (dale un estilo mas acorde), y haz que cuando te registres se envie por un email un enlance que tendras que clickar para activar la cuenta",
@@ -217,6 +204,18 @@
     }
   ],
   "in-progress": [
+    {
+      "creation_time": "2024-03-15T21:13:51.332Z",
+      "description": {
+        "content": "Al ir introduciendo caracteres debera de ir filtrando segun nombre y descripcion",
+        "mime": "text/markdown"
+      },
+      "id": "1",
+      "references": [],
+      "title": "Filtrado de la lista de eventos de \"Buscar eventos\"",
+      "category": "Daniel",
+      "prio": 0
+    },
     {
       "creation_time": "2024-03-15T21:43:44.685Z",
       "description": {

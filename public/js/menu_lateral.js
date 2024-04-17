@@ -332,6 +332,7 @@ function buscarEventoSectionApp(template){
             return {
                 activo:false,
                 eventosVisibles:[],
+                input:""
             };
         },
         template:template,
@@ -359,8 +360,22 @@ function buscarEventoSectionApp(template){
             quitarEventoVisible(id){
                 this.eventosVisibles.splice(this.eventosVisibles.indexOf(id),1)
             },
-            mostrar(index){
+            mostrar(event, index){
+                if(event.target.tagName == "BUTTON"){
+                    return
+                }
                 showEventAppObject.showEventDetails(index)
+            },
+            ubicar(evento){
+                console.log(evento.lat,evento.lng)
+                Object.values(MapaGoogleObject.marcadores).map((x)=>{
+                    if(x.id != evento.id){
+                        x.popup.remove()
+                    }else if(x.popup.map == null){
+                        x.popup.setMap(MapaGoogleObject.mapa)
+                    }
+                })
+                MapaGoogleObject.mapa.setCenter(new google.maps.LatLng(Number(evento.lat), Number(evento.lng)))
             },
             unirse_a_evento(event){
                 formData = new FormData(event.target.parentElement)
@@ -436,6 +451,26 @@ function buscarEventoSectionApp(template){
             },
             TAGS(){
                 return TAGS
+            },
+            eventos_Visibles(){
+                this.eventosVisibles;
+                this.input;
+
+                var eventos_visibles_datos = Object.values(MapaGoogleObject.marcadores)
+                .map((marcador)=>marcador.datos)
+                .filter((datos)=>Object.values(this.eventosVisibles).includes(datos.id))
+                .map((marcador_datos)=>{marcador_datos.tags? marcador_datos.tags.split(",").map((tag_id)=>marcador_datos[tag_id]=TAGS[tag_id].categoria) : null ;return marcador_datos})
+
+
+                var eventos = []
+                eventos_visibles_datos.forEach(evento_visible_datos => {
+                    datos = Object.values(evento_visible_datos).map((x)=>String(x).toLowerCase())
+                    if (lista_contiene_lista(datos,this.input.toLowerCase().split(" "))){
+                        eventos.push(evento_visible_datos.id)
+                    }
+                });
+
+                return eventos
             }
         }
 
@@ -609,5 +644,21 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
 }
 
 function deg2rad(deg) {
-return deg * (Math.PI/180)
+    return deg * (Math.PI/180)
+}
+
+function lista_contiene_lista(lista1, lista2) {
+    for (let palabra of lista2) {
+        let encontrada = false;
+        for (let item of lista1) {
+            if (item.includes(palabra)) {
+                encontrada = true;
+                break;
+            }
+        }
+        if (!encontrada) {
+            return false;
+        }
+    }
+    return true;
 }
