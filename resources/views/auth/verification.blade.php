@@ -8,7 +8,7 @@
                 <div class="card-header">Verificación de usuario</div>
                 @include('includes.messages')
                 <div class="card-body">
-                    <form method="POST" action="{{ route('users.verify') }}">
+                    <form method="POST" action="{{ route('verification') }}">
                         @csrf
 
                         <div class="row mb-3">
