@@ -354,10 +354,12 @@ cargarPopupClass = () => {
 }
 
 
-
+var MapaHtmlterminadoDeCargar;
+var MapaHtmlLoaded = new Promise((success)=>MapaHtmlterminadoDeCargar=success)
 // importacion de las clases de la api
 google.maps.importLibrary("maps").then(
-    () => {
+    async () => {
+        await MapaHtmlLoaded;
         AdvancedMarkerViewClass = google.maps.Marker;
         PopupClass = cargarPopupClass()
 
@@ -426,7 +428,7 @@ function actualizar_listado_popus_visibles(){
 
 //lamada a la api con la posicion del mapa, y la distancia para conseguir los eventos cercanos
 async function actualizar_datos(){ //TODO mejorar actualizacion de datos, quizas poner todos los eventos en una varible o separarlo en distintas funciones (este sirve para mapa y buscar)
-    await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").text()),function(data){
+    await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").val().replace("km","")),function(data){
         data.forEach(function(datos){
             let eventoDatos = datos
             eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)

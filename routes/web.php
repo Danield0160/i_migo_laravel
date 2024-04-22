@@ -35,6 +35,8 @@ Route::controller(EventoController::class)->group(function () {
     Route::get("/api/MyCreatedEvents","obtenerEventosCreados");
     Route::post("/api/CrearEvento","crearEvento");
     Route::delete("/api/DeleteEvent","eliminar_evento");
+
+    Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}","obtener_cercanos");
 });
 
 
@@ -53,10 +55,9 @@ Route::controller(PhotoController::class)->group(function () {
 
 Route::get("/api/AllTags",[TagController::class,"obtener_todos"]);
 
-Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}",[MapaController::class,"obtener_cercanos"]);
 
-//ruta para websocket
-Route::get("mensaje",[ActualizacionController::class,"mensaje"]);
+//ruta para websocket global
+Route::get("/mensaje",[ActualizacionController::class,"mensaje"]);
 
 
 
@@ -85,3 +86,13 @@ Route::get("/dashboard", function(){return view("dashboard");})->name("dashboard
 Route::get("/dashboard", function(){return view("dashboard");})->name("dashboard");
 Route::get("/profile.edit", function(){return view("profile.edit");})->name("profile.edit");
 Route::get("/home", function(){return view("index");})->name("home");
+
+//TODO:
+//limitar tags
+//eventos pasados ignorar
+//editar eventos
+//version movil
+//refactorizar
+//usuarios unidos
+//eventos para cada section
+//actualizar datos

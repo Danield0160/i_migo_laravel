@@ -17,6 +17,8 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script> --}}
     {{-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> --}}
     <script>const { createApp, ref } = Vue</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
     <script src="{{asset('js/menu_lateral.js')}}"></script>
     <title>Document</title>
@@ -56,6 +58,7 @@
 
         <div id="lateral-der">
             @include("ApplicationPage.RightSide.mapa_partial")
+            <script>MapaHtmlterminadoDeCargar()</script>
         </div>
 
 
@@ -70,14 +73,17 @@
 
 // @vite('resources/js/app.js')
 // <script>
-// setTimeout(() => {
+// tempo = setTimeout(() => {
 //     try {
 
 //         window.Echo.channel('Actualizacion_evento').
-//         listen(".App\\Events\\ActualizacionEvento",(e)=>{
+//         listen("ActualizacionEvento",(e)=>{
+//             console.log("actualizacion")
 //             actualizar_datos()
 //         })
+//         console.log("cargado correcto")
 //     } catch (error) {
+//         console.log("fallo")
 //         actualizar_datos()
 //     }
 // }, 5000);

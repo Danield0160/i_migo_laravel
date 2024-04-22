@@ -251,8 +251,8 @@ async function crearProfileSectionApp(template){
 
 
 var crearEventoSectionAppObject;
-function crearEventoSectionApp(template){
-
+async function crearEventoSectionApp(template){
+    await AllLoaded;
     EventoSectionApp = createApp({
         data(){
             $("#crear_evento_button").on("click",function(){crearEventoSectionAppObject.activar()})
@@ -335,7 +335,9 @@ function buscarEventoSectionApp(template){
             return {
                 activo:false,
                 eventosVisibles:[],
-                input:""
+                input:"",
+                ultimo_evento_mostrado:null,
+                ultimo_evento_mostrado_div: null
             };
         },
         template:template,
@@ -349,13 +351,6 @@ function buscarEventoSectionApp(template){
             },
             addEventoVisible(id){
                 this.eventosVisibles.push(id)
-                this.eventosVisibles.sort((a,b)=>{
-                    let dist_a = this.eventos[a].evento.distancia
-                    let dist_b = this.eventos[b].evento.distancia
-                    if (dist_a<dist_b){return -1}
-                    if (dist_a>dist_b){return 1}
-                    else{return 0}
-                })
             },
             vaciarEventosVisibles(){
                 this.eventosVisibles=[]
@@ -363,22 +358,41 @@ function buscarEventoSectionApp(template){
             quitarEventoVisible(id){
                 this.eventosVisibles.splice(this.eventosVisibles.indexOf(id),1)
             },
-            mostrar(event, index){
+            // mostrar(event, index){
+            //     if(event.target.tagName == "BUTTON"){
+            //         return
+            //     }
+            //     showEventAppObject.showEventDetails(index)
+            // },
+            ubicar(index, event){ //TODO: hacer que en vez de quitar todos los eventos, los vuelva opacity 0, para que siga saliendo en "buscar evento"
                 if(event.target.tagName == "BUTTON"){
                     return
                 }
-                showEventAppObject.showEventDetails(index)
-            },
-            ubicar(evento){ //TODO: hacer que en vez de quitar todos los eventos, los vuelva opacity 0, para que siga saliendo en "buscar evento"
-                console.log(evento.lat,evento.lng)
+                evento = MapaGoogleObject.marcadores[index].datos
+                quitar = this.ultimo_evento_mostrado == index
+                if(this.ultimo_evento_mostrado_div){
+
+                    this.ultimo_evento_mostrado_div.classList.remove("mostrando")
+                }
+
                 Object.values(MapaGoogleObject.marcadores).map((x)=>{
-                    if(x.id != evento.id){
-                        x.popup.remove()
-                    }else if(x.popup.map == null){
-                        x.popup.setMap(MapaGoogleObject.mapa)
+                    if(x.id != evento.id && !quitar){
+                        // x.popup.remove()
+                        x.popup.containerDiv.style.opacity = 0
+                    }else{
+                        // x.popup.setMap(MapaGoogleObject.mapa)
+                        x.popup.containerDiv.style.opacity = 1
                     }
                 })
                 MapaGoogleObject.mapa.setCenter(new google.maps.LatLng(Number(evento.lat), Number(evento.lng)))
+                this.ultimo_evento_mostrado = index
+                if(quitar){
+                    this.ultimo_evento_mostrado = null
+                    $(event.target).closest(".evento_listado_container")[0].classList.remove("mostrando")
+                }else{
+                    $(event.target).closest(".evento_listado_container")[0].classList.add("mostrando")
+                }
+                this.ultimo_evento_mostrado_div =  $(event.target).closest(".evento_listado_container")[0]
             },
             unirse_a_evento(event){
                 formData = new FormData(event.target.parentElement)
@@ -446,6 +460,12 @@ function buscarEventoSectionApp(template){
                     return true
                 }
                 return false
+            },
+            point(index){
+                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].classList.add("mostrando")
+            },
+            notPoint(index){
+                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].classList.remove("mostrando")
             }
         },
         computed:{
@@ -473,7 +493,13 @@ function buscarEventoSectionApp(template){
                     }
                 });
 
-                return eventos
+                return eventos.sort((a,b)=>{
+                    let dist_a = this.eventos[a].evento.distancia
+                    let dist_b = this.eventos[b].evento.distancia
+                    if (dist_a<dist_b){return -1}
+                    if (dist_a>dist_b){return 1}
+                    else{return 0}
+                })
             }
         }
 
@@ -665,3 +691,10 @@ function lista_contiene_lista(lista1, lista2) {
     }
     return true;
 }
+
+setTimeout(
+    ()=>
+    buscarEventoSectionAppObject.activar()
+    ,500
+
+)

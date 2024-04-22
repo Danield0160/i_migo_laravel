@@ -13,7 +13,8 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.5",
-        "pusher/pusher-php-server": "^7.2",
+        "pusher/pusher-php-server": "~7.2.4",
+        "react/promise": "2.7",
         "silviolleite/laravelpwa": "^2.0"
     },
     "require-dev": {

@@ -25,6 +25,9 @@ class LoginController extends Controller
     {
         $user = User::where('active', 1)->where('email', $request->email)->where('password', $request->password)->first();
         $user = User::where("active", 1)->where("email",$request->email)->first();
+        if($user == null){
+            return false;
+        }
 
         if (Hash::check($request->password, $user->password)) {
             Auth::login($user);

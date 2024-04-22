@@ -10,5 +10,12 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-    ],
+    ],server: {
+        host: 'localhost', // replace with the IP address of the Homestead machine
+        https: false,
+        cors: false,
+        hmr: {
+            host: 'localhost', // replace with the IP address of the Homestead machine
+        }
+    }
 });

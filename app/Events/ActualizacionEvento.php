@@ -29,6 +29,7 @@ class ActualizacionEvento implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+        debugbar()->info("Actualizacion_evento");
         return [
             new Channel('Actualizacion_evento'),
         ];

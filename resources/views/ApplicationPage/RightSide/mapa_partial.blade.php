@@ -8,10 +8,11 @@
 <div id="map-elements">
 
     <div id="buscador_container">
-        <button id="buttonGeolocation">geolocalizacion</button>
-        <input type="text" id="buscador"><br>
-        <input type="range" name="distance"  min="0" max="6" value="2" oninput="this.nextElementSibling.value = [5,25,50,75,100,150,250][this.value]">
-        <output id="distance">50</output><span>km</span>
+        <button id="buttonGeolocation"><i class="fa-solid fa-location-crosshairs fa-xl"></i></button>
+        <input type="text" id="buscador">
+        <input id="distance" type="button" name="distance"  value="100km" index=0 onclick="this.value = ['25km','100km','250km'][this.getAttribute('index')%3];this.setAttribute('index', this.getAttribute('index')+1)">
+        {{-- <input type="range" name="distance"  min="0" max="6" value="2" oninput="this.nextElementSibling.value = [5,25,50,75,100,150,250][this.value]"> --}}
+        {{-- <output id="distance">50</output><span>km</span> --}}
     </div>
 
     <!-- Por cada evento pasado como dato a la vista crea su marcador -->
