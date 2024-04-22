@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             "fecha_nacimiento"=>"2001/03/05",
             "premiun"=>true,
             "redes"=>"www.twitter.com;www.facebook.com",
-            "profile_photo_id"=>1
+            "profile_photo_id"=>1,
+            "verified" =>1
         ]);
         DB::table("users")->insert([
             "name"=>"usuario",

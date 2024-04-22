@@ -691,10 +691,3 @@ function lista_contiene_lista(lista1, lista2) {
     }
     return true;
 }
-
-setTimeout(
-    ()=>
-    buscarEventoSectionAppObject.activar()
-    ,500
-
-)

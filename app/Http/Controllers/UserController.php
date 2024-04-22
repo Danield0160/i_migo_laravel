@@ -13,7 +13,16 @@ use App\Http\Controllers\Mail\NewUserEmail;
 
 class UserController extends Controller
 {
+    public static function obtener_mi_usuario(){
+        return User::select(["name","id","premiun","profile_photo_id"])->where("id",Auth::user()->id)->get();
+    }
 
+    public static function poner_foto_perfil($id){
+        $user = User::find(Auth::user()->id);
+        $user->profile_photo_id = $id;
+        $user->save();
+    }
+    
     public function index(Request $request)
     {
         Log::channel('debugger')->info('Se ha accedido a la lista de usuarios.');
