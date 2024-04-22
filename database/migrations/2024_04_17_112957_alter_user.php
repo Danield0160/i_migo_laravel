@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('auth_code')->nullable(false)->default('');
             $table->string('surname')->nullable(false)->default('');
         });
+
+        Schema::table('events', function (Blueprint $table) {
+            $table->boolean('active')->nullable(false)->default(true);
+        });
     }
 
     /**

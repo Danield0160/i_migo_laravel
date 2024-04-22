@@ -42,7 +42,7 @@ class VerificationController extends Controller
         return true;
     }
 
-    protected $redirectTo = '/index';
+    protected $redirectTo = '/home';
 
     public function __construct()
     {

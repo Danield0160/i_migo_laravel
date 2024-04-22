@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -26,10 +26,6 @@ class LoginController extends Controller
         $user = User::where('active', 1)->where('email', $request->email)->where('password', $request->password)->first();
         $user = User::where("active", 1)->where("email",$request->email)->first();
 
-        if (Hash::check($request->password, $user->password)) {
-            Auth::login($user);
-            session()->flash('error', 'Usuario o contraseña incorrectos.');
-        }
 
         if(!isset($user)){
             session()->flash('error', 'Usuario o contraseña incorrectos.');
@@ -46,10 +42,25 @@ class LoginController extends Controller
         return true;
     }
 
-
+    protected $redirectTo = '/';
 
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    // Método para cerrar sesión
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        // Mostrar un mensaje de éxito
+        session()->flash('success', 'Sesión cerrada con éxito.');
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 }
