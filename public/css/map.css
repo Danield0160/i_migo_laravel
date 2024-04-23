@@ -307,7 +307,7 @@ html, body {
     height: min-content;
     padding-bottom: 150px;
 }
-.evento_listado_container{
+.event_listing_container{
     min-height: 150px ;
     height: 15vh ;
     border-radius: 10px;
@@ -320,26 +320,19 @@ html, body {
     padding: 0;
     overflow: hidden;
 }
-.evento_listado_container:hover{
-    border: 3px solid salmon;
-    /* box-shadow: 3px 3px 3px darkred; */
+.event_listing_container:hover{
+    border: 1px solid darkred;
+    box-shadow: 3px 3px 3px darkred;
 }
-.evento_listado_container:active{
-    box-shadow: inset 3px 3px 3px darkred;
 
-}
-.evento_listado_container > .img{
+.event_listing_container > img{
     max-width: 28%;
     /* height: 100%; */
     vertical-align: 25%;
     display: inline-block;
     /* background-color: rebeccapurple; */
 }
-.evento_listado_container > .img >img{
-    /* height: 100%; */
-    width: 100%;
-}
-.evento_listado_container > .contenido{
+.event_listing_container > .contenido{
     display: inline-block;
     width: 55%;
     /* background-color: #449d44; */
@@ -348,30 +341,23 @@ html, body {
     height: 100%;
     border-left: 1px solid black;
 }
-.evento_listado_container > .contenido>.datos>.fecha{
-    margin-top:-15px ;
-    margin-bottom:-3px ;
-    font-size: small;
-    color: grey;
-}
-.evento_listado_container > .boton_container{
+.event_listing_container > .boton_container{
     width: 17%;
     height: 100%;
     position: relative;
     /* background-color: aqua; */
 }
-.evento_listado_container > .boton_container button{
-    border-right: 0;
-    border-top: 0;
+.event_listing_container > .boton_container button{
     width: 100%;
     height: 120px;
     position: absolute;
     top: 0;
 }
-.evento_listado_container > .boton_container button p{
+.event_listing_container > .boton_container button p{
     pointer-events: none;
+
 }
-.evento_listado_container > .boton_container button:active{
+.event_listing_container > .boton_container button:active{
     box-shadow: inset 5px 5px 5px black;
 }
 .button_salir{
@@ -395,10 +381,6 @@ html, body {
     height: 20%;
     background-color: lightgrey;
     line-height: 25px;
-}
-.evento_listado_container.mostrando .kilometraje{
-    border-right: 2px solid lightcoral;
-    border-bottom: 2px solid lightcoral;
 }
 .tags_buscar_evento{
     position: absolute;
@@ -444,9 +426,8 @@ html, body {
 }
 
 .mostrando{
-    /* border : 5px dashed darkred !important; */
+    border : 5px dashed darkred !important;
     z-index: 99;
-    box-shadow: inset 0px 0px 5px darkred;
 }
 
 

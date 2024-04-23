@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->date("fecha_nacimiento")->nullable();
-            $table->boolean("premiun")->default(false);
+            $table->boolean("premium")->default(false);
             $table->string("redes")->nullable();
-
 
         });
     }

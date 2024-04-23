@@ -7,12 +7,15 @@
             {{-- iterador de eventos --}}
             <div v-for="index in eventos_Visibles" class="evento_listado_container" v-on:click="ubicar(index,$event)" :key="index" @mouseover=point(index) @mouseleave=notPoint(index) v-bind:class="ultimo_evento_mostrado == index ? 'mostrando' : 'null' ">
                 {{-- imagen del evento --}}
-                <img :src='"images/"+eventos[index].datos.imagen_id'alt="" v-if="eventos[index] !== undefined">
+                <div class="img">
+                    <img :src='"images/"+eventos[index].datos.imagen_id'alt="" v-if="eventos[index] !== undefined">
+                </div>
 
                 <div class="contenido" v-if="eventos[index] !== undefined">
                     {{-- informacion principal del evento --}}
                     <div class="datos">
                         <h4>@{{eventos[index].datos.nombre}}</h4>
+                        <p class="fecha">@{{eventos[index].datos.fecha.toLocaleDateString()}} - @{{eventos[index].datos.fecha.toLocaleTimeString('es-ES',{hour: '2-digit', minute:'2-digit'})}}</p>
                         <p>@{{eventos[index].datos.descripcion}}</p>
                     </div>
 
@@ -56,10 +59,10 @@
 
                 </div>
 
-                    {{-- Tags del evento --}}
-                    <div class="tags_buscar_evento" v-if="eventos[index].datos.tags">
-                        <span v-for="tag in eventos[index].datos.tags.split(',')"> @{{TAGS[tag].categoria}} </span>
-                    </div>
+                {{-- Tags del evento --}}
+                <div class="tags_buscar_evento" v-if="eventos[index].datos.tags">
+                    <span v-for="tag in eventos[index].datos.tags.split(',')"> @{{TAGS[tag].categoria}} </span>
+                </div>
 
 
             </div>

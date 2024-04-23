@@ -1,0 +1,62 @@
+#decoracion{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    pointer-events: none;
+}
+#mundo{
+    position: absolute;
+    bottom: 0;
+    background-image: url(https://cdn.pixabay.com/photo/2016/04/02/21/01/earth-1303628_1280.png);
+    height: 50vw;
+    width: 50vw;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center top;
+    animation: animacionMundo 48s infinite linear;
+    display: grid;
+    --mundoAjusteAltura : 35vw;
+}
+@keyframes animacionMundo{
+    0%{
+        transform: translateY(var(--mundoAjusteAltura)) rotateZ(360deg) ;
+    }
+    100%{
+        transform:  translateY(var(--mundoAjusteAltura)) rotateZ(0deg);
+    }
+}
+.pinMapa{
+    background-image: url(https://pavzi.com/wp-content/uploads/2021/11/Google-Maps.png);
+    width: 50px;
+    height: 150px;
+    background-size: 110px;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    place-self: center;
+    position: absolute;
+    --desplazamientoAlturaPin: calc(-24vw - 0px);
+    transform: rotateZ(0deg) translateY(var(--desplazamientoAlturaPin));
+}
+.pm1{transform: rotateZ(60deg) translateY(var(--desplazamientoAlturaPin));}
+.pm2{transform: rotateZ(120deg) translateY(var(--desplazamientoAlturaPin));}
+.pm3{transform: rotateZ(180deg) translateY(var(--desplazamientoAlturaPin));}
+.pm4{transform: rotateZ(240deg) translateY(var(--desplazamientoAlturaPin));}
+.pm5{transform: rotateZ(300deg) translateY(var(--desplazamientoAlturaPin));}
+#persona{
+    place-self: center;
+    animation: animacionPersona 48s infinite linear ;
+    height: 8vh;
+}
+@keyframes animacionPersona{
+    0%{
+        transform:  rotateZ(0deg) translateY(-22.5vw);
+    }
+    100%{
+        transform:  rotateZ(360deg) translateY(-22.5vw) ;
+    }
+}
+
+.masthead{
+    position: relative;
+}
+.masthead{overflow: hidden;}

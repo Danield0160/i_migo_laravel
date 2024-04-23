@@ -50,7 +50,7 @@
 
     <div id="choose_image_event"></div>
     <input type="text" name="imagen" id="imagen_id" style="display: none">
-
+    @{{crearChooseImageSectionApp("evento","choose_image_event")}}
 
 
 

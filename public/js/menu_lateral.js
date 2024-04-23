@@ -1,3 +1,5 @@
+// const { computed } = require("vue");
+
 // ---------Responsive-navbar-active-animation-----------
 function test(){
 	var tabsNewAnim = $('#navbarSupportedContent');
@@ -91,8 +93,8 @@ $.get("./api/AllTags",function(raw_data){
 })
 
 //USER_IMAGES, las iamgenes que son del usuario
-var resolver_cargado_iamgenes;
-var promesa_imagenes = new Promise((res)=>resolver_cargado_iamgenes=res)
+var resolver_cargado_imagenes;
+var promesa_imagenes = new Promise((res)=>resolver_cargado_imagenes=res)
 function cargar_imagenes(appObject=null){
 
     $.get("./api/MyPhotos",function(raw_data){
@@ -101,7 +103,9 @@ function cargar_imagenes(appObject=null){
             data[dato.id] = {ruta:dato.ruta, id:dato.id}
         });
         USER_IMAGES = data
-        resolver_cargado_iamgenes()
+        if(resolver_cargado_imagenes){
+            resolver_cargado_imagenes()
+        }
 
         if(appObject){
             appObject.datos=USER_IMAGES
@@ -144,7 +148,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
                         if (e.target.files[0]) {
                             this.subir_imagen()
                         }})
-                ,100)
+                ,50)
             },
             subir_imagen(){
                 let formData = new FormData($("#formulario_subir_foto")[0])
@@ -157,13 +161,11 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        console.log("success");
-                        console.log(data);
-                        setTimeout(()=>cargar_imagenes(chooseImageSectionObject),250)
+                        // console.log("success");
+                        cargar_imagenes(chooseImageSectionObject)
                     },
                     error: function(data){
                         console.log("error");
-                        console.log(data);
                     }
                 });
 
@@ -273,7 +275,7 @@ async function crearEventoSectionApp(template){
                 this.activo = true
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "1"
                 MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = ""; //TODO revisar esto
-                crearChooseImageSectionApp("evento","choose_image_event")
+                // crearChooseImageSectionApp("evento","choose_image_event")
 
             },
             desactivar(){
@@ -305,13 +307,12 @@ async function crearEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        console.log("success");
-                        console.log(data);
-                        setTimeout(()=>{actualizar_datos();misEventoSectionAppObject.cargar_datos()},250)
+                        // console.log("success");
+                        actualizar_datos();
+                        misEventoSectionAppObject.cargar_datos()
                     },
                     error: function(data){
                         console.log("error");
-                        console.log(data);
                     }
                 });
                 document.getElementById('latitud').value = null;
@@ -364,7 +365,7 @@ function buscarEventoSectionApp(template){
             //     }
             //     showEventAppObject.showEventDetails(index)
             // },
-            ubicar(index, event){ //TODO: hacer que en vez de quitar todos los eventos, los vuelva opacity 0, para que siga saliendo en "buscar evento"
+            ubicar(index, event){
                 if(event.target.tagName == "BUTTON"){
                     return
                 }
@@ -378,7 +379,7 @@ function buscarEventoSectionApp(template){
                 Object.values(MapaGoogleObject.marcadores).map((x)=>{
                     if(x.id != evento.id && !quitar){
                         // x.popup.remove()
-                        x.popup.containerDiv.style.opacity = 0
+                        x.popup.containerDiv.style.opacity = 0.15
                     }else{
                         // x.popup.setMap(MapaGoogleObject.mapa)
                         x.popup.containerDiv.style.opacity = 1
@@ -404,16 +405,12 @@ function buscarEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        console.log("success");
-                        console.log(data);
-                        setTimeout(()=>{
-                            setTimeout(()=>actualizar_datos(),250);
-                            misEventoSectionAppObject.cargar_datos()
-                        },250)
+                        // console.log("success");
+                        actualizar_datos();
+                        misEventoSectionAppObject.cargar_datos()
                     },
                     error: function(data){
                         console.log("error");
-                        console.log(data);
                     }
                 });
             },
@@ -427,16 +424,12 @@ function buscarEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        console.log("success");
-                        console.log(data);
-                        setTimeout(()=>{
-                            misEventoSectionAppObject.cargar_datos();
-                            setTimeout(()=>actualizar_datos(),250)
-                        },250)
+                        // console.log("success");
+                        actualizar_datos()
+                        misEventoSectionAppObject.cargar_datos();
                     },
                     error: function(data){
                         console.log("error");
-                        console.log(data);
                     }
                 });
             },
@@ -549,16 +542,12 @@ function misEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        console.log("success");
-                        console.log(data);
-                        setTimeout(()=>{
-                            cargar_mis_eventos_unidos();
-                            setTimeout(()=>actualizar_datos(),250)
-                        },250)
+                        // console.log("success");
+                        cargar_mis_eventos_unidos();
+                        actualizar_datos()
                     },
                     error: function(data){
                         console.log("error");
-                        console.log(data);
                     }
                 });
             },
@@ -572,16 +561,12 @@ function misEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        console.log("success");
-                        console.log(data);
-                        setTimeout(()=>{
-                            cargar_mis_eventos_creados();
-                            setTimeout(()=>actualizar_datos(),250)
-                        },250)
+                        // console.log("success");
+                        cargar_mis_eventos_creados();
+                        actualizar_datos()
                     },
                     error: function(data){
                         console.log("error");
-                        console.log(data);
                     }
                 });
             },
@@ -589,7 +574,18 @@ function misEventoSectionApp(template){
                 return getDistanceFromLatLonInKm(lat,lng,this.geoposicionUsuario.lat,this.geoposicionUsuario.lng)
 
             }
-        },
+        },computed:{
+            eventos_seleccionados(){
+                if (this.modo == "Eventos unidos"){
+                    return this.eventos_unidos
+                }else{
+                    return this.eventos_creados
+                }
+            },
+            TAGS(){
+                return TAGS
+            }
+        }
     })
 
     misEventoSectionAppObject = MisEventoSectionApp.mount("#misEventoSection")
@@ -599,7 +595,10 @@ function misEventoSectionApp(template){
     function cargar_mis_eventos_unidos(){
         $.get("./api/MyJoinedEvents",function(raw_data){
             data = {}
-            raw_data.forEach((dato)=>data[dato.id]=dato)
+            raw_data.forEach((dato)=>{
+                data[dato.id]=dato;
+                data[dato.id].distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,dato.lat,dato.lng)
+            })
             misEventoSectionAppObject.eventos_unidos = data
         })
     }
@@ -608,7 +607,10 @@ function misEventoSectionApp(template){
     function cargar_mis_eventos_creados(){
         $.get("./api/MyCreatedEvents",function(raw_data){
             data = {}
-            raw_data.forEach((dato)=>data[dato.id]=dato)
+            raw_data.forEach((dato)=>{
+                data[dato.id]=dato;
+                data[dato.id].distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,dato.lat,dato.lng)
+            })
             misEventoSectionAppObject.eventos_creados = data
         })
     }

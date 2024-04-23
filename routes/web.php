@@ -2,13 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MapaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\EventoController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ActualizacionController;
 
@@ -26,7 +25,11 @@ use App\Http\Controllers\ActualizacionController;
 
 Route::get('/', function () {return redirect('index');});
 Route::get('/index', function () {return view('index');})->name("index");
-Route::get("/app",function(){return view("ApplicationPage.app");})->name("app");
+Route::get("/app",function(){
+    Artisan::call('events:update');
+    session()->flash('status', 'Eventos actualizados correctamente.');
+    return view("ApplicationPage.app");
+})->name("app");
 
 
 Route::controller(EventoController::class)->group(function () {
@@ -58,14 +61,13 @@ Route::controller(PhotoController::class)->group(function () {
 Route::get("/api/AllTags",[TagController::class,"obtener_todos"]);
 
 
-//ruta para websocket global
+//ruta para websocket
 Route::get("/mensaje",[ActualizacionController::class,"mensaje"]);
 
 
 
 
 /* Rutas de autenticación */
-
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -100,5 +102,6 @@ Route::get("/home", function(){return view("index");})->name("home");
 //version movil
 //refactorizar
 //usuarios unidos
-//eventos para cada section
-//actualizar datos
+//eventos para cada section, para poner y quitar del mapa los acorder
+//ajustar actualizar datos de todo, poner intervalo
+//borrar imagen

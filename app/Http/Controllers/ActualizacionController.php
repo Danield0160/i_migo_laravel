@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Events\ActualizacionEvento;
 use Illuminate\Http\Request;
 
+// websocket actualizacion
 class ActualizacionController extends Controller
 {
     public function mensaje(){

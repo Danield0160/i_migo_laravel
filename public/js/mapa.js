@@ -65,7 +65,7 @@ cargarMapaClass=()=>{
             this.autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
             google.maps.event.addListener(this.autocompletado_input,"places_changed",()=>this.cambiarLugar())
 
-            setTimeout(()=>actualizar_listado_popus_visibles(),1800)
+
 
 
             this.buttonObtenerUbicacion = document.createElement("button");
@@ -368,6 +368,7 @@ google.maps.importLibrary("maps").then(
             let MapaClass = cargarMapaClass()
             MapaGoogleObject = new MapaClass() // isntancia del objeto mapa
             terminadoDeCargar() // resolucion de la promesa de cargado
+            actualizar_listado_popus_visibles()
         })
 
 
