@@ -172,12 +172,11 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
                     }
                 });
                 this.desactivar()
-
             },
-            elegir_imagen(image){
+            elegir_imagen(id){
                 if(this.modo == "perfil"){
                     $.ajax({
-                        url: "/api/MyProfile/ChangePhoto/"+image.id, //TODO cambiar a put
+                        url: "/api/MyProfile/ChangePhoto/"+id, //TODO cambiar a put
                         type: 'GET',
                         success: function(data) {
                             profileSectionAppObject.cargar_perfil()
@@ -187,8 +186,8 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
 
 
                 }else if(this.modo == "evento"){
-                    document.querySelector("#imagen_id").value = image.id
-                    this.preview = "images/uploads/"+image.imagePath
+                    document.querySelector("#imagen_id").value = id
+                    this.preview = "images/id"
                     this.desactivar()
                 }
             },
@@ -389,6 +388,7 @@ async function buscarEventoSectionApp(template){
                 desactivarGlobal()
                 this.activo = true
                 Object.values(MapaGoogleObject.marcadores).forEach((evento)=>evento.popup.append())
+                actualizar_listado_popus_visibles()
             },
             desactivar(){
                 this.activo = false
@@ -477,6 +477,9 @@ async function buscarEventoSectionApp(template){
                 });
             },
             me_puedo_unir(id){
+                if(misEventoSectionAppObject.eventos_unidos == null || misEventoSectionAppObject.eventos_creados == null){
+                    return false
+                }
                 if(id in misEventoSectionAppObject.eventos_unidos){
                     return false
                 }
@@ -486,12 +489,18 @@ async function buscarEventoSectionApp(template){
                 return true
             },
             me_puedo_salir(id){
+                if(misEventoSectionAppObject.eventos_unidos == null){
+                    return false
+                }
                 if(id in misEventoSectionAppObject.eventos_unidos){
                     return true
                 }
                 return false
             },
             es_propietario(id){
+                if(misEventoSectionAppObject.eventos_creados == null){
+                    return false
+                }
                 if (id in misEventoSectionAppObject.eventos_creados){
                     return true
                 }
@@ -650,6 +659,7 @@ function misEventoSectionApp(template){
         })
     }
     cargar_mis_eventos_unidos()
+    setInterval(()=>{if(misEventoSectionAppObject.activo){cargar_mis_eventos_unidos()}},2500)
 
     function cargar_mis_eventos_creados(){
         $.get("./api/MyCreatedEvents",function(raw_data){
@@ -662,6 +672,7 @@ function misEventoSectionApp(template){
         })
     }
     cargar_mis_eventos_creados()
+    setInterval(()=>{if(misEventoSectionAppObject.activo){cargar_mis_eventos_creados()}},2500)
 }
 
 

@@ -5,8 +5,11 @@
             @csrf
             <label id='choose_imagen_nueva'><i class="fa-solid fa-upload"></i><p>Subir imagen</p><input name='file_upload' id='file_upload' type='file'></label>
         </form>
+        <div>
+            <img :src="'images/1'" @click="elegir_imagen(1)">
+        </div>
         <div v-for='image in imagenes'>
-            <img :src="'images/uploads/' + image.imagePath" @click="elegir_imagen(image)">
+            <img :src="'images/'+ image.id" @click="elegir_imagen(image.id)">
             <form onsubmit="return false" class="form_delete_image">
                 @csrf
                 @method("DELETE")

@@ -79,6 +79,7 @@ cargarMapaClass=()=>{
             this.mapa.addListener("contextmenu",(event)=>{
                 this.crearMenuContextual(event.latLng.lat(),event.latLng.lng())
             })
+            this.actualizarMedianteArrastrado()
 
         }
         // "evento" para que el usuario coja la ubicacion para la creacion de eventos
@@ -235,7 +236,8 @@ cargarMapaClass=()=>{
         }
         //TODO: refactorizar actualizacion mediante arrastrasdo
         actualizarMedianteArrastrado(){
-            google.maps.event.addListenerOnce(this.mapa, 'idle', () => {
+            google.maps.event.addListener(this.mapa, 'idle', () => {
+                console.log("a")
                 setTimeout(actualizar_listado_popus_visibles, 250)
             })
         }
@@ -424,7 +426,6 @@ function actualizar_listado_popus_visibles(){
     })
 
 
-    MapaGoogleObject.actualizarMedianteArrastrado()
 }
 
 //lamada a la api con la posicion del mapa, y la distancia para conseguir los eventos cercanos

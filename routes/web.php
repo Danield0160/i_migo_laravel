@@ -32,7 +32,7 @@ Route::get("/app",function(){
 })->name("app");
 
 
-Route::controller(EventoController::class)->group(function () {
+Route::controller(EventController::class)->group(function () {
     Route::get("/api/MyJoinedEvents","obtainJoinedEvents");
     Route::post("/api/JoinEvent","joinEvent");
     Route::post("/api/LeaveEvent","leaveEvent");
@@ -113,6 +113,4 @@ Route::get("/home", function(){return view("index");})->name("home");
 
 //limpieza de links
 //validacion formulario
-//enter formulario abre las imagenes
 //hacer que no haga falta clickar en el boton obtener ubicacion
-//hacer que la imagen 1 sea global
