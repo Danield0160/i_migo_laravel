@@ -37,7 +37,7 @@
                             <input id="event_id" name="event_id" type="text" :value="evento.id" hidden>
                             <button class="button_unir" @click="salirse_de_evento($event)" >
                                 salirse
-                                <p>@{{evento.asistentes}} / @{{evento.asistence_limit}}</p>
+                                <p>@{{evento.asistentes}} / @{{evento.assistants_limit}}</p>
                             </button>
                         </form>
 
@@ -48,7 +48,7 @@
                             <input id="event_id" name="event_id" type="text" :value="evento.id" hidden>
                             <button class="button_salir" @click="eliminar_evento($event)" >
                                 eliminar
-                                <p>@{{evento.asistentes}} / @{{evento.asistence_limit}}</p>
+                                <p>@{{evento.asistentes}} / @{{evento.assistants_limit}}</p>
                             </button>
                         </form>
                     </div>
@@ -80,7 +80,7 @@
 
                 {{-- <h4>@{{evento_creado.name}}</h4> --}}
                 {{-- <p>@{{evento_creado.description}}</p> --}}
-                {{-- <p>@{{evento_creado.asistentes}} / @{{evento_creado.asistence_limit}}</p> --}}
+                {{-- <p>@{{evento_creado.asistentes}} / @{{evento_creado.assistants_limit}}</p> --}}
                 {{-- <span class="kilometraje">@{{Math.trunc(distancia(evento_creado.lat,evento_creado.lng) * 100)/100}} km</span> --}}
 
             {{-- </div> --}}

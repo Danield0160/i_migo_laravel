@@ -29,6 +29,15 @@
                     <label class="form-label">Fecha</label>
                     <input type="datetime-local" class="form-control" name="date" required>
                 </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Latitud</label>
+                    <input type="text" class="form-control" name="lat" required>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Longitud</label>
+                    <input type="text" class="form-control" name="lng" required>
+                </div>
+                <input type="hidden" name="role" value="admin">
             </div>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-success" role="button">Enviar</button>

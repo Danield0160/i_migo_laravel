@@ -117,7 +117,9 @@ class UserController extends Controller
                     'verified' => 0,
                 ]);
             }
+
         Mail::to($user->email)->send(new NewUserEmail($user, $auth_code));
+
         DB::commit();
             Log::channel('debugger')->info('Usuario creado correctamente.');
             if($role == 'admin'){

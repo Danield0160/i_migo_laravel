@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label class="form-label">Límite de Asistentes</label>
-                    <input type="number" class="form-control" name="assistants_limit" value="{{ $event->asistence_limit }}">
+                    <input type="number" class="form-control" name="assistants_limit" value="{{ $event->assistants_limit }}">
                 </div>
                 <div class="col-md-3 mb-3">
                     <label class="form-label">Patrocinado</label>
@@ -29,6 +29,14 @@
                 <div class="col-md-3 mb-3">
                     <label class="form-label">Fecha</label>
                     <input type="datetime-local" class="form-control" name="date" value="{{ \Carbon\Carbon::parse($event->date)->format('Y-m-d\TH:i') }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Latitud</label>
+                    <input type="text" class="form-control" name="lat" value="{{ $event->lat }}">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label class="form-label">Longitud</label>
+                    <input type="text" class="form-control" name="lng" value="{{ $event->lng }}">
                 </div>
             </div>
             <div class="d-grid gap-2">

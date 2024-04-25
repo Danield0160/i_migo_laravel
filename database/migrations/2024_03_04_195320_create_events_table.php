@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("description");
             $table->bigInteger("imagen_id")->nullable();
             // $table->integer("asistentes")->default(0);
-            $table->integer("asistence_limit")->nullable();
+            $table->integer("assistants_limit")->nullable();
             $table->double("lat");
             $table->double("lng");
             $table->datetime("date")->nullable();

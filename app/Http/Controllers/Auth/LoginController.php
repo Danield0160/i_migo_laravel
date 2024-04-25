@@ -26,24 +26,25 @@ class LoginController extends Controller
     {
 
         $user = User::where("active", 1)->where("email",$request->email)->first();
-        Storage::put('file.txt', $request->$user);
+
         if($user == null){
-            return false;
+            session()->flash('error', 'Por favor introduzca un correo electrónico válido.');
+            return redirect()->route('home');
         }
 
-        if (Hash::check($request->password, $user->password)) {
-            Auth::login($user);
+        if (!Hash::check($request->password, $user->password)) {
             session()->flash('error', 'Usuario o contraseña incorrectos.');
+            return redirect()->route('home')->withInput();
         }
 
         if(!isset($user)){
             session()->flash('error', 'Usuario o contraseña incorrectos.');
-            return false;
+            return redirect()->route('home')->withInput();
         }
 
         if($user->verified == 0){
             session()->flash('error', 'Usuario no verificado.');
-            return false;
+            return redirect()->route('home')->withInput();
         }
 
         Auth::login($user);

@@ -42,7 +42,7 @@
                             <td>{{ $event->name }}</td>
                             <td>{{ $event->description }}</td>
                             <td>{{ $event->asistentes }}</td>
-                            <td>{{ $event->asistence_limit }}</td>
+                            <td>{{ $event->assistants_limit }}</td>
                             <td>
                                 @if ($event->sponsored)
                                     ✅
