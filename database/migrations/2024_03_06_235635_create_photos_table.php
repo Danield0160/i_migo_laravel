@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer("id_creador");
-            $table->string("ruta",150);
+            $table->integer("creator_id");
+            $table->string("imagePath",150);
         });
     }
 

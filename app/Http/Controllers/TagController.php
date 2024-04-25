@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    public static function obtener_todos(){
+    public static function obtainAllTags(){
         return Tag::all();
     }
 }

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date("fecha_nacimiento")->nullable();
+            $table->date("birthdate")->nullable();
             $table->boolean("premium")->default(false);
-            $table->string("redes")->nullable();
+            $table->string("social_networks")->nullable();
 
         });
     }

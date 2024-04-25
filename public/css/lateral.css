@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 #lateral-izq{
     display: inline-block;
-    width: 33%;
+    width: 40%;
     position: relative;
 }
 #lateral-der{
@@ -362,8 +362,63 @@ i {
     height: auto;
     justify-content: center;
 }
+#preview{
+    margin: 10px;
+    padding: 5px;
+    border: 2px solid red;
+    background-color: salmon;
+    border-radius: 10px;
+    width: min-content;
+    text-align: center;
+    box-shadow: 3px 3px 3px rgb(156, 0, 0);
+}
 #preview img{
-    height: 50px;
+    height: 75px;
+}
+
+
+#choose_image_event >*{
+    display: block;
+}
+
+.form_delete_image button{
+    color: red;
+    background-color: unset;
+    border: 0;
+    font-size: x-large;
+    font-weight: bold;
+    position: relative;
+    top: -10px;
+    left: -10px;
+    text-shadow: 0px 0px 3px white;
+
+}
+
+
+/* crear evento */
+#formulario_crear #tags{
+    padding: 10px;
+}
+#formulario_crear .tag_div{
+    display: inline-block;
+    padding: 1px 5px;
+    margin: 2px 5px;
+    border: 1px solid black;
+    border-radius: 25px;
+}
+#formulario_crear .activo{
+    background-color: red;
+    color: white;
+}
+#formulario_crear .boton_envio{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    font-size: large;
+    font-weight: bold;
+    margin-left: -15px;
 }
 
 
@@ -372,14 +427,16 @@ i {
 #selector_mis_eventos{
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    margin-top: 14px;
 }
-#selector_mis_Eventos>button{
+.boton_selector{
     font-weight: bold;
     border: 0;
     background-color: unset;
+    outline: unset;
+    border: 0;
 }
-#selector_mis_Eventos>button.activo{
+.boton_selector.activo{
     border-bottom: 3px solid salmon;
 }
 

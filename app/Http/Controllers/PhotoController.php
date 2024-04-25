@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+
 
 class PhotoController extends Controller
 {
-    public static function obtener_fotos(){
-        return Photo::obtener_fotos_de_usuario_actual();
+    public static function obtainMyPhotos(){
+        return Photo::obtainMyCurrentProfilePhoto();
     }
 
-    public static function guardar_imagen(Request $request){
+    public static function storeImage(Request $request){
         $request->validate(['file_upload' => 'required|mimes:pdf,jpg,avif,png|max:2048',]);
         $imageName = time().'.'.$request->file("file_upload")->extension();
         $request->file("file_upload")->move(public_path('images/uploads'), $imageName);
@@ -21,14 +23,24 @@ class PhotoController extends Controller
         }
 
         $photo = new Photo;
-        $photo->id_creador = $request->user()->id;
-        $photo->ruta = $imageName;
+        $photo->creator_id = $request->user()->id;
+        $photo->imagePath = $imageName;
         $photo->save();
     }
 
-    public static function otbtener_imagen(Request $request){
+    // image handler
+    public static function ObtainImage(Request $request){
         $photo = Photo::find($request->id);
-        $ruta  = "images/uploads/" . $photo->ruta;
-        return response()->file($ruta);
+        $imagePath  = "images/uploads/" . $photo->imagePath;
+        return response()->file($imagePath);
+    }
+
+    public static function deleteImage(Request $request){
+        debugbar()->info($request);
+        $photo = Photo::find($request->id);
+        $imagePath  = "images/uploads/" . $photo->imagePath;
+        File::delete($imagePath);
+        $photo->delete();
+        return;
     }
 }

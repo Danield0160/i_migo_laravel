@@ -18,25 +18,25 @@ use function Symfony\Component\String\b;
 class EventoController extends Controller
 {
 
-    public function crearEvento(Request $request){
+    public function createEvent(Request $request){
 
-        $nombre = $request->input("name");
-        $desc = $request->input("descripcion");
+        $name = $request->input("name");
+        $desc = $request->input("description");
         $limite = $request->input("limite");
         $latitud = $request->input("latitud");
         $longitud = $request->input("longitud");
-        $fecha = $request->input("fecha")." ".$request->input("time");
-        $patrocinado = $request->input("patrocinado")?true:false;
+        $date = $request->input("date")." ".$request->input("time");
+        $sponsored = $request->input("sponsored")?true:false;
 
         $evento = new Event;
-        $evento->id_creador = auth()->id();
-        $evento->nombre = $nombre;
-        $evento->descripcion = $desc;
-        $evento->limite_asistentes = $limite;
+        $evento->creator_id = auth()->id();
+        $evento->name = $name;
+        $evento->description = $desc;
+        $evento->asistence_limit = $limite;
         $evento->lat = $latitud;
         $evento->lng = $longitud;
-        $evento->fecha = $fecha;
-        $evento->patrocinado = $patrocinado;
+        $evento->date = $date;
+        $evento->sponsored = $sponsored;
 
         // $request->validate(['imagen' => 'required|mimes:pdf,jpg,avif,png|max:2048',]);
         // $imageName = time().'.'.$request->file("imagen")->extension();
@@ -44,8 +44,8 @@ class EventoController extends Controller
         // $imageName?null:$imageName="logo.png";
 
         // $photo = new Photo;
-        // $photo->id_creador = $request->user()->id;
-        // $photo->ruta = $imageName;
+        // $photo->creator_id = $request->user()->id;
+        // $photo->imagePath = $imageName;
         // $photo->save();
 
         debugbar()->info($request);
@@ -57,8 +57,8 @@ class EventoController extends Controller
         if($request->get("tags")){
             foreach (explode(",",$request->get("tags")) as $key => $value) {
                 $evento_tag = new Event_tag;
-                $evento_tag->id_evento = $evento->id;
-                $evento_tag->id_tag = $value;
+                $evento_tag->event_id = $evento->id;
+                $evento_tag->tag_id = $value;
                 $evento_tag->save();
             }
         }
@@ -69,32 +69,31 @@ class EventoController extends Controller
         // return back();
     }
 
-    public static function obtener_cercanos($lat,$lng,$dist){
+    public static function ObtainNearEvents($lat,$lng,$dist){
 
-        debugbar()->info("eventos cercanos");
-        // foreach (Event::obtenerEventosCercanos($lat,$lng,$dist) as $key => $value) {
-        //     debugbar()->info($value->nombre,$value->distancia);
+        // foreach (Event::obtainNearEvents($lat,$lng,$dist) as $key => $value) {
+        //     debugbar()->info($value->name,$value->distancia);
         // }
 
-        $nearEvents = Event::obtenerEventosCercanos($lat,$lng,$dist);
+        $nearEvents = Event::obtainNearEvents($lat,$lng,$dist);
 
         return $nearEvents;
     }
 
 
-    public function obtenerEventosUnidos(){
-        return Event::obtenerMisEventosUnidos();
+    public function obtainJoinedEvents(){
+        return Event::obtainMyJoinedEvents();
     }
 
-    public function obtenerEventosCreados(){
-        return Event::obtenerMisEventosCreados();
+    public function obtainCreatedEvents(){
+        return Event::obtainMyCreatedEvents();
     }
 
 
-    public function unirse_a_evento(Request $request){
+    public function joinEvent(Request $request){
 
         $evento =Event::find($request->input("event_id"));
-        if($evento->getAsistentesAttribute() >= $evento->limite_asistentes){
+        if($evento->getAsistentesAttribute() >= $evento->asistence_limit){
             throw \Illuminate\Validation\ValidationException::withMessages(["limite excedido"]);
         };
 
@@ -106,14 +105,14 @@ class EventoController extends Controller
 
     }
 
-    public function salir_de_evento(Request $request){
+    public function leaveEvent(Request $request){
         $event_user = Event_user::where("event_id","=", $request->input("event_id"))
             ->where("user_id","=",auth()->id())
             ->get()[0];
         $event_user->delete();
     }
 
-    public function eliminar_evento(Request $request){
+    public function deleteEvent(Request $request){
         $event = Event::where("id","=", $request->input("event_id"), "and", "user_id","=",auth()->id())->get()[0];
         $event->delete();
     }

@@ -1,5 +1,7 @@
 // const { computed } = require("vue");
 
+// const { data } = require("autoprefixer");
+
 // ---------Responsive-navbar-active-animation-----------
 function test(){
 	var tabsNewAnim = $('#navbarSupportedContent');
@@ -87,7 +89,7 @@ jQuery(document).ready(function($){
 $.get("./api/AllTags",function(raw_data){
     data ={}
     raw_data.forEach(dato => {
-        data[dato.id] = {categoria:dato.categoria,id:dato.id}
+        data[dato.id] = {category_name:dato.category_name,id:dato.id}
     });
     TAGS = data
 })
@@ -100,7 +102,7 @@ function cargar_imagenes(appObject=null){
     $.get("./api/MyPhotos",function(raw_data){
         data ={}
         raw_data.forEach(dato => {
-            data[dato.id] = {ruta:dato.ruta, id:dato.id}
+            data[dato.id] = {imagePath:dato.imagePath, id:dato.id}
         });
         USER_IMAGES = data
         if(resolver_cargado_imagenes){
@@ -132,6 +134,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
         methods:{
             activar(){
                 this.activo = true
+
             },
             desactivar(forzar = false){
                 this.activo = false
@@ -140,7 +143,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
                 }
             },
             imagen(id){
-                return "images/uploads/"+USER_IMAGES[id].ruta
+                return "images/uploads/"+USER_IMAGES[id].imagePath
             },
             iniciar_escucha(){
                 setTimeout(()=>
@@ -152,7 +155,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
             },
             subir_imagen(){
                 let formData = new FormData($("#formulario_subir_foto")[0])
-
+                console.log("envio")
                 $.ajax({
                     type:'POST',
                     url: "/api/uploadImage",
@@ -168,6 +171,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
                         console.log("error");
                     }
                 });
+                this.desactivar()
 
             },
             elegir_imagen(image){
@@ -184,9 +188,31 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
 
                 }else if(this.modo == "evento"){
                     document.querySelector("#imagen_id").value = image.id
-                    this.preview = "images/uploads/"+image.ruta
+                    this.preview = "images/uploads/"+image.imagePath
                     this.desactivar()
                 }
+            },
+            remove_image(event){
+                object = this
+                let formData = new FormData(event.target.parentElement);
+                $.ajax({
+                    url: "/api/deleteImage",
+                    data:formData,
+                    type: 'POST',
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        cargar_imagenes(chooseImageSectionObject)
+                        object.desactivar()
+                        if(formData.get("id") == profileSectionAppObject.data.profile_photo_id){
+                            chooseImageSection.unmount()
+                            profileSectionAppObject.data.profile_photo_id = 1
+                        }
+                    },
+                    error(data){
+                        console.log(data)
+                    }
+                });
             }
         },computed:{
             imagenes(){
@@ -195,6 +221,8 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
         }
     })
     chooseImageSectionObject =chooseImageSection.mount("#"+montaje)
+    cargar_imagenes(chooseImageSectionObject)
+
 }
 
 
@@ -205,7 +233,7 @@ async function crearProfileSectionApp(template){
         data(){
             $("#profile_button").on("click",function(){profileSectionAppObject.activar()})
             return {
-                activo:true,
+                activo:false,
                 data:null
             };
         },
@@ -223,7 +251,7 @@ async function crearProfileSectionApp(template){
             },
             imagen(id){
                 if(USER_IMAGES[id]){
-                    return "images/uploads/"+USER_IMAGES[id].ruta
+                    return "images/uploads/"+USER_IMAGES[id].imagePath
                 }
                 return "images/1"
             },
@@ -271,6 +299,9 @@ async function crearEventoSectionApp(template){
         template:template,
         methods:{
             activar(){
+                if(this.activo){
+                    return
+                }
                 desactivarGlobal()
                 this.activo = true
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "1"
@@ -301,7 +332,7 @@ async function crearEventoSectionApp(template){
 
                 $.ajax({
                     type:'POST',
-                    url: "/api/CrearEvento",
+                    url: "/api/CreateEvent",
                     data:formData,
                     cache:false,
                     contentType: false,
@@ -318,6 +349,12 @@ async function crearEventoSectionApp(template){
                 document.getElementById('latitud').value = null;
                 document.getElementById('longitud').value = null;
                 MapaGoogleObject.eliminarEventosObtenerUbicacion(true)
+            },
+            seleccionar(event){
+                if(event.target.tagName != "LABEL"){
+                    return
+                }
+                event.target.parentElement.classList.toggle("activo")
             }
         },computed:{
             tags(){
@@ -329,12 +366,14 @@ async function crearEventoSectionApp(template){
 }
 
 var buscarEventoSectionAppObject;
-function buscarEventoSectionApp(template){
+async function buscarEventoSectionApp(template){
+    await AllLoaded;
     EventoSectionApp = createApp({
         data(){
             $("#buscar_eventos_button")[0].onclick =function(){buscarEventoSectionAppObject.activar()}
+            console.log("3")
             return {
-                activo:false,
+                activo:true,
                 eventosVisibles:[],
                 input:"",
                 ultimo_evento_mostrado:null,
@@ -344,11 +383,16 @@ function buscarEventoSectionApp(template){
         template:template,
         methods:{
             activar(){
+                if(this.activo){
+                    return
+                }
                 desactivarGlobal()
                 this.activo = true
+                Object.values(MapaGoogleObject.marcadores).forEach((evento)=>evento.popup.append())
             },
             desactivar(){
                 this.activo = false
+                Object.values(MapaGoogleObject.marcadores).forEach((evento)=>evento.popup.remove())
             },
             addEventoVisible(id){
                 this.eventosVisibles.push(id)
@@ -372,7 +416,6 @@ function buscarEventoSectionApp(template){
                 evento = MapaGoogleObject.marcadores[index].datos
                 quitar = this.ultimo_evento_mostrado == index
                 if(this.ultimo_evento_mostrado_div){
-
                     this.ultimo_evento_mostrado_div.classList.remove("mostrando")
                 }
 
@@ -395,7 +438,7 @@ function buscarEventoSectionApp(template){
                 }
                 this.ultimo_evento_mostrado_div =  $(event.target).closest(".evento_listado_container")[0]
             },
-            unirse_a_evento(event){
+            joinEvent(event){
                 formData = new FormData(event.target.parentElement)
                 $.ajax({
                     type:'POST',
@@ -455,10 +498,12 @@ function buscarEventoSectionApp(template){
                 return false
             },
             point(index){
-                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].classList.add("mostrando")
+                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[0].classList.add("mostrando")
+                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[1].classList.add("mostrando")
             },
             notPoint(index){
-                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].classList.remove("mostrando")
+                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[0].classList.remove("mostrando")
+                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[1].classList.remove("mostrando")
             }
         },
         computed:{
@@ -471,11 +516,10 @@ function buscarEventoSectionApp(template){
             eventos_Visibles(){
                 this.eventosVisibles;
                 this.input;
-
                 var eventos_visibles_datos = Object.values(MapaGoogleObject.marcadores)
                 .map((marcador)=>marcador.datos)
                 .filter((datos)=>Object.values(this.eventosVisibles).includes(datos.id))
-                .map((marcador_datos)=>{marcador_datos.tags? marcador_datos.tags.split(",").map((tag_id)=>marcador_datos[tag_id]=TAGS[tag_id].categoria) : null ;return marcador_datos})
+                .map((marcador_datos)=>{marcador_datos.tags? marcador_datos.tags.split(",").map((tag_id)=>marcador_datos[tag_id]=TAGS[tag_id].category_name) : null ;return marcador_datos})
 
 
                 var eventos = []
@@ -487,8 +531,8 @@ function buscarEventoSectionApp(template){
                 });
 
                 return eventos.sort((a,b)=>{
-                    let dist_a = this.eventos[a].evento.distancia
-                    let dist_b = this.eventos[b].evento.distancia
+                    let dist_a = this.eventos[a].datos.distancia
+                    let dist_b = this.eventos[b].datos.distancia
                     if (dist_a<dist_b){return -1}
                     if (dist_a>dist_b){return 1}
                     else{return 0}
@@ -499,6 +543,8 @@ function buscarEventoSectionApp(template){
     })
 
     buscarEventoSectionAppObject = EventoSectionApp.mount("#buscarEventoSection")
+    actualizar_listado_popus_visibles()
+
 }
 
 
@@ -524,6 +570,7 @@ function misEventoSectionApp(template){
             activar(){
                 desactivarGlobal()
                 this.activo = true
+                this.modo="Eventos unidos"
             },
             desactivar(){
                 this.activo = false
@@ -648,7 +695,7 @@ showEventApp = createApp({
             return MapaGoogleObject.marcadores[this.index].datos
         }
     },template:
-    "<h1>{{evento['nombre']}}</h1>"
+    "<h1>{{evento['name']}}</h1>"
 })
 showEventAppObject = showEventApp.mount($("#modal-content")[0])
 

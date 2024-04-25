@@ -8,7 +8,7 @@
         <form action="{{ route('events.index') }}" method="GET" class="mb-3">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" name="search" class="form-control" placeholder="Buscar por nombre, descripción, etc." value="{{ request()->input('search') }}">
+                    <input type="text" name="search" class="form-control" placeholder="Buscar por name, descripción, etc." value="{{ request()->input('search') }}">
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary">Buscar</button>
@@ -39,18 +39,18 @@
                                     ❌
                                 @endif
                             </td>
-                            <td>{{ $event->nombre }}</td>
-                            <td>{{ $event->descripcion }}</td>
+                            <td>{{ $event->name }}</td>
+                            <td>{{ $event->description }}</td>
                             <td>{{ $event->asistentes }}</td>
-                            <td>{{ $event->limite_asistentes }}</td>
+                            <td>{{ $event->asistence_limit }}</td>
                             <td>
-                                @if ($event->patrocinado)
+                                @if ($event->sponsored)
                                     ✅
                                 @else
                                     ❌
                                 @endif
                             </td>
-                            <td>{{ $event->fecha }}</td>
+                            <td>{{ $event->date }}</td>
                             <td>
                                 <form action="{{ route('events.destroy', $event->id) }}" method="POST" id="delete-form">
                                     @csrf

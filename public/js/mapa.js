@@ -90,7 +90,7 @@ cargarMapaClass=()=>{
             div.appendChild(boton)
             div.style.backgroundColor = "white"
             div.style.position = "relative"
-            div.style.top = "-15px"
+            div.style.top = "-22px"
             div.style.left = "-10px"
             let popup = new PopupClass(new google.maps.LatLng(Number(latitud), Number(longitud)), div, false);
             popup.setMap(this.mapa)
@@ -193,14 +193,11 @@ cargarMapaClass=()=>{
 
 
         //crea un objeto evento, le asocia un objeto popup con un div pasado como parametro
-        addCustomMarker(lat, lng, div, id, eventoObject) {
-            let popup = new PopupClass(new google.maps.LatLng(lat, lng), div);
-            popup.id = id
-            this.estaObteniendoUbicacion? null : popup.setMap(this.mapa);
-            eventoObject.popup = popup
-            this.marcadores[id] = eventoObject
-            div.style.opacity = 0
-            setTimeout(()=>{this.actualizarIconoZoom();div.style.opacity = 1},20) //delay para que se actualize en base a zoom
+        addCustomMarker(eventoObject) {
+            this.estaObteniendoUbicacion? null : eventoObject.popup.setMap(this.mapa);
+            this.marcadores[eventoObject.datos.id] = eventoObject
+            eventoObject.popup.containerDiv.style.opacity = 0
+            setTimeout(()=>{this.actualizarIconoZoom();eventoObject.popup.containerDiv.style.opacity = 1},20) //delay para que se actualize en base a zoom
         }
 
         //cambia la apariencia de los popups en base al zoom del mapa
@@ -276,23 +273,22 @@ cargarPopupClass = () => {
     return class PopupClass extends google.maps.OverlayView {
         position;
         containerDiv;
-        constructor(position, element, hacerAnchor = true) {
+        constructor(position, div, id, hacerAnchor = true) {
             super();
+            this.id = id
             this.position = {lat:position.lat(),lng:position.lng()};
-            element.classList.add("popup-bubble");
+            div.classList.add("popup-bubble");
 
             // decorador de la burbuja (triangulo de abajo)
             const bubbleAnchor = document.createElement("div");
             hacerAnchor?bubbleAnchor.classList.add("popup-bubble-anchor"):null;
-            bubbleAnchor.appendChild(element);
+            bubbleAnchor.appendChild(div);
             // contenedor del popup
             this.containerDiv = document.createElement("div");
             this.containerDiv.classList.add("popup-container");
             this.containerDiv.appendChild(bubbleAnchor);
             // el popup bloquea la interaccion con el mapa.
             PopupClass.preventMapHitsAndGesturesFrom(this.containerDiv);
-
-
         }
         /** Called when the popup is added to the map. */
         onAdd() {
@@ -350,6 +346,11 @@ cargarPopupClass = () => {
         remove(){
             this.setMap(null)
         }
+        append(){
+            if(this.map == null){ // hay que hacer esto por que si pones dos veces el evento, se quita en vez de seguir puesto
+                this.setMap(MapaGoogleObject.mapa)
+            }
+        }
     }
 }
 
@@ -368,7 +369,6 @@ google.maps.importLibrary("maps").then(
             let MapaClass = cargarMapaClass()
             MapaGoogleObject = new MapaClass() // isntancia del objeto mapa
             terminadoDeCargar() // resolucion de la promesa de cargado
-            actualizar_listado_popus_visibles()
         })
 
 
@@ -387,17 +387,17 @@ google.maps.importLibrary("maps").then(
 //     var contenidoDatosDiv = modalContent.querySelector('.contenido-datos');
 
 //     // Agrega la descripción y el botón de unirse al div contenido-datos
-//     var descripcion = document.createElement('p');
-//     var descripcionTexto = document.createElement('span');
-//     descripcion.textContent = 'Descripción: ';
-//     // descripcionTexto.textContent = datos['descripcion'];
+//     var description = document.createElement('p');
+//     var descriptionTexto = document.createElement('span');
+//     description.textContent = 'Descripción: ';
+//     // descriptionTexto.textContent = datos['description'];
 
 //     // Establece el estilo de la descripción a negrita y el texto de descripción a cursiva
-//     descripcion.style.fontWeight = 'bold';
-//     descripcionTexto.style.fontStyle = 'italic';
+//     description.style.fontWeight = 'bold';
+//     descriptionTexto.style.fontStyle = 'italic';
 
-//     contenidoDatosDiv.appendChild(descripcion);
-//     contenidoDatosDiv.appendChild(descripcionTexto);
+//     contenidoDatosDiv.appendChild(description);
+//     contenidoDatosDiv.appendChild(descriptionTexto);
 
 //     var unirseBtn = document.createElement('button');
 //     unirseBtn.textContent = 'Unirse';
@@ -433,70 +433,25 @@ async function actualizar_datos(){ //TODO mejorar actualizacion de datos, quizas
         data.forEach(function(datos){
             let eventoDatos = datos
             eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
-            eventoDatos.fecha = new Date(datos["fecha"])
+            eventoDatos.date = new Date(datos["date"])
 
             // if(datos.tags){
-            //     eventoDatos.tags = datos["tags"].split(",").map((x)=>TAGS[x].categoria) //TODO: hacer variable global TAGS
+            //     eventoDatos.tags = datos["tags"].split(",").map((x)=>TAGS[x].category_name) //TODO: hacer variable global TAGS
             // }
 
             //si ya existia el evento, lo actualiza
             if(Object.keys(MapaGoogleObject.marcadores).includes(String(datos.id))){
                 Object.keys(eventoDatos).forEach(function(atributo){
-                    MapaGoogleObject.marcadores[eventoDatos.id].evento[atributo] = eventoDatos[atributo]
+                    MapaGoogleObject.marcadores[eventoDatos.id].datos[atributo] = eventoDatos[atributo]
                 })
                 return
             }
 
-            div = document.createElement("div")
-            fecha = new Date(datos.fecha)
-
-
-            let eventoApp = createApp({
-                data(){
-                    return {
-                        id:datos.id,
-                        fecha:fecha,
-                        dato:eventoDatos,
-                        popup:null,
-                        showEventAppObject:showEventAppObject
-                    }
-                },
-                computed:{
-                    datos(){
-                        return this.dato
-                    },
-                    evento(){
-                        return this.datos
-                    }
-                },
-                method:{
-                    remove(){
-                        this.popup.remove()
-                    }
-                },
-                //template para los div eventos del mapa
-                template:`
-                <div class="evento" v-on:click="showEventAppObject.showEventDetails(id)">
-                    <div class="icono"></div>
-                    <div class="contenido">
-                        <div class="contenido-imagen">
-                            <img :src='"images/"+evento.imagen_id' alt="Imagen del evento">
-                        </div>
-                        <div class="contenido-datos">
-                            <h2><i>{{evento.nombre}}</i></h2>
-                            <p><b>Fecha:</b> {{fecha.toLocaleDateString("es-ES",{weekday:"long", year:"numeric",month:"long",day:"numeric"})}}</p>
-                            <p><b>Hora:</b> {{fecha.getHours()}} : {{String(fecha.getMinutes()).padStart("2","0")}}</p>
-                            <p><b>Asistentes</b>: {{evento.asistentes}} / {{evento.limite_asistentes}}</p>
-                        </div>
-                    </div>
-                </div>`
-            })
-            let eventoObject = eventoApp.mount(div)
-            MapaGoogleObject.addCustomMarker(datos.lat, datos.lng, div.children[0], datos.id, eventoObject)
-
+            eventoObject = createPopup(eventoDatos)
+            MapaGoogleObject.addCustomMarker(eventoObject)
         })
 
-        //eliminar eventos que ya no existen en el mapa
+        //eliminar eventos que ya no existen en el mapa (osea, si se elimino el evento o esta lejos de ti)
         let indicesDatosActivo = data.map((dato)=>dato.id)
         Object.keys(MapaGoogleObject.marcadores).forEach(function(indiceMarcador){
             if(!indicesDatosActivo.includes(Number(indiceMarcador))){
@@ -512,3 +467,26 @@ async function actualizar_datos(){ //TODO mejorar actualizacion de datos, quizas
 
 
 
+function createPopup(eventoDatos){
+        div = document.createElement("div")
+        let eventoApp = createApp({
+        data(){
+            return {
+                id:eventoDatos.id,
+                datos:eventoDatos,
+                // showEventAppObject:showEventAppObject,
+                popup:null
+            }
+        },
+        computed:{
+        },
+        method:{
+        },
+        //template para los div eventos del mapa
+        template:POPUP_TEAMPLATE
+    })
+    let eventoObject = eventoApp.mount(div)
+    eventoObject.popup= new PopupClass(new google.maps.LatLng(eventoDatos.lat, eventoDatos.lng), div.children[0], eventoDatos.id)
+
+    return eventoObject
+}

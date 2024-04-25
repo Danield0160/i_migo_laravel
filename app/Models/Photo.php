@@ -12,8 +12,8 @@ use Illuminate\Http\Request;
 class Photo extends Model
 {
     use HasFactory;
-    public static function obtener_fotos_de_usuario_actual(){
-        return Photo::select(["id","ruta"])
-        ->where("id_creador",Auth::user()->id)->get();
+    public static function obtainMyCurrentProfilePhoto(){
+        return Photo::select(["id","imagePath"])
+        ->where("creator_id",Auth::user()->id)->get();
     }
 }

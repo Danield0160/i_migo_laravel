@@ -62,7 +62,7 @@ class EventController extends Controller
                 'lat' => $request->lat, // Latitud del lugar del evento
                 'lng' => $request->lng, // Longitud del lugar del evento
                 'date' => $request->date, // Fecha y hora del evento
-                'sponsored' => false, // Inicialmente no está patrocinado
+                'sponsored' => false, // Inicialmente no está sponsored
                 'active' => true, // Inicialmente el evento está activo
             ]);
         }else{

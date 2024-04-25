@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    Hola {{$user->name}}, su evento con nombre <i> {{$event->name}} </i> sido creado exitosamente.
+    Hola {{$user->name}}, su evento con name <i> {{$event->name}} </i> sido creado exitosamente.
 </body>
 </html>

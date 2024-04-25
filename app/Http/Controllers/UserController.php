@@ -6,18 +6,20 @@ use Error;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Mail\NewUserEmail;
 
 class UserController extends Controller
 {
-    public static function obtener_mi_usuario(){
+    public static function obtainMyUser(){
         return User::select(["name","id","premium","profile_photo_id"])->where("id",Auth::user()->id)->get();
     }
 
-    public static function poner_foto_perfil($id){
+    public static function updateProfilePhoto($id){
         $user = User::find(Auth::user()->id);
         $user->profile_photo_id = $id;
         $user->save();
@@ -66,12 +68,24 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        if (!$this->validarDNI($request->dni)) {
+            Log::channel('debugger')->warning('DNI inválido.');
+            session()->flash('error', 'DNI inválido.');
+            return redirect()->route('home')->withInput();
+        }
+
+        if (!$this->validarEmail($request->email)) {
+            Log::channel('debugger')->warning('Correo electrónico inválido.');
+            session()->flash('error', 'Correo electrónico inválido.');
+            return redirect()->route('home')->withInput();
+        }
+
         DB::beginTransaction();
 
         // Verificar si ya existe un usuario con el mismo DNI o correo electrónico
         $existingUser = User::where('dni', $request->dni)
-        ->orWhere('email', $request->email)
-        ->first();
+            ->orWhere('email', $request->email)
+            ->first();
 
         if ($existingUser) {
             // Si ya existe un usuario con el mismo DNI o correo electrónico, muestra un mensaje de error
@@ -79,36 +93,33 @@ class UserController extends Controller
             return redirect()->route('home');
         }
 
-        if($request->pass == $request->pass_check){
+        if ($request->pass == $request->pass_check) {
             $auth_code = strval(rand(1000, 9999));
             $role = $request->input('role');
-            if($role == 'admin'){
+            if ($role == 'admin') {
                 $user = User::create([
                     'name' => $request->name,
                     'surname' => $request->surname,
                     'dni' => $request->dni,
                     'email' => $request->email,
-                    'password' => $request->pass,
+                    'password' => Hash::make($request->pass),
                     'auth_code' => $auth_code,
                     'verified' => 1,
                 ]);
-            }else{
+            } else {
                 $user = User::create([
                     'name' => $request->name,
                     'surname' => $request->surname,
                     'dni' => $request->dni,
                     'email' => $request->email,
-                    'password' => $request->pass,
+                    'password' => Hash::make($request->pass),
                     'auth_code' => $auth_code,
                     'verified' => 0,
                 ]);
             }
-
         Mail::to($user->email)->send(new NewUserEmail($user, $auth_code));
-
         DB::commit();
             Log::channel('debugger')->info('Usuario creado correctamente.');
-
             if($role == 'admin'){
                 session()->flash('success', 'Usuario creado correctamente.');
                 return redirect()->route('users.index');
@@ -121,6 +132,43 @@ class UserController extends Controller
             session()->flash('error', 'Las contraseñas no coinciden.');
             return redirect()->route('users.create');
         }
+    }
+
+    public function validarDNI($dni)
+    {
+        $validator = Validator::make(['dni' => $dni], [
+            'dni' => ['required', 'string', 'regex:/^[0-9]{8}[A-Za-z]$/i'],
+        ]);
+
+        if (!$validator->passes()) {
+            return false; // Si el formato no es válido, retorna falso
+        }
+
+        // Extraer el número y la letra del DNI
+        $numero = substr($dni, 0, -1);
+        $letra = strtoupper(substr($dni, -1));
+
+        // Array con las letras válidas para un DNI
+        $letras_validas = 'TRWAGMYFPDXBNJZSQVHLCKE';
+
+        // Calcular la letra correcta
+        $letra_calculada = $letras_validas[$numero % 23];
+
+        // Comprobar si la letra calculada coincide con la letra del DNI
+        if ($letra === $letra_calculada) {
+            return true; // DNI válido
+        } else {
+            return false; // DNI inválido
+        }
+    }
+
+    public function validarEmail($email)
+    {
+        $validator = Validator::make(['email' => $email], [
+            'email' => ['required', 'regex:/^[^\s@]+@[^\s@]+\.[^\s@]+$/'],
+        ]);
+
+        return $validator->passes();
     }
 
 

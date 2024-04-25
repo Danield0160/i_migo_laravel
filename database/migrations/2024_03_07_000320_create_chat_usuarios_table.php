@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('chat_usuarios', function (Blueprint $table) {
             $table->id(); // quitar
             $table->timestamps();
-            $table->integer("id_chat");
-            $table->integer("id_usuario");
+            $table->integer("chat_id");
+            $table->integer("user_id");
         });
     }
 

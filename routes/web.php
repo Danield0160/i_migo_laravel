@@ -33,36 +33,37 @@ Route::get("/app",function(){
 
 
 Route::controller(EventoController::class)->group(function () {
-    Route::get("/api/MyJoinedEvents","obtenerEventosUnidos");
-    Route::post("/api/JoinEvent","unirse_a_evento");
-    Route::post("/api/LeaveEvent","salir_de_evento");
+    Route::get("/api/MyJoinedEvents","obtainJoinedEvents");
+    Route::post("/api/JoinEvent","joinEvent");
+    Route::post("/api/LeaveEvent","leaveEvent");
 
-    Route::get("/api/MyCreatedEvents","obtenerEventosCreados");
-    Route::post("/api/CrearEvento","crearEvento");
-    Route::delete("/api/DeleteEvent","eliminar_evento");
+    Route::get("/api/MyCreatedEvents","obtainCreatedEvents");
+    Route::post("/api/CreateEvent","createEvent");
+    Route::delete("/api/DeleteEvent","deleteEvent");
 
-    Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}","obtener_cercanos");
+    Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}","ObtainNearEvents");
 });
 
 
 Route::controller(UserController::class)->group(function () {
-    Route::get("/api/MyProfile","obtener_mi_usuario");
-    Route::get("/api/MyProfile/ChangePhoto/{id}","poner_foto_perfil"); //TODO ajustarlo para que sea post o put
+    Route::get("/api/MyProfile","obtainMyUser");
+    Route::get("/api/MyProfile/ChangePhoto/{id}","updateProfilePhoto"); //TODO ajustarlo para que sea post o put
 });
 
 
 Route::controller(PhotoController::class)->group(function () {
-    Route::get("/api/MyPhotos","obtener_fotos");
-    Route::get("/images/{id}","otbtener_imagen");
-    Route::post("/api/uploadImage","guardar_imagen");
+    Route::get("/api/MyPhotos","obtainMyPhotos");
+    Route::get("/images/{id}","ObtainImage");
+    Route::post("/api/uploadImage","storeImage");
+    Route::delete("/api/deleteImage","deleteImage");
 });
 
 
-Route::get("/api/AllTags",[TagController::class,"obtener_todos"]);
+Route::get("/api/AllTags",[TagController::class,"obtainAllTags"]);
 
 
 //ruta para websocket
-Route::get("/mensaje",[ActualizacionController::class,"mensaje"]);
+Route::get("/message",[ActualizacionController::class,"message"]);
 
 
 
@@ -104,4 +105,14 @@ Route::get("/home", function(){return view("index");})->name("home");
 //usuarios unidos
 //eventos para cada section, para poner y quitar del mapa los acorder
 //ajustar actualizar datos de todo, poner intervalo
-//borrar imagen
+//quitar show event details
+
+//arreglar obtener ubi colocar marcador,
+//arreglar si se añade evento mientras no se esta en buscar evento
+//arreglar pinchar varias veces en obtener ubicacion
+
+//limpieza de links
+//validacion formulario
+//enter formulario abre las imagenes
+//hacer que no haga falta clickar en el boton obtener ubicacion
+//hacer que la imagen 1 sea global

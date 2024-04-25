@@ -2,8 +2,8 @@
 
     {{-- seleccionador del modo --}}
     <div id="selector_mis_eventos" onclick="if(event.target.tagName == 'BUTTON'){[...this.children].forEach((x)=>x.classList.remove('activo')); event.target.classList.add('activo')}">
-        <button @click="this.modo='Eventos unidos'" class="activo">Eventos unidos</button>
-        <button @click="this.modo='Eventos creados'">Eventos creados</button>
+        <button @click="this.modo='Eventos unidos'" class="activo boton_selector">Eventos unidos</button>
+        <button @click="this.modo='Eventos creados'" class="boton_selector">Eventos creados</button>
     </div>
 
     {{-- modo eventos unidos --}}
@@ -21,14 +21,13 @@
                 {{-- informacion del evento --}}
                 <div class="contenido">
                     <div class="datos">
-                        <h4>@{{evento.nombre}}</h4>
-                        <p class="fecha">@{{new Date(evento.fecha).toLocaleDateString()}} - @{{new Date(evento.fecha).toLocaleTimeString('es-ES',{hour: '2-digit', minute:'2-digit'})}}</p>
-                        <p>@{{evento.descripcion}}</p>
+                        <h4>@{{evento.name}}</h4>
+                        <p class="date">@{{new Date(evento.date).toLocaleDateString()}} - @{{new Date(evento.date).toLocaleTimeString('es-ES',{hour: '2-digit', minute:'2-digit'})}}</p>
+                        <p>@{{evento.description}}</p>
                     </div>
                 </div>
 
                 <div class="boton_container">
-                    @{{console.log(evento)}}
                     <span class="kilometraje">@{{Math.trunc(evento.distancia * 100)/100}} km</span>
 
                     <div>
@@ -38,7 +37,7 @@
                             <input id="event_id" name="event_id" type="text" :value="evento.id" hidden>
                             <button class="button_unir" @click="salirse_de_evento($event)" >
                                 salirse
-                                <p>@{{evento.asistentes}} / @{{evento.limite_asistentes}}</p>
+                                <p>@{{evento.asistentes}} / @{{evento.asistence_limit}}</p>
                             </button>
                         </form>
 
@@ -49,7 +48,7 @@
                             <input id="event_id" name="event_id" type="text" :value="evento.id" hidden>
                             <button class="button_salir" @click="eliminar_evento($event)" >
                                 eliminar
-                                <p>@{{evento.asistentes}} / @{{evento.limite_asistentes}}</p>
+                                <p>@{{evento.asistentes}} / @{{evento.asistence_limit}}</p>
                             </button>
                         </form>
                     </div>
@@ -57,7 +56,7 @@
                 </div>
                 {{-- Tags del evento --}}
                 <div class="tags_buscar_evento" v-if="evento.tags">
-                    <span v-for="tag in evento.tags.split(',')">@{{TAGS[tag].categoria}} </span>
+                    <span v-for="tag in evento.tags.split(',')">@{{TAGS[tag].category_name}} </span>
                 </div>
 
             </div>
@@ -79,9 +78,9 @@
             {{-- informacion del evento --}}
             {{-- <div class="contenido"> --}}
 
-                {{-- <h4>@{{evento_creado.nombre}}</h4> --}}
-                {{-- <p>@{{evento_creado.descripcion}}</p> --}}
-                {{-- <p>@{{evento_creado.asistentes}} / @{{evento_creado.limite_asistentes}}</p> --}}
+                {{-- <h4>@{{evento_creado.name}}</h4> --}}
+                {{-- <p>@{{evento_creado.description}}</p> --}}
+                {{-- <p>@{{evento_creado.asistentes}} / @{{evento_creado.asistence_limit}}</p> --}}
                 {{-- <span class="kilometraje">@{{Math.trunc(distancia(evento_creado.lat,evento_creado.lng) * 100)/100}} km</span> --}}
 
             {{-- </div> --}}

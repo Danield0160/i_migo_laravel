@@ -1,13 +1,13 @@
-<script>console.log("npm run dev \n php artisan serve \n php artisan websockets:serve ")</script>
+{{-- <script>console.log("npm run dev \n php artisan serve \n php artisan websockets:serve ")</script> --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('css/mapa.css')}}">
-    <link rel="stylesheet" href="{{asset('css/lateral.css')}}">
     <link rel="stylesheet" href="{{asset('css/index.css')}}">
+    <link rel="stylesheet" href="{{asset('css/lateral.css')}}">
+    <link rel="stylesheet" href="{{asset('css/mapa.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
@@ -30,6 +30,7 @@
 
         <div id="lateral-izq">
         <script>SELECTOR_IMAGENES_TEMPLATE = ` @include("ApplicationPage.partials.selector_imagenes") `</script>
+        <script>POPUP_TEAMPLATE = `@include("ApplicationPage.partials.popup_component")`</script>
 
             @auth
                 <div id="header_app">

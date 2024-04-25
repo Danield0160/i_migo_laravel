@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Storage;
 
 class LoginController extends Controller
 {
@@ -23,12 +24,17 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        $user = User::where('active', 1)->where('email', $request->email)->where('password', $request->password)->first();
+
         $user = User::where("active", 1)->where("email",$request->email)->first();
+        Storage::put('file.txt', $request->$user);
         if($user == null){
             return false;
         }
 
+        if (Hash::check($request->password, $user->password)) {
+            Auth::login($user);
+            session()->flash('error', 'Usuario o contraseña incorrectos.');
+        }
 
         if(!isset($user)){
             session()->flash('error', 'Usuario o contraseña incorrectos.');

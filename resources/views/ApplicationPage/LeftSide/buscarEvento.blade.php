@@ -14,9 +14,9 @@
                 <div class="contenido" v-if="eventos[index] !== undefined">
                     {{-- informacion principal del evento --}}
                     <div class="datos">
-                        <h4>@{{eventos[index].datos.nombre}}</h4>
-                        <p class="fecha">@{{eventos[index].datos.fecha.toLocaleDateString()}} - @{{eventos[index].datos.fecha.toLocaleTimeString('es-ES',{hour: '2-digit', minute:'2-digit'})}}</p>
-                        <p>@{{eventos[index].datos.descripcion}}</p>
+                        <h4>@{{eventos[index].datos.name}}</h4>
+                        <p class="date">@{{eventos[index].datos.date.toLocaleDateString()}} - @{{eventos[index].datos.date.toLocaleTimeString('es-ES',{hour: '2-digit', minute:'2-digit'})}}</p>
+                        <p>@{{eventos[index].datos.description}}</p>
                     </div>
 
                 </div>
@@ -30,9 +30,9 @@
                         <form onsubmit="return false" method="POST" v-if="me_puedo_unir(eventos[index].datos.id)">
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="eventos[index].datos.id" hidden>
-                            <button class="button_unir" @click="unirse_a_evento($event)">
+                            <button class="button_unir" @click="joinEvent($event)">
                                 unirse
-                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.limite_asistentes}}</p>
+                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.asistence_limit}}</p>
                             </button>
                         </form>
 
@@ -40,13 +40,13 @@
                         <form onsubmit="return false" method="POST" v-if="me_puedo_salir(eventos[index].datos.id)">
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="eventos[index].datos.id" hidden>
-                            <button class="button_salir" @click="salirse_de_evento($event)" v-if="eventos[index].datos.asistentes < eventos[index].datos.limite_asistentes">
+                            <button class="button_salir" @click="salirse_de_evento($event)" v-if="eventos[index].datos.asistentes < eventos[index].datos.asistence_limit">
                                 salirse
-                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.limite_asistentes}}</p>
+                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.asistence_limit}}</p>
                             </button>
                             <button class="button_salir" v-else>
                                 Esta lleno
-                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.limite_asistentes}}</p>
+                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.asistence_limit}}</p>
                             </button>
                         </form>
                         <span style="font-size: small" v-if="es_propietario(eventos[index].datos.id)">propietario</span>
@@ -61,7 +61,7 @@
 
                 {{-- Tags del evento --}}
                 <div class="tags_buscar_evento" v-if="eventos[index].datos.tags">
-                    <span v-for="tag in eventos[index].datos.tags.split(',')"> @{{TAGS[tag].categoria}} </span>
+                    <span v-for="tag in eventos[index].datos.tags.split(',')"> @{{TAGS[tag].category_name}} </span>
                 </div>
 
 

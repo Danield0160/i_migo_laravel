@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 // websocket actualizacion
 class ActualizacionController extends Controller
 {
-    public function mensaje(){
+    public function message(){
         debugbar()->info("llamado a la ruta");
         event(new ActualizacionEvento);
     }

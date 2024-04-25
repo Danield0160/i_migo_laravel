@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer("id_creador")->nullable();
-            $table->string("nombre");
-            $table->string("descripcion");
+            $table->integer("creator_id")->nullable();
+            $table->string("name");
+            $table->string("description");
             $table->bigInteger("imagen_id")->nullable();
             // $table->integer("asistentes")->default(0);
-            $table->integer("limite_asistentes")->nullable();
+            $table->integer("asistence_limit")->nullable();
             $table->double("lat");
             $table->double("lng");
-            $table->datetime("fecha")->nullable();
-            $table->boolean("patrocinado")->default(false);
-            $table->integer("id_chat")->nullable();
+            $table->datetime("date")->nullable();
+            $table->boolean("sponsored")->default(false);
+            $table->integer("chat_id")->nullable();
             // $table->string("provincia");
         });
     }

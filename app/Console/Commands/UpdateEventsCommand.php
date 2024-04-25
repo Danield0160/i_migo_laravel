@@ -13,9 +13,9 @@ class UpdateEventsCommand extends Command
 
     public function handle()
     {
-        // Buscar eventos activos con fecha menor que la actual
+        // Buscar eventos activos con date menor que la actual
         $events = Event::where('active', 1)
-                        ->where('fecha', '<', Carbon::now())
+                        ->where('date', '<', Carbon::now())
                         ->get();
 
         // Desactivar los eventos encontrados

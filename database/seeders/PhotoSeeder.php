@@ -14,12 +14,12 @@ class PhotoSeeder extends Seeder
     public function run(): void
     {
         DB::table("photos")->insert([
-            "id_creador"=>1,
-            "ruta"=>"logo.png"
+            "creator_id"=>1,
+            "imagePath"=>"logo.png"
         ]);
         DB::table("photos")->insert([
-            "id_creador"=>2,
-            "ruta"=>"logo.png"
+            "creator_id"=>2,
+            "imagePath"=>"logo.png"
         ]);
     }
 }

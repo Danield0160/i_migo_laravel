@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('event_tags', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->index("id_evento");
-            $table->index("id_tag");
+            $table->index("event_id");
+            $table->index("tag_id");
 
-            $table->foreignId("id_evento")->references("id")->on("events")->onDelete("cascade");
-            $table->foreignId("id_tag")->references("id")->on("tags")->onDelete("cascade");
+            $table->foreignId("event_id")->references("id")->on("events")->onDelete("cascade");
+            $table->foreignId("tag_id")->references("id")->on("tags")->onDelete("cascade");
         });
     }
 

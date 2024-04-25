@@ -8,8 +8,8 @@
     </div>
 
     <div class="form-group mt-2">
-        <label for="descripcion">Descripcion del evento</label>
-        <input name="descripcion" id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror">
+        <label for="description">Descripcion del evento</label>
+        <input name="description" id="description" type="text" class="form-control @error('description') is-invalid @enderror">
     </div>
 
     <div class="form-group mt-2">
@@ -28,8 +28,8 @@
     </div>
 
     <div class="form-group mt-2">
-        <label for="fecha">Fecha</label>
-        <input name="fecha" id="fecha" type="date" class="form-control @error('fecha') is-invalid @enderror">
+        <label for="date">Fecha</label>
+        <input name="date" id="date" type="date" class="form-control @error('date') is-invalid @enderror">
     </div>
 
     <div class="form-group mt-2">
@@ -38,8 +38,8 @@
     </div>
 
     <div class="form-group form-check mt-2">
-        <input name="patrocinado" id="patrocinado" type="checkbox" class="form-check-input @error('patrocinado') is-invalid @enderror">
-        <label class="form-check-label" for="patrocinado">Patrocinio</label>
+        <input name="sponsored" id="sponsored" type="checkbox" class="form-check-input @error('sponsored') is-invalid @enderror">
+        <label class="form-check-label" for="sponsored">Patrocinio</label>
     </div>
 
     {{-- <div class="form-group mt-2">
@@ -57,9 +57,9 @@
     <details>
         <summary>Tags</summary>
         <fieldset name="tags" id="tags" style="overflow: scroll; height:155px" >
-            <div v-for="tag in tags">
-                <label>@{{tag.categoria}}
-                    <input type="checkbox" :value="tag.id" class="checkbox_create_event_tag"/>
+            <div v-for="tag in tags" @click="seleccionar($event)" class="tag_div">
+                <label>@{{tag.category_name}}
+                    <input type="checkbox" :value="tag.id" class="checkbox_create_event_tag" hidden/>
                 </label>
             </div>
         </fieldset>
@@ -67,7 +67,7 @@
 
 
 
-    <button @click="enviar_datos_crear_evento()" class="btn btn-primary mt-2">Enviar</button>
+    <button @click="enviar_datos_crear_evento()" class="btn btn-primary mt-2 boton_envio">Enviar</button>
 
 </div>
 </form>

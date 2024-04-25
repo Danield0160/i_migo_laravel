@@ -6,7 +6,13 @@
             <label id='choose_imagen_nueva'><i class="fa-solid fa-upload"></i><p>Subir imagen</p><input name='file_upload' id='file_upload' type='file'></label>
         </form>
         <div v-for='image in imagenes'>
-            <img :src="'images/uploads/' + image.ruta" @click="elegir_imagen(image)">
+            <img :src="'images/uploads/' + image.imagePath" @click="elegir_imagen(image)">
+            <form onsubmit="return false" class="form_delete_image">
+                @csrf
+                @method("DELETE")
+                <input type="text" name="id" hidden :value='image.id'>
+                <button @click="remove_image($event)">X</button>
+            </form>
         </div>
     </div>
     @{{iniciar_escucha()}}
@@ -14,4 +20,6 @@
 </div>
 <div v-if="preview" id="preview">
     <img :src="preview" alt="" >
+    <br>
+    preview
 </div>

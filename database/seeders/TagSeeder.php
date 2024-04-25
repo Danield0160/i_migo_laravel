@@ -14,73 +14,73 @@ class TagSeeder extends Seeder
     public function run(): void
     {
         DB::table("tags")->insert([
-            "categoria"=>"deporte",
+            "category_name"=>"deporte",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"musica",
+            "category_name"=>"musica",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"comida",
+            "category_name"=>"comida",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"juegos de mesa",
+            "category_name"=>"juegos de mesa",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"juegos de rol",
+            "category_name"=>"juegos de rol",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"competicion",
+            "category_name"=>"competicion",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"apertura",
+            "category_name"=>"apertura",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"cultural",
+            "category_name"=>"cultural",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"friki",
+            "category_name"=>"friki",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"arte",
+            "category_name"=>"arte",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"fotografia",
+            "category_name"=>"fotografia",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"baile",
+            "category_name"=>"baile",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"cine",
+            "category_name"=>"cine",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"Literatura",
+            "category_name"=>"Literatura",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"moda",
+            "category_name"=>"moda",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"conferencias",
+            "category_name"=>"conferencias",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"comedia",
+            "category_name"=>"comedia",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"voluntariado",
+            "category_name"=>"voluntariado",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"ciclismo",
+            "category_name"=>"ciclismo",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"senderismo",
+            "category_name"=>"senderismo",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"feria",
+            "category_name"=>"feria",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"taller",
+            "category_name"=>"taller",
         ]);
         DB::table("tags")->insert([
-            "categoria"=>"desfile",
+            "category_name"=>"desfile",
         ]);
     }
 

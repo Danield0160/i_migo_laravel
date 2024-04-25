@@ -87,23 +87,23 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">Nombre</label>
-                                    <input type="text" class="form-control" name="name" required>
+                                    <input type="text" class="form-control" value="{{ old('name') }}" name="name" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">Apellidos</label>
-                                    <input type="text" class="form-control" name="surname" required>
+                                    <input type="text" class="form-control" value="{{ old('surname') }}" name="surname" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">DNI</label>
-                                    <input type="text" class="form-control" name="dni" required>
+                                    <input type="text" class="form-control" name="dni" value="{{ old('dni') }}" required placeholder="12345678A">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">Email</label>
-                                    <input type="text" class="form-control" name="email" required>
+                                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" required placeholder="ejemplo@ejemplo.com">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">Contraseña</label>
-                                    <input type="password" class="form-control" name="pass" required>
+                                    <input type="password" class="form-control" name="pass" required placeholder=>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">Repetir contraseña</label>
