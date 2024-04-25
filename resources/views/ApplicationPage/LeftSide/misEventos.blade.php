@@ -35,7 +35,7 @@
                         <form onsubmit="return false" method="POST" v-if="this.modo == 'Eventos unidos'">
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="evento.id" hidden>
-                            <button class="button_unir" @click="salirse_de_evento($event)" >
+                            <button class="button_salir" @click="salirse_de_evento($event)" >
                                 salirse
                                 <p>@{{evento.asistentes}} / @{{evento.asistence_limit}}</p>
                             </button>

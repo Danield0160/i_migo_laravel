@@ -568,7 +568,6 @@ function misEventoSectionApp(template){
             return {
                 activo:false,
                 modo:"Eventos unidos",
-                mis_eventos:null,
                 eventos_unidos:null,
                 eventos_creados:null,
                 geoposicionUsuario:geoposicionUsuario

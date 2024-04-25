@@ -51,6 +51,7 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+        debugbar()->info($request);
         DB::beginTransaction();
 
         // Obtener la ID del usuario autenticado
@@ -72,7 +73,7 @@ class EventController extends Controller
             ]);
         }else{
             $event = Event::create([
-                'id_user' => $user->id,
+                'creator_id' => $user->id,
                 'name' => $request->name,
                 'description' => $request->description,
                 'assistants' => 0,

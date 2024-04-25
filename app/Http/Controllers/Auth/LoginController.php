@@ -26,14 +26,12 @@ class LoginController extends Controller
     {
 
         $user = User::where("active", 1)->where("email",$request->email)->first();
-        Storage::put('file.txt', $request->$user);
         if($user == null){
             return false;
         }
 
         if (Hash::check($request->password, $user->password)) {
             Auth::login($user);
-            session()->flash('error', 'Usuario o contraseña incorrectos.');
         }
 
         if(!isset($user)){
