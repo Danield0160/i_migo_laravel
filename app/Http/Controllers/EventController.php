@@ -51,52 +51,45 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        debugbar()->info($request);
+
+        // Validar que la solicitud contenga todos los campos necesarios
+        $requiredFields = ['name', 'description', 'assistants_limit', 'lat', 'lng', 'date'];
+
+        foreach ($requiredFields as $field) {
+            if (!$request->has($field)) {
+                // Si falta algún campo, devuelve un error
+                session()->flash('error', 'Por favor, rellena todos los campos.');
+                return redirect()->route('events.create');
+            }
+        }
+
         DB::beginTransaction();
 
         // Obtener la ID del usuario autenticado
         $user = Auth::user();
 
         $role = $request->input('role');
-        if ($role == 'admin') {
-            $event = Event::create([
-                'id_user' => $user->id, // ID del usuario creador
-                'name' => $request->name, // Nombre del evento
-                'description' => $request->description, // Descripción del evento
-                'assistants' => 0, // Inicialmente no hay asistentes
-                'assistants_limit' => $request->assistants_limit, // Límite de asistentes permitidos
-                'lat' => $request->lat, // Latitud del lugar del evento
-                'lng' => $request->lng, // Longitud del lugar del evento
-                'date' => $request->date, // Fecha y hora del evento
-                'sponsored' => false, // Inicialmente no está sponsored
-                'active' => true, // Inicialmente el evento está activo
-            ]);
-        }else{
-            $event = Event::create([
-                'creator_id' => $user->id,
-                'name' => $request->name,
-                'description' => $request->description,
-                'assistants' => 0,
-                'assistants_limit' => $request->assistants_limit,
-                'lat' => $request->lat,
-                'lng' => $request->lng,
-                'date' => $request->date,
-                'sponsored' => false,
-            ]);
-        }
+
+        $event = Event::create([
+            'creator_id' => $user->id, // ID del usuario creador
+            'name' => $request->name, // Nombre del evento
+            'description' => $request->description, // Descripción del evento
+            'assistants' => 0, // Inicialmente no hay asistentes
+            'assistants_limit' => $request->assistants_limit, // Límite de asistentes permitidos
+            'lat' => $request->lat, // Latitud del lugar del evento
+            'lng' => $request->lng, // Longitud del lugar del evento
+            'date' => $request->date, // Fecha y hora del evento
+            'sponsored' => false, // Inicialmente no está sponsored
+            'active' => true, // Inicialmente el evento está activo
+        ]);
 
         Mail::to(Auth::user()->email)->send(new NewEventEmail($user, $event));
 
         DB::commit();
-            Log::channel('debugger')->info('Usuario creado correctamente.');
 
-            if($role == 'admin'){
-                session()->flash('success', 'Usuario creado correctamente.');
-                return redirect()->route('users.index');
-            }else{
-                session()->flash('success', 'Usuario creado correctamente. Por favor, compruebe su email para verificar su cuenta.');
-                return redirect()->route('home');
-            }
+        Log::channel('debugger')->info('Evento creado correctamente.');
+        session()->flash('success', 'Evento creado correctamente.');
+        return redirect()->route('events.index');
 
     }
 
@@ -162,7 +155,7 @@ class EventController extends Controller
         $evento->creator_id = auth()->id();
         $evento->name = $name;
         $evento->description = $desc;
-        $evento->asistence_limit = $limite;
+        $evento->assistants_limit = $limite;
         $evento->lat = $latitud;
         $evento->lng = $longitud;
         $evento->date = $date;
@@ -222,7 +215,7 @@ class EventController extends Controller
     public function joinEvent(Request $request){
 
         $evento =Event::find($request->input("event_id"));
-        if($evento->getAsistentesAttribute() >= $evento->asistence_limit){
+        if($evento->getAsistentesAttribute() >= $evento->assistants_limit){
             throw \Illuminate\Validation\ValidationException::withMessages(["limite excedido"]);
         };
 

@@ -2,9 +2,11 @@
 
 namespace Tests\Unit;
 
+use Tests\TestCase;
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\EventController;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class EventStoreMethodTest extends TestCase
 {
@@ -17,67 +19,67 @@ class EventStoreMethodTest extends TestCase
      */
     public function test_store_method_with_valid_data()
     {
+        // Crear un usuario de prueba y autenticarlo
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
         // Datos válidos para crear un evento
         $validData = [
-            'id_user' => 1, // ID de un usuario existente en la base de datos, o cualquier otro valor válido para 'user_id
             'name' => 'Evento de Prueba',
             'description' => 'Descripción del Evento de Prueba',
             'assistants_limit' => 100,
             'lat' => 40.7128,
             'lng' => -74.0060,
             'date' => '2024-04-26 12:00:00',
-            'role' => 'admin', // O el rol que necesites
         ];
 
-        // Llamar al método store del controlador con datos válidos
+        // Mockear el objeto Request con datos válidos
+        $request = new Request($validData);
+
+        // Llamar al método store del controlador con el Request mockeado
         $controller = new EventController();
-        $response = $controller->store($this->createRequest($validData));
+        $response = $controller->store($request);
 
-        // Asegurar que la respuesta sea una redirección o una respuesta exitosa, según la implementación real
-        $response->assertRedirect('/'); // O cualquier otra URL de redirección
+        // Verificar que se haya redirigido a la ruta adecuada después de la creación del evento
+        $this->assertEquals(route('events.index'), $response->getTargetUrl());
 
-        // Asegurar que el evento se haya creado correctamente en la base de datos
-        $this->assertDatabaseHas('events', [
-            'id_user' => 1,
-            'name' => 'Evento de Prueba',
-            'description' => 'Descripción del Evento de Prueba',
-            'assistants_limit' => 100,
-            'lat' => 40.7128,
-            'lng' => -74.0060,
-            'date' => '2024-04-26 12:00:00',
-        ]);
+        // Verificar que el evento se haya creado correctamente en la base de datos
+        $this->assertDatabaseHas('events', array_merge($validData, ['creator_id' => $user->id]));
     }
 
-    /**
-     * Prueba el método store con datos inválidos.
-     *
-     * @return void
-     */
-    public function test_store_method_with_invalid_data()
+    public function test_store_method_with_missing_fields()
     {
-        // Datos inválidos para crear un evento (por ejemplo, falta el campo 'name')
-        $invalidData = [
-            'id_user' => 1,
+        // Crear un usuario de prueba y autenticarlo
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Simular una solicitud con campos faltantes
+        $requestData = [
+            'name' => 'Evento de Prueba',
             'description' => 'Descripción del Evento de Prueba',
-            'assistants_limit' => 100,
+            // Falta el campo 'assistants_limit'
             'lat' => 40.7128,
             'lng' => -74.0060,
             'date' => '2024-04-26 12:00:00',
-            'role' => 'admin', // O el rol que necesites
         ];
 
-        // Llamar al método store del controlador con datos inválidos
+        // Mockear el objeto Request con datos de solicitud incompletos
+        $request = new Request($requestData);
+
+        // Llamar al método store del controlador con el Request mockeado
         $controller = new EventController();
-        $response = $controller->store($this->createRequest($invalidData));
+        $response = $controller->store($request);
 
-        // Asegurar que la respuesta sea una redirección o una respuesta de error, según la implementación real
-        $response->assertStatus(302); // O cualquier otro código de estado de respuesta
+        // Verificar que se haya redirigido a la ruta de creación de eventos
+        $this->assertEquals(route('events.create'), $response->getTargetUrl());
 
-        // Asegurar que el evento no se haya creado en la base de datos
-        $this->assertDatabaseMissing('events', [
-            'description' => 'Descripción del Evento de Prueba', // Asegurar que no se creó el evento con esta descripción
-        ]);
+        // Verificar que se ha establecido un mensaje de error en la sesión
+        $this->assertEquals('Por favor, rellena todos los campos.', session('error'));
     }
+
+
+
+
 
     /**
      * Método auxiliar para crear un objeto de solicitud.

@@ -32,7 +32,7 @@
                             <input id="event_id" name="event_id" type="text" :value="eventos[index].datos.id" hidden>
                             <button class="button_unir" @click="joinEvent($event)">
                                 unirse
-                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.asistence_limit}}</p>
+                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.assistants_limit}}</p>
                             </button>
                         </form>
 
@@ -40,13 +40,13 @@
                         <form onsubmit="return false" method="POST" v-if="me_puedo_salir(eventos[index].datos.id)">
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="eventos[index].datos.id" hidden>
-                            <button class="button_salir" @click="salirse_de_evento($event)" v-if="eventos[index].datos.asistentes < eventos[index].datos.asistence_limit">
+                            <button class="button_salir" @click="salirse_de_evento($event)" v-if="eventos[index].datos.asistentes < eventos[index].datos.assistants_limit">
                                 salirse
-                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.asistence_limit}}</p>
+                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.assistants_limit}}</p>
                             </button>
                             <button class="button_salir" v-else>
                                 Esta lleno
-                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.asistence_limit}}</p>
+                                <p>@{{eventos[index].datos.asistentes}} / @{{eventos[index].datos.assistants_limit}}</p>
                             </button>
                         </form>
                         <span style="font-size: small" v-if="es_propietario(eventos[index].datos.id)">propietario</span>

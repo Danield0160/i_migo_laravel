@@ -15,6 +15,16 @@ class Event extends Model
         'tags'
     ];
 
+    protected $fillable = [
+        'creator_id',
+        'name',
+        'description',
+        'assistants_limit',
+        'lat',
+        'lng',
+        'date',
+    ];
+
 
     public function getAsistentesAttribute()
     {
