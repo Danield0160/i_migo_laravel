@@ -322,8 +322,8 @@ html, body {
     overflow: hidden;
 }
 .evento_listado_container:hover{
-    border: 3px solid salmon;
-    /* box-shadow: 3px 3px 3px darkred; */
+    /* border: 3px solid salmon; */
+    box-shadow: inset 3px 3px 3px salmon;
 }
 .evento_listado_container:active{
     box-shadow: inset 3px 3px 3px darkred;
@@ -453,17 +453,18 @@ html, body {
     /* background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.644) 100%); */
 }
 
-.mostrando{
+.popup-evento.mostrando .contenido{
     /* border : 5px dashed darkred !important; */
     z-index: 999 !important;
     box-shadow:  0px 0px 10px 5px darkred;
 }
-.popup-icono.mostrando{
+.mostrando .icono{
+    filter: invert(18%) sepia(64%) saturate(6699%) hue-rotate(356deg) brightness(93%) contrast(123%);
     box-shadow: none;
 }
-.popup-bubble-zoom-out .popup-icono.mostrando{
+/* .popup-bubble-zoom-out .popup-icono.mostrando{
     box-shadow:  0px 0px 10px 5px darkred;
-}
+} */
 
 #buttonGeolocation{
     height: 30px;
@@ -474,7 +475,9 @@ html, body {
     color: rgb(194, 94, 94);
 }
 
-
+.evento_listado_container.mostrando{
+    box-shadow:  0px 0px 10px 5px darkred;
+}
 
 
 
