@@ -82,6 +82,8 @@ Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
 Route::get('/users/verification', [UserController::class, 'verification'])->name('users.verification');
 Route::post('/users/verify', [UserController::class, 'verify'])->name('users.verify');
+Route::get('/users/{id}/events', [UserController::class, 'events'])->name('users.events');
+Route::get('/events/{id}/users', [EventController::class, 'users'])->name('events.users');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', UserController::class)->except(['create', 'store']);
