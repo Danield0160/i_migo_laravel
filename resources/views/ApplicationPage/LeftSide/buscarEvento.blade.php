@@ -5,7 +5,7 @@
     <div id="listado_eventos_visibles">
         <TransitionGroup name="list"   >
             {{-- iterador de eventos --}}
-            <div v-for="evento in eventosVisibles" class="evento_listado_container" v-on:click="ubicar(evento.id,$event)" :key="evento.datos.id" @mouseover=point(evento.datos.id) @mouseleave=notPoint(evento.datos.id) v-bind:class="ultimo_evento_mostrado == evento.datos.id ? 'mostrando' : 'null' ">
+            <div v-for="evento in eventosVisibles" class="evento_listado_container" v-on:click="evento.popup.ubicar($event,this.eventosCercanos.map((x)=>x.popup),this.ultimo_evento_mostrado );this.ultimo_evento_mostrado==evento.id? this.ultimo_evento_mostrado=null:this.ultimo_evento_mostrado= evento.id" :key="evento.datos.id" @mouseover=evento.popup.point() @mouseleave=evento.popup.notPoint() v-bind:class="ultimo_evento_mostrado == evento.datos.id ? 'mostrando' : 'null' ">
                 {{-- imagen del evento --}}
                 <div class="img">
                     <img :src='"images/"+evento.datos.imagen_id'alt="" v-if="evento !== undefined">

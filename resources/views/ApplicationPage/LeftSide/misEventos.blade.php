@@ -11,7 +11,7 @@
         <TransitionGroup name="list"   >
 
             {{-- iterador de eventos --}}
-            <div v-for="evento in eventos_seleccionados" class="evento_listado_container" :key="evento.datos.id">
+            <div v-for="evento in eventos_seleccionados" class="evento_listado_container" :key="evento.datos.id" v-on:click="ubicar($event,evento,Object.values(this.eventos_seleccionados).map((x)=>x.popup))" @mouseover=evento.popup.point() @mouseleave=evento.popup.notPoint() v-bind:class="ultimo_evento_mostrado == evento.datos.id ? 'mostrando' : 'null' ">
 
                 {{-- imagen del evento --}}
                 <div class="img">

@@ -341,6 +341,34 @@ cargarPopupClass = () => {
                 setTimeout(()=>MapaGoogleObject.actualizarIconoZoom(),10)
             }
         }
+        point(){
+            this.containerDiv.children[0].children[0].classList.add("mostrando")
+        }
+        notPoint(){
+            this.containerDiv.children[0].children[0].classList.remove("mostrando")
+        }
+        ubicar(event,eventos,ultimo_evento_mostrado){
+            if(event.target.tagName == "BUTTON"){
+                return
+            }
+            //si le vuelves a dar, se cancela la busqueda
+            if(ultimo_evento_mostrado == this.id){
+                Object.values(eventos).map((popup)=>{
+                    popup.containerDiv.style.opacity = 1
+                })
+                return
+            }
+            //muestra el que se esta ubicando y oculta los que no
+            Object.values(eventos).map((popup)=>{
+                if(popup.id != this.id){
+                    popup.containerDiv.style.opacity = 0.15
+                }else{
+                    popup.containerDiv.style.opacity = 1
+                }
+            })
+            //ubica en el mapa
+            MapaGoogleObject.mapa.setCenter(new google.maps.LatLng(Number(this.position.lat), Number(this.position.lng)))
+        }
     }
 }
 

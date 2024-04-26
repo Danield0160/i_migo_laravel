@@ -410,35 +410,6 @@ async function buscarEventoSectionApp(template){
             //     }
             //     showEventAppObject.showEventDetails(index)
             // },
-            ubicar(index, event){
-                if(event.target.tagName == "BUTTON"){
-                    return
-                }
-                datos_evento = this.eventos_cercanos[index].datos
-                quitar = this.ultimo_evento_mostrado == index
-                if(this.ultimo_evento_mostrado_div){
-                    this.ultimo_evento_mostrado_div.classList.remove("mostrando")
-                }
-
-                Object.values(this.eventos_cercanos).map((x)=>{
-                    if(x.id != datos_evento.id && !quitar){
-                        // x.popup.remove()
-                        x.popup.containerDiv.style.opacity = 0.15
-                    }else{
-                        // x.popup.setMap(MapaGoogleObject.mapa)
-                        x.popup.containerDiv.style.opacity = 1
-                    }
-                })
-                MapaGoogleObject.mapa.setCenter(new google.maps.LatLng(Number(datos_evento.lat), Number(datos_evento.lng)))
-                this.ultimo_evento_mostrado = index
-                if(quitar){
-                    this.ultimo_evento_mostrado = null
-                    $(event.target).closest(".evento_listado_container")[0].classList.remove("mostrando")
-                }else{
-                    $(event.target).closest(".evento_listado_container")[0].classList.add("mostrando")
-                }
-                this.ultimo_evento_mostrado_div =  $(event.target).closest(".evento_listado_container")[0]
-            },
             joinEvent(event){
                 console.log("envio unido")
                 formData = new FormData(event.target.parentElement)
@@ -509,14 +480,6 @@ async function buscarEventoSectionApp(template){
                 }
                 return false
             },
-            point(index){
-                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.add("mostrando")
-                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.add("mostrando")
-            },
-            notPoint(index){
-                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.remove("mostrando")
-                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.remove("mostrando")
-            },
             actualizar_datos(){
                 actualizar_datos()
             }
@@ -545,6 +508,9 @@ async function buscarEventoSectionApp(template){
                     if (dist_a>dist_b){return 1}
                     else{return 0}
                 })
+            },
+            eventosCercanos(){
+                return Object.values(this.eventos_cercanos)
             }
         }
 
@@ -609,12 +575,16 @@ function misEventoSectionApp(template){
                 modo:"Eventos unidos",
                 eventos_unidos:{},
                 eventos_creados:{},
-                geoposicionUsuario:geoposicionUsuario
+                geoposicionUsuario:geoposicionUsuario,
+                ultimo_evento_mostrado:null
             };
         },
         template:template,
         methods:{
             activar(){
+                if(this.activo){
+                    return
+                }
                 desactivarGlobal()
                 this.activo = true
                 this.modo="Eventos unidos"
@@ -625,6 +595,7 @@ function misEventoSectionApp(template){
                 this.activo = false
                 this.eventos_unidos? Object.values(this.eventos_unidos).forEach((evento)=>evento.popup.remove()) : null
                 this.eventos_creados? Object.values(this.eventos_creados).forEach((evento)=>evento.popup.remove()) : null
+                this.ultimo_evento_mostrado = null
 
             },
             cargar_datos(){
@@ -674,12 +645,25 @@ function misEventoSectionApp(template){
 
             },
             changeMode(modo){
+                if(this.modo != modo){
+                    this.ultimo_evento_mostrado = null
+                }
                 this.modo = modo
                 let eventos_a_poner = modo=="Eventos unidos"? this.eventos_unidos : this.eventos_creados;
                 let eventos_a_quitar = modo=="Eventos unidos"? this.eventos_creados : this.eventos_unidos;
 
                 eventos_a_poner? Object.values(eventos_a_poner).forEach((evento)=>evento.popup.append()) : null
                 eventos_a_quitar? Object.values(eventos_a_quitar).forEach((evento)=>evento.popup.remove()) : null
+
+            },
+            ubicar(event,evento,eventos){
+                evento.popup.ubicar(event,eventos,this.ultimo_evento_mostrado );
+
+                if(this.ultimo_evento_mostrado==evento.id){
+                    this.ultimo_evento_mostrado=null
+                }else{
+                    this.ultimo_evento_mostrado= evento.id
+                }
             }
         },computed:{
             eventos_seleccionados(){

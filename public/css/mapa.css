@@ -453,18 +453,18 @@ html, body {
     /* background: linear-gradient(0deg, rgb(255, 255, 255) 0%, rgba(255, 255, 255, 0.644) 100%); */
 }
 
+.popup-evento.mostrando{
+    z-index: 999 !important;
+
+}
 .popup-evento.mostrando .contenido{
     /* border : 5px dashed darkred !important; */
-    z-index: 999 !important;
     box-shadow:  0px 0px 10px 5px darkred;
 }
 .mostrando .icono{
     filter: invert(18%) sepia(64%) saturate(6699%) hue-rotate(356deg) brightness(93%) contrast(123%);
     box-shadow: none;
 }
-/* .popup-bubble-zoom-out .popup-icono.mostrando{
-    box-shadow:  0px 0px 10px 5px darkred;
-} */
 
 #buttonGeolocation{
     height: 30px;
