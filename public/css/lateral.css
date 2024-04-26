@@ -102,10 +102,12 @@ i {
 
 .hori-selector .right {
 	right: -25px;
+    box-shadow:  -1px -5px 0px 1px rgba(255,255,255,1);
 }
 
 .hori-selector .left {
 	left: -25px;
+    box-shadow:  1px -5px 0px 1px rgba(255,255,255,1);
 }
 
 .hori-selector .right:before,
@@ -139,6 +141,8 @@ i {
 	.navbar-expand-custom .navbar-nav {
 		-ms-flex-direction: row;
 		flex-direction: row;
+        justify-content: space-around;
+        width: 100%;
 	}
 
 	.navbar-expand-custom .navbar-toggler {
@@ -203,7 +207,13 @@ i {
     }
     #navbarSupportedContent ul li a {
         padding: 10px 10px;
-
+    }
+    #navbarSupportedContent ul li {
+        display: flex;
+        align-items: center ;
+    }
+    #navbarSupportedContent ul{
+        min-height: 8svh;
     }
     #header_app{
         width: 100vw;
@@ -482,4 +492,19 @@ i {
 
 .phpdebugbar-minimized{
     opacity: .3;
+}
+
+.iniciar_sesion{
+    font-size: large;
+    font-weight: bold;
+    text-align: center;
+    margin: auto;
+    background-color: salmon;
+    box-shadow: 3px 3px 3px rgb(185, 93, 83);
+    width: 95%;
+    margin: 2.5%;
+    border: 1px solid red;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 50%;
 }

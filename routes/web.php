@@ -29,7 +29,7 @@ Route::get("/app",function(){
     Artisan::call('events:update');
     session()->flash('status', 'Eventos actualizados correctamente.');
     return view("ApplicationPage.app");
-})->name("app");
+})->name("app")->middleware("auth");
 
 
 Route::controller(EventController::class)->group(function () {

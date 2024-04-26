@@ -54,7 +54,7 @@ cargarMapaClass=()=>{
                 center: geoposicionUsuario.lat? geoposicionUsuario : { lat: 28.9504656, lng: -13.589889 },
                 zoom: 15,
                 disableDefaultUI: true,
-                mapTypeControl: true,
+                mapTypeControl: false,
 
             });
             google.maps.event.addListener(this.mapa, 'zoom_changed', this.actualizarIconoZoom.bind(this))

@@ -566,7 +566,7 @@ async function buscarEventoSectionApp(template){
 
     }
     actualizar_datos()
-    setInterval(actualizar_datos,3000)
+    setInterval(()=>{if(misEventoSectionAppObject.activo){actualizar_datos()}},3000)
 
 }
 
@@ -841,10 +841,10 @@ function parar_drag(){
 function drag(event){
     vh = event.clientY * 100 / window.outerHeight
 
-    if(vh > 80 || vh<0){
+    if(vh > 88 || vh<0){
         return
     }
-    lateral.style.top = vh + "vh"
+    lateral.style.top = vh + "svh"
 }
 
 function ajuste_inicial(){
