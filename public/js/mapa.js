@@ -79,8 +79,6 @@ cargarMapaClass=()=>{
             this.mapa.addListener("contextmenu",(event)=>{
                 this.crearMenuContextual(event.latLng.lat(),event.latLng.lng())
             })
-            this.actualizarMedianteArrastrado()
-
         }
         // "evento" para que el usuario coja la ubicacion para la creacion de eventos
         crearMenuContextual(latitud,longitud){
@@ -106,7 +104,7 @@ cargarMapaClass=()=>{
                 this.mapa.setCenter(ubicacion)
                 geoposicionUsuario= {lat: latitud, lng:longitud}
                 misEventoSectionAppObject.geoposicionUsuario = geoposicionUsuario
-                actualizar_datos()
+                buscarEventoSectionAppObject.actualizar_datos()
             }
         }
 
@@ -235,16 +233,9 @@ cargarMapaClass=()=>{
             return popupsVisibles
         }
         //TODO: refactorizar actualizacion mediante arrastrasdo
-        actualizarMedianteArrastrado(){
-            google.maps.event.addListener(this.mapa, 'idle', () => {
-                console.log("a")
-                setTimeout(actualizar_listado_popus_visibles, 250)
-            })
-        }
+
         //coge la geolocalizacion, si falla, lo gestiona
         geolocalizar(){
-            let terminar; // se hace esto porque el navigator.geolocation parece que funciona de forma asincrona
-            let terminado = new Promise((success)=>terminar=success)
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -252,18 +243,14 @@ cargarMapaClass=()=>{
                         geoposicionUsuario.lat = data.coords.latitude
                         geoposicionUsuario.lng = data.coords.longitude
                         this.mapa.setCenter(geoposicionUsuario)
-                        terminar()
                     },
                     ()=>{
                         console.log("geolocalizacion desactivada")
-                        terminar()
                     }
                 )
             } else {
                 alert("geolocalizacion no soportado por el dispositivo")
-                terminar()
             }
-            terminado.then(actualizar_datos)
         }
     }
 }
@@ -332,7 +319,7 @@ cargarPopupClass = () => {
         }
         // comprueba si el popup esta dentro de la ventana del mapa
         esVisible() {
-            if(this.map == null){
+            if(this.map == null || this.getProjection() == null){
                 return false
             }
             const divPosition = this.getProjection().fromLatLngToDivPixel(
@@ -351,6 +338,7 @@ cargarPopupClass = () => {
         append(){
             if(this.map == null){ // hay que hacer esto por que si pones dos veces el evento, se quita en vez de seguir puesto
                 this.setMap(MapaGoogleObject.mapa)
+                setTimeout(()=>MapaGoogleObject.actualizarIconoZoom(),10)
             }
         }
     }
@@ -417,54 +405,12 @@ function ocultar(event) {
 
 //actualiza el lsitado de eventos visibles en la pestaña de buscar eventos
 function actualizar_listado_popus_visibles(){
-    let popupsVisibles =MapaGoogleObject.obtenerPopusVisibles()
-    popupsVisibles?null:popupsVisibles=[]
 
-    buscarEventoSectionAppObject.vaciarEventosVisibles()
-    popupsVisibles.forEach(function(ele){
-        buscarEventoSectionAppObject.addEventoVisible(ele.id)
-    })
 
 
 }
 
-//lamada a la api con la posicion del mapa, y la distancia para conseguir los eventos cercanos
-async function actualizar_datos(){ //TODO mejorar actualizacion de datos, quizas poner todos los eventos en una varible o separarlo en distintas funciones (este sirve para mapa y buscar)
-    await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").val().replace("km","")),function(data){
-        data.forEach(function(datos){
-            let eventoDatos = datos
-            eventoDatos.distancia = getDistanceFromLatLonInKm(datos.lat, datos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
-            eventoDatos.date = new Date(datos["date"])
 
-            // if(datos.tags){
-            //     eventoDatos.tags = datos["tags"].split(",").map((x)=>TAGS[x].category_name) //TODO: hacer variable global TAGS
-            // }
-
-            //si ya existia el evento, lo actualiza
-            if(Object.keys(MapaGoogleObject.marcadores).includes(String(datos.id))){
-                Object.keys(eventoDatos).forEach(function(atributo){
-                    MapaGoogleObject.marcadores[eventoDatos.id].datos[atributo] = eventoDatos[atributo]
-                })
-                return
-            }
-
-            eventoObject = createPopup(eventoDatos)
-            MapaGoogleObject.addCustomMarker(eventoObject)
-        })
-
-        //eliminar eventos que ya no existen en el mapa (osea, si se elimino el evento o esta lejos de ti)
-        let indicesDatosActivo = data.map((dato)=>dato.id)
-        Object.keys(MapaGoogleObject.marcadores).forEach(function(indiceMarcador){
-            if(!indicesDatosActivo.includes(Number(indiceMarcador))){
-                MapaGoogleObject.marcadores[indiceMarcador].popup.remove()
-                buscarEventoSectionAppObject.quitarEventoVisible(indiceMarcador)
-                delete(MapaGoogleObject.marcadores[indiceMarcador])
-            }
-        })
-
-    })
-    setTimeout(actualizar_listado_popus_visibles,350)
-}
 
 
 

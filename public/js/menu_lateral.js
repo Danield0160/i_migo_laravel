@@ -187,7 +187,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
 
                 }else if(this.modo == "evento"){
                     document.querySelector("#imagen_id").value = id
-                    this.preview = "images/id"
+                    this.preview = "images/"+id
                     this.desactivar()
                 }
             },
@@ -293,6 +293,7 @@ async function crearEventoSectionApp(template){
             ocultarBoton()
             return {
                 activo:false,
+                eventos_agregados:[]
             };
         },
         template:template,
@@ -313,11 +314,13 @@ async function crearEventoSectionApp(template){
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "0"
                 MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
                 this.activo = false
+                this.eventos_agregados.forEach((evento)=>{evento.popup.remove();delete(evento)})
             },
             crearChooseImageSectionApp(perfilOEvento,disparador,montaje){
                 crearChooseImageSectionApp(perfilOEvento,disparador,montaje)
             },
             enviar_datos_crear_evento(){
+                object = this
                 let formData = new FormData($("#formulario_crear")[0])
                 var boxes = document.getElementsByClassName('checkbox_create_event_tag');
                 var checked = [];
@@ -340,6 +343,10 @@ async function crearEventoSectionApp(template){
                         // console.log("success");
                         actualizar_datos();
                         misEventoSectionAppObject.cargar_datos()
+                        eventoObject = createPopup(data)
+                        eventoObject.datos.date = new Date(data.date)
+                        eventoObject.popup.append()
+                        object.eventos_agregados.push(eventoObject)
                     },
                     error: function(data){
                         console.log("error");
@@ -370,13 +377,16 @@ async function buscarEventoSectionApp(template){
     EventoSectionApp = createApp({
         data(){
             $("#buscar_eventos_button")[0].onclick =function(){buscarEventoSectionAppObject.activar()}
-            console.log("3")
+            google.maps.event.addListener(MapaGoogleObject.mapa, 'idle', () => {
+                setTimeout(()=>this.actualizar= !this.actualizar, 250);
+            })
             return {
                 activo:true,
-                eventosVisibles:[],
                 input:"",
                 ultimo_evento_mostrado:null,
-                ultimo_evento_mostrado_div: null
+                ultimo_evento_mostrado_div: null,
+                eventos_cercanos:{},
+                actualizar:true
             };
         },
         template:template,
@@ -387,21 +397,12 @@ async function buscarEventoSectionApp(template){
                 }
                 desactivarGlobal()
                 this.activo = true
-                Object.values(MapaGoogleObject.marcadores).forEach((evento)=>evento.popup.append())
+                Object.values(this.eventos_cercanos).forEach((evento)=>evento.popup.append())
                 actualizar_listado_popus_visibles()
             },
             desactivar(){
                 this.activo = false
-                Object.values(MapaGoogleObject.marcadores).forEach((evento)=>evento.popup.remove())
-            },
-            addEventoVisible(id){
-                this.eventosVisibles.push(id)
-            },
-            vaciarEventosVisibles(){
-                this.eventosVisibles=[]
-            },
-            quitarEventoVisible(id){
-                this.eventosVisibles.splice(this.eventosVisibles.indexOf(id),1)
+                Object.values(this.eventos_cercanos).forEach((evento)=>evento.popup.remove())
             },
             // mostrar(event, index){
             //     if(event.target.tagName == "BUTTON"){
@@ -413,14 +414,14 @@ async function buscarEventoSectionApp(template){
                 if(event.target.tagName == "BUTTON"){
                     return
                 }
-                evento = MapaGoogleObject.marcadores[index].datos
+                datos_evento = this.eventos_cercanos[index].datos
                 quitar = this.ultimo_evento_mostrado == index
                 if(this.ultimo_evento_mostrado_div){
                     this.ultimo_evento_mostrado_div.classList.remove("mostrando")
                 }
 
-                Object.values(MapaGoogleObject.marcadores).map((x)=>{
-                    if(x.id != evento.id && !quitar){
+                Object.values(this.eventos_cercanos).map((x)=>{
+                    if(x.id != datos_evento.id && !quitar){
                         // x.popup.remove()
                         x.popup.containerDiv.style.opacity = 0.15
                     }else{
@@ -428,7 +429,7 @@ async function buscarEventoSectionApp(template){
                         x.popup.containerDiv.style.opacity = 1
                     }
                 })
-                MapaGoogleObject.mapa.setCenter(new google.maps.LatLng(Number(evento.lat), Number(evento.lng)))
+                MapaGoogleObject.mapa.setCenter(new google.maps.LatLng(Number(datos_evento.lat), Number(datos_evento.lng)))
                 this.ultimo_evento_mostrado = index
                 if(quitar){
                     this.ultimo_evento_mostrado = null
@@ -439,6 +440,7 @@ async function buscarEventoSectionApp(template){
                 this.ultimo_evento_mostrado_div =  $(event.target).closest(".evento_listado_container")[0]
             },
             joinEvent(event){
+                console.log("envio unido")
                 formData = new FormData(event.target.parentElement)
                 $.ajax({
                     type:'POST',
@@ -448,6 +450,7 @@ async function buscarEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
+                        console.log("unido")
                         // console.log("success");
                         actualizar_datos();
                         misEventoSectionAppObject.cargar_datos()
@@ -507,41 +510,37 @@ async function buscarEventoSectionApp(template){
                 return false
             },
             point(index){
-                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[0].classList.add("mostrando")
-                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[1].classList.add("mostrando")
+                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.add("mostrando")
+                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.add("mostrando")
             },
             notPoint(index){
-                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[0].classList.remove("mostrando")
-                MapaGoogleObject.marcadores[index].popup.containerDiv.children[0].children[0].children[1].classList.remove("mostrando")
+                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.remove("mostrando")
+                this.eventos_cercanos[index].popup.containerDiv.children[0].children[0].classList.remove("mostrando")
+            },
+            actualizar_datos(){
+                actualizar_datos()
             }
         },
         computed:{
-            eventos(){
-                return MapaGoogleObject.marcadores
-            },
+
             TAGS(){
                 return TAGS
             },
-            eventos_Visibles(){
-                this.eventosVisibles;
-                this.input;
-                var eventos_visibles_datos = Object.values(MapaGoogleObject.marcadores)
-                .map((marcador)=>marcador.datos)
-                .filter((datos)=>Object.values(this.eventosVisibles).includes(datos.id))
-                .map((marcador_datos)=>{marcador_datos.tags? marcador_datos.tags.split(",").map((tag_id)=>marcador_datos[tag_id]=TAGS[tag_id].category_name) : null ;return marcador_datos})
+            eventosVisibles(){
+                this.actualizar;
+                let eventosVisibles = []
+                Object.values(this.eventos_cercanos).forEach((x)=>{if(x.popup.esVisible()){eventosVisibles.push(x)}})
 
-
-                var eventos = []
-                eventos_visibles_datos.forEach(evento_visible_datos => {
-                    datos = Object.values(evento_visible_datos).map((x)=>String(x).toLowerCase())
-                    if (lista_contiene_lista(datos,this.input.toLowerCase().split(" "))){
-                        eventos.push(evento_visible_datos.id)
+                let eventos_filtrado=[]
+                eventosVisibles.forEach(evento => {
+                    if (lista_contiene_lista(Object.values(evento.datos).map((x)=>String(x).toLowerCase()),this.input.toLowerCase().split(" "))){
+                        eventos_filtrado.push(evento)
                     }
                 });
 
-                return eventos.sort((a,b)=>{
-                    let dist_a = this.eventos[a].datos.distancia
-                    let dist_b = this.eventos[b].datos.distancia
+                return eventos_filtrado.sort((a,b)=>{
+                    let dist_a = a.datos.distancia;
+                    let dist_b = b.datos.distancia;
                     if (dist_a<dist_b){return -1}
                     if (dist_a>dist_b){return 1}
                     else{return 0}
@@ -550,9 +549,49 @@ async function buscarEventoSectionApp(template){
         }
 
     })
-
     buscarEventoSectionAppObject = EventoSectionApp.mount("#buscarEventoSection")
-    actualizar_listado_popus_visibles()
+
+
+
+
+
+
+    async function actualizar_datos(){
+        await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").val().replace("km","")),function(data){
+            data.forEach(function(eventoDatos){
+                eventoDatos.distancia = getDistanceFromLatLonInKm(eventoDatos.lat, eventoDatos.lng, geoposicionUsuario.lat, geoposicionUsuario.lng)
+                eventoDatos.date = new Date(eventoDatos["date"])
+                eventoDatos.tags = eventoDatos.tags? eventoDatos.tags.split(",").map((x)=>TAGS[x].category_name).join() : null
+
+                //si ya existia el evento, lo actualiza
+                if(Object.keys(buscarEventoSectionAppObject.eventos_cercanos).includes(String(eventoDatos.id))){
+                    Object.keys(eventoDatos).forEach(function(atributo){
+                        buscarEventoSectionAppObject.eventos_cercanos[eventoDatos.id].datos[atributo] = eventoDatos[atributo]
+                    })
+                    return
+                }
+
+                //si no existe, lo crea
+                eventoObject = createPopup(eventoDatos)
+                buscarEventoSectionAppObject.eventos_cercanos[eventoDatos.id] = eventoObject
+                if(buscarEventoSectionAppObject.activo){
+                    eventoObject.popup.append()
+                }
+            })
+
+            //eliminar eventos que ya no existen en el mapa (osea, si se elimino el evento o esta lejos de tu distancia marcada)
+            let indicesEventosCercanos = data.map((dato)=>dato.id)
+            Object.keys(buscarEventoSectionAppObject.eventos_cercanos).forEach(function(indiceEventoGuardado){
+                if(!indicesEventosCercanos.includes(Number(indiceEventoGuardado))){
+                    buscarEventoSectionAppObject.eventos_cercanos[indiceEventoGuardado].popup.remove()
+                    delete(buscarEventoSectionAppObject.eventos_cercanos[indiceEventoGuardado])
+                }
+            })
+        })
+
+    }
+    actualizar_datos()
+    setInterval(actualizar_datos,3000)
 
 }
 
@@ -568,8 +607,8 @@ function misEventoSectionApp(template){
             return {
                 activo:false,
                 modo:"Eventos unidos",
-                eventos_unidos:null,
-                eventos_creados:null,
+                eventos_unidos:{},
+                eventos_creados:{},
                 geoposicionUsuario:geoposicionUsuario
             };
         },
@@ -579,9 +618,14 @@ function misEventoSectionApp(template){
                 desactivarGlobal()
                 this.activo = true
                 this.modo="Eventos unidos"
+                this.eventos_unidos? Object.values(this.eventos_unidos).forEach((evento)=>evento.popup.append()) : null
+                this.eventos_creados? Object.values(this.eventos_creados).forEach((evento)=>evento.popup.remove()) : null
             },
             desactivar(){
                 this.activo = false
+                this.eventos_unidos? Object.values(this.eventos_unidos).forEach((evento)=>evento.popup.remove()) : null
+                this.eventos_creados? Object.values(this.eventos_creados).forEach((evento)=>evento.popup.remove()) : null
+
             },
             cargar_datos(){
                 cargar_mis_eventos_creados()
@@ -628,6 +672,14 @@ function misEventoSectionApp(template){
             distancia(lat,lng){
                 return getDistanceFromLatLonInKm(lat,lng,this.geoposicionUsuario.lat,this.geoposicionUsuario.lng)
 
+            },
+            changeMode(modo){
+                this.modo = modo
+                let eventos_a_poner = modo=="Eventos unidos"? this.eventos_unidos : this.eventos_creados;
+                let eventos_a_quitar = modo=="Eventos unidos"? this.eventos_creados : this.eventos_unidos;
+
+                eventos_a_poner? Object.values(eventos_a_poner).forEach((evento)=>evento.popup.append()) : null
+                eventos_a_quitar? Object.values(eventos_a_quitar).forEach((evento)=>evento.popup.remove()) : null
             }
         },computed:{
             eventos_seleccionados(){
@@ -648,30 +700,48 @@ function misEventoSectionApp(template){
 
     // Mis eventos data;
     function cargar_mis_eventos_unidos(){
-        $.get("./api/MyJoinedEvents",function(raw_data){
+        $.get("./api/MyJoinedEvents",function(eventos){
             data = {}
-            raw_data.forEach((dato)=>{
-                data[dato.id]=dato;
-                data[dato.id].distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,dato.lat,dato.lng)
+            eventos.forEach((evento)=>{
+                if(!(evento.id in misEventoSectionAppObject.eventos_unidos)){
+                    eventoObject = createPopup(evento)
+                }else{
+                    eventoObject = misEventoSectionAppObject.eventos_unidos[evento.id]
+                }
+                eventoObject.datos.distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,evento.lat,evento.lng)
+                eventoObject.datos.date = new Date(evento.date)
+                if(misEventoSectionAppObject.modo=="Eventos unidos" && misEventoSectionAppObject.activo){
+                    eventoObject.popup.append()
+                }
+                data[evento.id] = eventoObject
             })
             misEventoSectionAppObject.eventos_unidos = data
         })
     }
     cargar_mis_eventos_unidos()
-    setInterval(()=>{if(misEventoSectionAppObject.activo){cargar_mis_eventos_unidos()}},2500)
+    setInterval(()=>{if(misEventoSectionAppObject.activo){cargar_mis_eventos_unidos()}},3000)
 
     function cargar_mis_eventos_creados(){
-        $.get("./api/MyCreatedEvents",function(raw_data){
+        $.get("./api/MyCreatedEvents",function(eventos){
             data = {}
-            raw_data.forEach((dato)=>{
-                data[dato.id]=dato;
-                data[dato.id].distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,dato.lat,dato.lng)
+            eventos.forEach((evento)=>{
+                if(!(evento.id in misEventoSectionAppObject.eventos_creados)){
+                    eventoObject = createPopup(evento)
+                }else{
+                    eventoObject = misEventoSectionAppObject.eventos_creados[evento.id]
+                }
+                eventoObject.datos.distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,evento.lat,evento.lng)
+                eventoObject.datos.date = new Date(evento.date)
+                if(misEventoSectionAppObject.modo=="Eventos creados" && misEventoSectionAppObject.activo){
+                    eventoObject.popup.append()
+                }
+                data[evento.id] = eventoObject
             })
             misEventoSectionAppObject.eventos_creados = data
         })
     }
     cargar_mis_eventos_creados()
-    setInterval(()=>{if(misEventoSectionAppObject.activo){cargar_mis_eventos_creados()}},2500)
+    setInterval(()=>{if(misEventoSectionAppObject.activo){cargar_mis_eventos_creados()}},3000)
 }
 
 
@@ -702,7 +772,7 @@ showEventApp = createApp({
     computed:{
         evento(){
             if(this.index == null){return {}}
-            return MapaGoogleObject.marcadores[this.index].datos
+            // return MapaGoogleObject.marcadores[this.index].datos
         }
     },template:
     "<h1>{{evento['name']}}</h1>"

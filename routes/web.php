@@ -114,3 +114,5 @@ Route::get("/home", function(){return view("index");})->name("home");
 //limpieza de links
 //validacion formulario
 //hacer que no haga falta clickar en el boton obtener ubicacion
+
+//mover metodos al popup, ubicar y señalar

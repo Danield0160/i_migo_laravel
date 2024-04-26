@@ -41,8 +41,7 @@ html, body {
 
 /* para cuando se aleja */
 .popup-bubble-zoom-out  {
-    transform: translate(-50%, -90%); /* reajuste para que el icono coincida con la ubicacion */
-
+    transform: translate(-50%, -85%) scaleX(10%) scaleY(50%); /* reajuste para que el icono coincida con la ubicacion */
 }
 .popup-bubble-zoom-out .contenido {
     background-color: red;
@@ -55,6 +54,8 @@ html, body {
     background-size: cover;
     width: 33.5px;
     height: 50.0px;
+    transform: scaleX(1000%) scaleY(200%) translateY(-10px); /* reajuste para que el icono coincida con la ubicacion */
+
 }
 
 /* para cuando se acerca */
@@ -454,7 +455,7 @@ html, body {
 
 .mostrando{
     /* border : 5px dashed darkred !important; */
-    z-index: 99;
+    z-index: 999 !important;
     box-shadow:  0px 0px 10px 5px darkred;
 }
 .popup-icono.mostrando{

@@ -190,6 +190,7 @@ class EventController extends Controller
         // $mapa = new MapaController();
         // event(new ActualizacionEvento); //websocket
         // return back();
+        return $evento;
     }
 
     public static function ObtainNearEvents($lat,$lng,$dist){

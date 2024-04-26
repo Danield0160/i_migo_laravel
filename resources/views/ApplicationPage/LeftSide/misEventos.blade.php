@@ -2,8 +2,8 @@
 
     {{-- seleccionador del modo --}}
     <div id="selector_mis_eventos" onclick="if(event.target.tagName == 'BUTTON'){[...this.children].forEach((x)=>x.classList.remove('activo')); event.target.classList.add('activo')}">
-        <button @click="this.modo='Eventos unidos'" class="activo boton_selector">Eventos unidos</button>
-        <button @click="this.modo='Eventos creados'" class="boton_selector">Eventos creados</button>
+        <button @click="changeMode('Eventos unidos')" class="activo boton_selector">Eventos unidos</button>
+        <button @click="changeMode('Eventos creados')" class="boton_selector">Eventos creados</button>
     </div>
 
     {{-- modo eventos unidos --}}
@@ -11,33 +11,33 @@
         <TransitionGroup name="list"   >
 
             {{-- iterador de eventos --}}
-            <div v-for="evento in eventos_seleccionados" class="evento_listado_container" :key="evento.id">
+            <div v-for="evento in eventos_seleccionados" class="evento_listado_container" :key="evento.datos.id">
 
                 {{-- imagen del evento --}}
                 <div class="img">
-                    <img :src=' "images/" + evento.imagen_id 'alt="" >
+                    <img :src=' "images/" + evento.datos.imagen_id 'alt="" >
                 </div>
 
                 {{-- informacion del evento --}}
                 <div class="contenido">
                     <div class="datos">
-                        <h4>@{{evento.name}}</h4>
-                        <p class="date">@{{new Date(evento.date).toLocaleDateString()}} - @{{new Date(evento.date).toLocaleTimeString('es-ES',{hour: '2-digit', minute:'2-digit'})}}</p>
-                        <p>@{{evento.description}}</p>
+                        <h4>@{{evento.datos.name}}</h4>
+                        <p class="date">@{{evento.datos.date.toLocaleDateString()}} - @{{evento.datos.date.toLocaleTimeString('es-ES',{hour: '2-digit', minute:'2-digit'})}}</p>
+                        <p>@{{evento.datos.description}}</p>
                     </div>
                 </div>
 
                 <div class="boton_container">
-                    <span class="kilometraje">@{{Math.trunc(evento.distancia * 100)/100}} km</span>
+                    <span class="kilometraje">@{{Math.trunc(evento.datos.distancia * 100)/100}} km</span>
 
                     <div>
                         {{-- boton para salirse del evento --}}
                         <form onsubmit="return false" method="POST" v-if="this.modo == 'Eventos unidos'">
                             @csrf
-                            <input id="event_id" name="event_id" type="text" :value="evento.id" hidden>
+                            <input id="event_id" name="event_id" type="text" :value="evento.datos.id" hidden>
                             <button class="button_salir" @click="salirse_de_evento($event)" >
                                 salirse
-                                <p>@{{evento.asistentes}} / @{{evento.assistants_limit}}</p>
+                                <p>@{{evento.datos.asistentes}} / @{{evento.datos.assistants_limit}}</p>
                             </button>
                         </form>
 
@@ -45,18 +45,18 @@
                         <form onsubmit="return false" v-if="this.modo == 'Eventos creados'">
                             @method("DELETE")
                             @csrf
-                            <input id="event_id" name="event_id" type="text" :value="evento.id" hidden>
+                            <input id="event_id" name="event_id" type="text" :value="evento.datos.id" hidden>
                             <button class="button_salir" @click="eliminar_evento($event)" >
                                 eliminar
-                                <p>@{{evento.asistentes}} / @{{evento.assistants_limit}}</p>
+                                <p>@{{evento.datos.asistentes}} / @{{evento.datos.assistants_limit}}</p>
                             </button>
                         </form>
                     </div>
 
                 </div>
                 {{-- Tags del evento --}}
-                <div class="tags_buscar_evento" v-if="evento.tags">
-                    <span v-for="tag in evento.tags.split(',')">@{{TAGS[tag].category_name}} </span>
+                <div class="tags_buscar_evento" v-if="evento.datos.tags">
+                    <span v-for="tag in evento.datos.tags.split(',')">@{{TAGS[tag].category_name}} </span>
                 </div>
 
             </div>
