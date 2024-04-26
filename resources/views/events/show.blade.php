@@ -12,7 +12,7 @@
             <p><b>Fecha: </b>{{ $event->date }}</p>
             <p><b>Latitud: </b>{{ $event->lat }}</p>
             <p><b>Longitud: </b>{{ $event->lng }}</p>
-            <a class="btn btn-secondary" href="{{ route('events.index') }}" role="button">Volver</a>
+            <a class="btn btn-secondary" href="{{ $url ? $url : route('events.index') }}" role="button">Volver</a>
         </div>
     </div>
 @endsection

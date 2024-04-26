@@ -3,18 +3,19 @@
 namespace App\Http\Controllers;
 
 use Error;
+use App\Models\User;
 use App\Models\Event;
+use App\Models\Event_tag;
+use App\Models\Event_user;
 use App\Mail\NewEventEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Models\Event_tag;
-use App\Models\Event_user;
-
 use App\Events\ActualizacionEvento;
+use Illuminate\Support\Facades\Log;
 
+use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Mail;
 use function Symfony\Component\String\b;
 // websocket Event
 class EventController extends Controller
@@ -35,6 +36,14 @@ class EventController extends Controller
         }
 
         return view('events.index', compact('events'));
+    }
+
+    public function users(string $creator_id, Request $request)
+    {
+
+        $users = User::where('active', 1)->where('id', $creator_id)->get();
+
+        return view('events.users', compact('users', 'creator_id'));
     }
 
 
@@ -94,17 +103,21 @@ class EventController extends Controller
     }
 
 
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
+        $url = $request->query('url');
         $event = Event::find($id);
-        return view('events.show', compact('event'));
+
+        return view('events.show', compact('event', 'url'));
     }
 
 
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
+        $url = $request->query('url');
         $event = Event::find($id);
-        return view('events.edit', compact('event'));
+
+        return view('events.edit', compact('event', 'url'));
     }
 
 

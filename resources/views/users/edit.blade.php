@@ -38,7 +38,7 @@
         </form>
 
         <div class="d-grid gap-2 mt-3">
-            <a class="btn btn-secondary" href="{{ route('users.index') }}" role="button">Volver</a>
+            <a class="btn btn-secondary" href="{{ $url ? $url : route('users.index') }}" role="button">Volver</a>
         </div>
 
     </div>

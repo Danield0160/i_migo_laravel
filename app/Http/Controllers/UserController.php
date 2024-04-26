@@ -4,14 +4,16 @@ namespace App\Http\Controllers;
 
 use Error;
 use App\Models\User;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Mail\NewUserEmail;
+use Laravel\Ui\Presets\React;
 
 class UserController extends Controller
 {
@@ -42,6 +44,22 @@ class UserController extends Controller
         }
 
         return view('users.index', compact('users'));
+    }
+
+    public function events(string $id, Request $request)
+    {
+        Log::channel('debugger')->info('Se ha accedido a la lista de eventos.');
+
+        $url = $request->query('url');
+        $search = $request->input('search');
+        $events = Event::where('active', 1)->where('creator_id', $id)->get();
+
+        if($search){
+            $events = Event::where('active', 1)->where('creator_id', $id)->where('name', 'like', '%'.$search.'%')
+            ->orWhere('assistants_limit', 'like', '%'.$search.'%')
+            ->get();
+        }
+        return view('users.events', compact('events', 'id', 'url'));
     }
 
 
@@ -174,17 +192,19 @@ class UserController extends Controller
     }
 
 
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
+        $url = $request->query('url');
         $user = User::find($id);
-        return view('users.show', compact('user'));
+        return view('users.show', compact('user', 'url'));
     }
 
 
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
+        $url = $request->query('url');
         $user = User::find($id);
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user', 'url'));
     }
 
 

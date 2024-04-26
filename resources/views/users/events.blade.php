@@ -5,7 +5,7 @@
         @include('includes.messages')
 
         <!-- Formulario de filtro -->
-        <form action="{{ route('events.index') }}" method="GET" class="mb-3">
+        <form action="{{ route('users.events', $id) }}" method="GET" class="mb-3">
             <div class="row">
                 <div class="col-md-6">
                     <input type="text" name="search" class="form-control" placeholder="Buscar por name, descripción, etc." value="{{ request()->input('search') }}">
@@ -27,7 +27,6 @@
                         <th scope="col">Patrocinado</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Acciones</th>
-                        <th scope="col">Creador</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,13 +55,10 @@
                                 <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="d-flex" id="delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <a href="{{ route('events.show', $event->id) }}" class="btn btn-outline-primary">👁️</a>
-                                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-outline-secondary">✏️</a>
+                                    <a href="{{ route('events.show', $event->id) }}?url={{ route('users.events', $id) }}" class="btn btn-outline-primary">👁️</a>
+                                    <a href="{{ route('events.edit', $event->id) }}?url={{ route('users.events', $id) }}" class="btn btn-outline-secondary">✏️</a>
                                     <button type="submit" class="btn btn-outline-danger">🗑️</button>
                                 </form>
-                            </td>
-                            <td>
-                                <a href="{{ route('events.users', $event->creator_id) }}" class="btn btn-outline-info">👥</a>
                             </td>
                         </tr>
                     @endforeach
@@ -71,8 +67,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <a name="" id="" class="btn btn-success" href="{{ route('events.create') }}" role="button">Nuevo evento</a>
-            <a name="" id="" class="btn btn-secondary" href="{{ route('management') }}" role="button">Volver</a>
+            <a name="" id="" class="btn btn-secondary" href="{{ $url ? $url : route('users.index') }}" role="button">Volver</a>
         </div>
 
     </div>
