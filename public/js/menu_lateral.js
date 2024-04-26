@@ -341,8 +341,6 @@ async function crearEventoSectionApp(template){
                     processData: false,
                     success:function(data){
                         // console.log("success");
-                        actualizar_datos();
-                        misEventoSectionAppObject.cargar_datos()
                         eventoObject = createPopup(data)
                         eventoObject.datos.date = new Date(data.date)
                         eventoObject.popup.append()
