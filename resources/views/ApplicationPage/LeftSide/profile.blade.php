@@ -16,7 +16,7 @@
     </div>
 
     <div class="logout arriba">
-        <a href="{{ route('index') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Pagina principal</a>
+        <a href="{{ route('index') }}">Pagina principal</a>
     </div>
 
     <div class="logout">
