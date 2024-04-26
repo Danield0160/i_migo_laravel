@@ -23,6 +23,7 @@
 
         <div id="lateral-izq">
             @auth
+            <div id="drag_pad"><i class="fa-solid fa-grip-lines"></i></div>
                 <div id="header_app">
                     @include("ApplicationPage.partials.header_navbar_app")
                 </div>

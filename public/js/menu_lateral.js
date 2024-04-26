@@ -409,7 +409,6 @@ async function buscarEventoSectionApp(template){
             //     showEventAppObject.showEventDetails(index)
             // },
             joinEvent(event){
-                console.log("envio unido")
                 formData = new FormData(event.target.parentElement)
                 $.ajax({
                     type:'POST',
@@ -422,7 +421,7 @@ async function buscarEventoSectionApp(template){
                         console.log("unido")
                         // console.log("success");
                         actualizar_datos();
-                        misEventoSectionAppObject.cargar_datos()
+                        misEventoSectionAppObject.cargar_mis_eventos_unidos()
                     },
                     error: function(data){
                         console.log("error");
@@ -441,7 +440,7 @@ async function buscarEventoSectionApp(template){
                     success:function(data){
                         // console.log("success");
                         actualizar_datos()
-                        misEventoSectionAppObject.cargar_datos();
+                        misEventoSectionAppObject.cargar_mis_eventos_unidos();
                     },
                     error: function(data){
                         console.log("error");
@@ -480,7 +479,19 @@ async function buscarEventoSectionApp(template){
             },
             actualizar_datos(){
                 actualizar_datos()
-            }
+            },
+            ubicar(event,evento,eventos){
+                if(event.target.tagName == "BUTTON"){
+                    return
+                }
+                evento.popup.ubicar(event,eventos,this.ultimo_evento_mostrado );
+
+                if(this.ultimo_evento_mostrado==evento.id){
+                    this.ultimo_evento_mostrado=null
+                }else{
+                    this.ultimo_evento_mostrado= evento.id
+                }
+            },
         },
         computed:{
 
@@ -596,10 +607,6 @@ function misEventoSectionApp(template){
                 this.ultimo_evento_mostrado = null
 
             },
-            cargar_datos(){
-                cargar_mis_eventos_creados()
-                cargar_mis_eventos_unidos()
-            },
             salirse_de_evento(event){
                 formData = new FormData(event.target.parentElement)
                 $.ajax({
@@ -612,7 +619,6 @@ function misEventoSectionApp(template){
                     success:function(data){
                         // console.log("success");
                         cargar_mis_eventos_unidos();
-                        actualizar_datos()
                     },
                     error: function(data){
                         console.log("error");
@@ -631,7 +637,6 @@ function misEventoSectionApp(template){
                     success:function(data){
                         // console.log("success");
                         cargar_mis_eventos_creados();
-                        actualizar_datos()
                     },
                     error: function(data){
                         console.log("error");
@@ -655,6 +660,9 @@ function misEventoSectionApp(template){
 
             },
             ubicar(event,evento,eventos){
+                if(event.target.tagName == "BUTTON"){
+                    return
+                }
                 evento.popup.ubicar(event,eventos,this.ultimo_evento_mostrado );
 
                 if(this.ultimo_evento_mostrado==evento.id){
@@ -662,6 +670,12 @@ function misEventoSectionApp(template){
                 }else{
                     this.ultimo_evento_mostrado= evento.id
                 }
+            },
+            cargar_mis_eventos_unidos(){
+                cargar_mis_eventos_unidos()
+            },
+            cargar_mis_eventos_creados(){
+                cargar_mis_eventos_creados()
             }
         },computed:{
             eventos_seleccionados(){
@@ -801,4 +815,52 @@ function lista_contiene_lista(lista1, lista2) {
         }
     }
     return true;
+}
+
+(async()=>{
+    await AllLoaded;
+    lateral = document.getElementById("lateral-izq")
+    drag_pad = document.getElementById("drag_pad")
+
+    drag_pad.addEventListener("mousedown",iniciar_drag)
+    drag_pad.addEventListener("pointerdown",iniciar_drag)
+
+    document.addEventListener("mouseup",parar_drag)
+    document.addEventListener("pointerup",parar_drag)
+    ajuste_inicial()
+})()
+
+function iniciar_drag(){
+    document.body.addEventListener("mousemove",drag)
+    document.body.addEventListener("pointermove",drag)
+}
+function parar_drag(){
+    document.body.removeEventListener("mousemove",drag)
+    document.body.removeEventListener("pointermove",drag)
+}
+function drag(event){
+    vh = event.clientY * 100 / window.outerHeight
+
+    if(vh > 80 || vh<0){
+        return
+    }
+    lateral.style.top = vh + "vh"
+}
+
+function ajuste_inicial(){
+    if(navigator.userAgentData.mobile){
+        setTimeout(()=>document.body.querySelector(".gmnoprint").style.marginTop = "10vh",850)
+        document.body.querySelector("#buscador_container").style.marginTop = "10vh" //se baja porque la barra de busqueda de los mobiles lo tapa, hacer pruebas
+    }
+    if(window.innerWidth < 991){
+        lateral.style.top = 50 + "vh"
+    }
+
+    window.addEventListener('resize', function(event) {
+        if(event.target.innerWidth > 991){
+            lateral.style.top = 0 + "vh"
+        }else{
+            lateral.style.top = 50 + "vh"
+        }
+    }, true);
 }

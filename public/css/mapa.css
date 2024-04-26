@@ -356,7 +356,7 @@ html, body {
     overflow-y: scroll;
 }
 .evento_listado_container > .contenido>.datos>.date{
-    margin-top:-15px ;
+    margin-top:-12px ;
     margin-bottom:-3px ;
     font-size: small;
     color: grey;

@@ -1,19 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-#lateral-izq{
-    display: inline-block;
-    width: 40%;
-    position: relative;
-}
-#lateral-der{
-    width: 100%;
-    display: inline-block;
-}
-#app{
-    display: flex;
-}
-
-
-
 body {
 	font-family: 'Roboto', sans-serif;
 }
@@ -166,44 +151,98 @@ i {
 		-ms-flex-preferred-size: auto;
 		flex-basis: auto;
 	}
+
+    #lateral-izq{
+        display: inline-block;
+        width: 40%;
+        position: relative;
+    }
+    #lateral-der{
+        width: 100%;
+        display: inline-block;
+    }
+    #app{
+        display: flex;
+    }
+    #drag_pad{
+        display: none;
+    }
 }
 
 @media (max-width: 991px) {
-	#navbarSupportedContent ul li a {
-		padding: 12px 30px;
+    .navbar-expand-custom {
+		-ms-flex-flow: row nowrap;
+		flex-flow: row nowrap;
+		-ms-flex-pack: start;
+		justify-content: flex-start;
 	}
 
-	.hori-selector {
-		margin-top: 0px;
-		margin-left: 10px;
-		border-radius: 0;
-		border-top-left-radius: 25px;
-		border-bottom-left-radius: 25px;
+	.navbar-expand-custom .navbar-nav {
+		-ms-flex-direction: row;
+		flex-direction: row;
+        width: 100vw;
+        justify-content: space-around;
 	}
 
-	.hori-selector .left,
-	.hori-selector .right {
-		right: 10px;
+	.navbar-expand-custom .navbar-toggler {
+		display: none;
 	}
 
-	.hori-selector .left {
-		top: -25px;
-		left: auto;
+	.navbar-expand-custom .navbar-collapse {
+		display: -ms-flexbox !important;
+		display: flex !important;
+		-ms-flex-preferred-size: auto;
+		flex-basis: auto;
 	}
+    .hori-selector{
+        top: -10px !important;
+        transform: rotateX(180deg);
+    }
+    .hori-selector div{
+        bottom: 0px !important;
+    }
+    #navbarSupportedContent ul li a {
+        padding: 10px 10px;
 
-	.hori-selector .right {
-		bottom: -25px;
-	}
+    }
+    #header_app{
+        width: 100vw;
+        position: fixed;
+        bottom: 0;
+        z-index: 9;
+    }
+    #app{
+        display: block;
+        width: 100vw;
+        height: 100vh;
+    }
+    #lateral-izq{
+        display: inline-block;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        top: 50vh;
+        z-index: 10;
+        background-color: white;
+    }
+    #drag_pad{
+        height: 28px;
+        background-color: rgb(223, 75, 82);
+        text-align: center;
+        cursor: move;
+        margin-bottom: 10px;
+        touch-action: none;
+    }
+    #drag_pad i{
+        font-size: xx-large;
+    }
+    #lateral-der{
+        display: block;
+        position: absolute;
+        width: 100vw;
+        height: 80vh;
+    }
 
-	.hori-selector .left:before {
-		left: -25px;
-		top: -25px;
-	}
-
-	.hori-selector .right:before {
-		bottom: -25px;
-		left: -25px;
-	}
 }
 
 /* animacion vue popups entrada y salida */

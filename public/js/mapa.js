@@ -172,7 +172,7 @@ cargarMapaClass=()=>{
             bounds.union(lugar.geometry.viewport);
             this.mapa.fitBounds(bounds);
 
-            actualizar_datos()
+            buscarEventoSectionAppObject.actualizar_datos()
         }
         //clava el marcador en el mapa el marcador del "evento" obtener ubicacion de crear evento, y pone su posicion
         // en el formulario de creacion de evento
@@ -388,7 +388,6 @@ google.maps.importLibrary("maps").then(
             MapaGoogleObject = new MapaClass() // isntancia del objeto mapa
             terminadoDeCargar() // resolucion de la promesa de cargado
         })
-
 
     }
 );
