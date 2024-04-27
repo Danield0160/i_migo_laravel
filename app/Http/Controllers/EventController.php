@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Events\ActualizacionEvento;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -164,6 +165,10 @@ class EventController extends Controller
         $date = $request->input("date")." ".$request->input("time");
         $sponsored = $request->input("sponsored")?true:false;
 
+        if(strtotime($date) < strtotime('now')){
+            return Response::json(['error' => 'Tiene que ser una fecha futura'], 404);
+        }
+
         $evento = new Event;
         $evento->creator_id = auth()->id();
         $evento->name = $name;
@@ -173,18 +178,6 @@ class EventController extends Controller
         $evento->lng = $longitud;
         $evento->date = $date;
         $evento->sponsored = $sponsored;
-
-        // $request->validate(['imagen' => 'required|mimes:pdf,jpg,avif,png|max:2048',]);
-        // $imageName = time().'.'.$request->file("imagen")->extension();
-        // $request->file("imagen")->move(public_path('images/uploads'), $imageName);
-        // $imageName?null:$imageName="logo.png";
-
-        // $photo = new Photo;
-        // $photo->creator_id = $request->user()->id;
-        // $photo->imagePath = $imageName;
-        // $photo->save();
-
-        debugbar()->info($request);
 
         $evento->imagen_id = $request->imagen;
         $evento->save();
@@ -199,10 +192,6 @@ class EventController extends Controller
             }
         }
 
-
-        // $mapa = new MapaController();
-        // event(new ActualizacionEvento); //websocket
-        // return back();
         return $evento;
     }
 

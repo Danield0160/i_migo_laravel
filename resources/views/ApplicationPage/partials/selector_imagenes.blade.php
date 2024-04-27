@@ -1,4 +1,4 @@
-<button @click="this.activo=!this.activo"><i v-if="modo=='perfil'" class="fa-solid fa-repeat"></i><i v-else class="fa-solid fa-file-image"> elegir imagen</i></button>
+<button type="button" @click="this.activo=!this.activo"><i v-if="modo=='perfil'" class="fa-solid fa-repeat"></i><i v-else class="fa-solid fa-file-image"> elegir imagen</i></button>
 <div v-if="activo">
     <div id="listado_imagenes">
         <form id="formulario_subir_foto" onsubmit="return false">
@@ -14,7 +14,7 @@
                 @csrf
                 @method("DELETE")
                 <input type="text" name="id" hidden :value='image.id'>
-                <button @click="remove_image($event)">X</button>
+                <button type="button" @click="remove_image($event)">X</button>
             </form>
         </div>
     </div>

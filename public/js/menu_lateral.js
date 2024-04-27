@@ -293,7 +293,7 @@ async function crearEventoSectionApp(template){
             ocultarBoton()
             return {
                 activo:false,
-                eventos_agregados:[]
+                eventos_agregados:{}
             };
         },
         template:template,
@@ -314,17 +314,19 @@ async function crearEventoSectionApp(template){
                 MapaGoogleObject.buttonObtenerUbicacion.style.opacity = "0"
                 MapaGoogleObject.buttonObtenerUbicacion.style.pointerEvents = "none";
                 this.activo = false
-                this.eventos_agregados.forEach((evento)=>{evento.popup.remove();delete(evento)})
+                Object.values(this.eventos_agregados).forEach((evento)=>{evento.popup.remove()})
             },
             crearChooseImageSectionApp(perfilOEvento,disparador,montaje){
                 crearChooseImageSectionApp(perfilOEvento,disparador,montaje)
             },
             enviar_datos_crear_evento(){
-                if(document.getElementById('latitud').value == null){
+                if(document.getElementById('latitud').value == ''){
                     return
                 }
                 object = this
                 let formData = new FormData($("#formulario_crear")[0])
+                console.log(formData.get("latitud"))
+                console.log(document.getElementById('latitud').value)
                 var boxes = document.getElementsByClassName('checkbox_create_event_tag');
                 var checked = [];
                 for (var i = 0; boxes[i]; ++i) {
@@ -343,18 +345,31 @@ async function crearEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        // console.log("success");
                         eventoObject = createPopup(data)
                         eventoObject.datos.date = new Date(data.date)
                         eventoObject.popup.append()
-                        object.eventos_agregados.push(eventoObject)
+                        chooseImageSectionObject.preview = null
+                        $("#formulario_crear")[0].reset()
+                        object.eventos_agregados[eventoObject.id] = eventoObject
+                        Toastify({
+                            text: "Evento Creado",
+                            duration: 3000,
+                            style: {
+                                background: "linear-gradient(to right, #00f555, #00f999)",
+                            }
+                            }).showToast();
                     },
                     error: function(data){
-                        console.log("error");
+                        Toastify({
+                            text: data.responseJSON.error,
+                            duration: 3000,
+                            style: {
+                                background: "linear-gradient(to right, #ff5555, #ff7777)",
+                            }
+                            }).showToast();
                     }
                 });
-                document.getElementById('latitud').value = null;
-                document.getElementById('longitud').value = null;
+
                 MapaGoogleObject.eliminarEventosObtenerUbicacion(true)
             },
             seleccionar(event){
@@ -460,6 +475,9 @@ async function buscarEventoSectionApp(template){
                 if(id in misEventoSectionAppObject.eventos_creados){
                     return false
                 }
+                if(id in crearEventoSectionAppObject.eventos_agregados){
+                    return false
+                }
                 return true
             },
             me_puedo_salir(id){
@@ -476,6 +494,9 @@ async function buscarEventoSectionApp(template){
                     return false
                 }
                 if (id in misEventoSectionAppObject.eventos_creados){
+                    return true
+                }
+                if(id in crearEventoSectionAppObject.eventos_agregados){
                     return true
                 }
                 return false
@@ -569,7 +590,7 @@ async function buscarEventoSectionApp(template){
 
     }
     actualizar_datos()
-    setInterval(()=>{if(misEventoSectionAppObject.activo){actualizar_datos()}},3000)
+    setInterval(()=>{if(buscarEventoSectionAppObject.activo){actualizar_datos()}},3000)
 
 }
 
@@ -683,9 +704,21 @@ function misEventoSectionApp(template){
         },computed:{
             eventos_seleccionados(){
                 if (this.modo == "Eventos unidos"){
-                    return this.eventos_unidos
+                    return Object.values(this.eventos_unidos).sort((a,b)=>{
+                        let dist_a = a.datos.distancia;
+                        let dist_b = b.datos.distancia;
+                        if (dist_a<dist_b){return -1}
+                        if (dist_a>dist_b){return 1}
+                        else{return 0}
+                    })
                 }else{
-                    return this.eventos_creados
+                    return Object.values(this.eventos_creados).sort((a,b)=>{
+                        let dist_a = a.datos.distancia;
+                        let dist_b = b.datos.distancia;
+                        if (dist_a<dist_b){return -1}
+                        if (dist_a>dist_b){return 1}
+                        else{return 0}
+                    })
                 }
             },
             TAGS(){

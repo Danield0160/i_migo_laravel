@@ -26,6 +26,7 @@ return new class extends Migration
             $table->boolean("sponsored")->default(false);
             $table->integer("chat_id")->nullable();
             // $table->string("provincia");
+            $table->softDeletes();
         });
     }
 

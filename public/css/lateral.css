@@ -270,7 +270,7 @@ i {
         top: 50px !important;
     }
     #formulario_crear .boton_envio{
-        bottom: 20vh !important;
+        bottom: 15vh !important;
     }
 
 }
@@ -430,7 +430,8 @@ i {
     justify-content: center;
 }
 #preview{
-    margin: 10px;
+    margin: auto;
+    margin-top: 5px;
     padding: 5px;
     border: 2px solid red;
     background-color: salmon;
@@ -443,7 +444,9 @@ i {
     height: 75px;
 }
 
-
+#choose_image_event{
+    padding-top: 10px;
+}
 #choose_image_event >*{
     display: block;
 }
@@ -468,17 +471,26 @@ i {
 /* crear evento */
 #formulario_crear #tags{
     padding: 10px;
+    background-color: lightcoral;
+    border: 2px solid red;
+    border-radius: 15px;
 }
 #formulario_crear .tag_div{
     display: inline-block;
     padding: 1px 5px;
-    margin: 2px 5px;
+    margin: 3px 5px;
     border: 1px solid black;
     border-radius: 25px;
+    background-color: rgb(250, 228, 226);
+    box-shadow: 2px 2px 2px black;
+}
+#formulario_crear .tag_div:hover:not(.activo){
+    background-color: rgb(187, 169, 167);
 }
 #formulario_crear .activo{
     background-color: red;
     color: white;
+    box-shadow: inset 2px 2px 2px black;
 }
 #formulario_crear .boton_envio{
     position: absolute;
@@ -538,4 +550,8 @@ i {
     display: flex;
     justify-content: space-around;
 
+}
+.disabled{
+    background-color: rgb(199, 199, 199) !important;
+    pointer-events: none;
 }
