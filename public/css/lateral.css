@@ -6,6 +6,7 @@ body {
 * {
 	margin: 0;
 	padding: 0;
+    user-select: none; /* Standard syntax */
 }
 
 i {
@@ -253,6 +254,25 @@ i {
         height: 80vh;
     }
 
+    #buscador_container{
+        margin-top: -5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        width: 100%;
+    }
+    #buscador_container>#buscador{
+        width: 100%;
+    }
+    #buttonGeolocation{
+        margin-left: 25px;
+    }
+    .custom-map-control-button{
+        top: 50px !important;
+    }
+    #formulario_crear .boton_envio{
+        bottom: 20vh !important;
+    }
+
 }
 
 /* animacion vue popups entrada y salida */
@@ -306,7 +326,7 @@ i {
     box-shadow: 3px 3px 3px black;
     border-radius: 5px;
     position: absolute;
-    bottom: 100px;
+    bottom: 200px;
 }
 #footer_profile>.logout >a{
     color: black;
@@ -314,7 +334,7 @@ i {
     display: block;
 }
 #footer_profile>.logout.arriba{
-    bottom: 150px;
+    bottom: 250px;
 }
 
 #footer_profile .name{
@@ -348,11 +368,9 @@ i {
     padding: 5px;
 }
 
-#formulario_subir_foto{
-    width: 30%;
-}
+
 #choose_imagen_nueva{
-    width: 100%;
+    width: 125px;
     height: 125px;
     background-color: white;
     font-size: xx-large;
@@ -392,7 +410,7 @@ i {
     border: 2px solid black;
 }
 #listado_imagenes > div{
-    width: 30%;
+    width: 125px;
     height: 125px;
     display: flex;
     border: 1px solid black;
@@ -430,6 +448,9 @@ i {
     display: block;
 }
 
+.form_delete_image{
+    width: 0;
+}
 .form_delete_image button{
     color: red;
     background-color: unset;
@@ -507,4 +528,14 @@ i {
     border-radius: 10px;
     position: absolute;
     bottom: 50%;
+}
+.dual > div{
+    display: inline-block;
+    width: 49%;
+    margin: auto;
+}
+.dual{
+    display: flex;
+    justify-content: space-around;
+
 }

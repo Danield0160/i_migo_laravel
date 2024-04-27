@@ -31,7 +31,11 @@ class PhotoController extends Controller
     // image handler
     public static function ObtainImage(Request $request){
         $photo = Photo::find($request->id);
-        $imagePath  = "images/uploads/" . $photo->imagePath;
+        if(isset($photo->imagePath)){
+            $imagePath  = "images/uploads/" . $photo->imagePath;
+        }else{
+            $imagePath  = "images/uploads/logo.png";
+        }
         return response()->file($imagePath);
     }
 

@@ -8,10 +8,10 @@
             <div v-for="evento in eventosVisibles" class="evento_listado_container" v-on:click="ubicar($event,evento,this.eventosCercanos.map((x)=>x.popup))" :key="evento.datos.id" @mouseover=evento.popup.point() @mouseleave=evento.popup.notPoint() v-bind:class="ultimo_evento_mostrado == evento.datos.id ? 'mostrando' : 'null' ">
                 {{-- imagen del evento --}}
                 <div class="img">
-                    <img :src='"images/"+evento.datos.imagen_id'alt="" v-if="evento !== undefined">
+                    <img :src='"images/"+evento.datos.imagen_id'alt="">
                 </div>
 
-                <div class="contenido" v-if="evento !== undefined">
+                <div class="contenido">
                     {{-- informacion principal del evento --}}
                     <div class="datos">
                         <h4>@{{evento.datos.name}}</h4>

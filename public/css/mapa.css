@@ -320,6 +320,7 @@ html, body {
     align-items : center;
     padding: 0;
     overflow: hidden;
+    cursor: pointer;
 }
 .evento_listado_container:hover{
     /* border: 3px solid salmon; */
@@ -349,10 +350,10 @@ html, body {
     height: 100%;
     border-left: 1px solid black;
     padding-bottom: 10px;
+    overflow-y: scroll;
 }
 .evento_listado_container > .contenido p{
     max-height: auto;
-
     overflow-y: scroll;
 }
 .evento_listado_container > .contenido>.datos>.date{
@@ -361,6 +362,7 @@ html, body {
     font-size: small;
     color: grey;
 }
+
 .evento_listado_container > .boton_container{
     width: 17%;
     height: 100%;

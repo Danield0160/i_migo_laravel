@@ -320,6 +320,9 @@ async function crearEventoSectionApp(template){
                 crearChooseImageSectionApp(perfilOEvento,disparador,montaje)
             },
             enviar_datos_crear_evento(){
+                if(document.getElementById('latitud').value == null){
+                    return
+                }
                 object = this
                 let formData = new FormData($("#formulario_crear")[0])
                 var boxes = document.getElementsByClassName('checkbox_create_event_tag');
@@ -828,6 +831,7 @@ function lista_contiene_lista(lista1, lista2) {
     document.addEventListener("mouseup",parar_drag)
     document.addEventListener("pointerup",parar_drag)
     ajuste_inicial()
+
 })()
 
 function iniciar_drag(){
