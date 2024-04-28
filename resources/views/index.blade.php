@@ -11,8 +11,12 @@
                     @auth
                     <li class="nav-item"><a class="nav-link" href="{{ route('app')}}">App</a></li>
                     @endauth
-                    <li class="nav-item"><a class="nav-link" href="#about">Conócenos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">{{__("messages.About")}}</a></li>
                     <li class="nav-item"><a class="nav-link" href="#portfolio">Idioma</a></li>
+
+                    @include("language-switch")
+
+
                     @guest
                     <li class="nav-item"><a class="nav-link"  data-bs-toggle="modal" data-bs-target="#loginModal">Inicia Sesión</a></li>
                     @endguest

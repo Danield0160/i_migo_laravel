@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\Auth\LoginController;
@@ -22,6 +23,8 @@ use App\Http\Controllers\ActualizacionController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::post("/language-switch",[LanguageController::class,"languageSwitch"])->name("language.switch");
+
 
 Route::get('/', function () {return redirect('index');});
 Route::get('/index', function () {return view('index');})->name("index");
