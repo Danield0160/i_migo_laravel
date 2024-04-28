@@ -16,11 +16,11 @@
     </div>
 
     <div class="logout arriba">
-        <a href="{{ route('index') }}">Pagina principal</a>
+        <a href="{{ route('index', app()->getLocale()) }}">{{ __('content.main_page') }}</a>
     </div>
 
     <div class="logout">
-        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">logout</a>
+        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('content.logout') }}</a>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>

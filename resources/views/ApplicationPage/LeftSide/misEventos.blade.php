@@ -2,8 +2,8 @@
 
     {{-- seleccionador del modo --}}
     <div id="selector_mis_eventos" onclick="if(event.target.tagName == 'BUTTON'){[...this.children].forEach((x)=>x.classList.remove('activo')); event.target.classList.add('activo')}">
-        <button @click="changeMode('Eventos unidos')" class="activo boton_selector">Eventos unidos</button>
-        <button @click="changeMode('Eventos creados')" class="boton_selector">Eventos creados</button>
+        <button @click="changeMode('Eventos unidos')" class="activo boton_selector">{{ __('content.my_events.joined') }}</button>
+        <button @click="changeMode('Eventos creados')" class="boton_selector">{{ __('content.my_events.created') }}</button>
     </div>
 
     {{-- modo eventos unidos --}}
@@ -36,7 +36,7 @@
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="evento.datos.id" hidden>
                             <button class="button_salir" @click="salirse_de_evento($event)" >
-                                salirse
+                                {{ __('content.leave_event') }}
                                 <p>@{{evento.datos.asistentes}} / @{{evento.datos.assistants_limit}}</p>
                             </button>
                         </form>
@@ -47,7 +47,7 @@
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="evento.datos.id" hidden>
                             <button class="button_salir" @click="eliminar_evento($event)" >
-                                eliminar
+                                {{ __('content.delete_event') }}
                                 <p>@{{evento.datos.asistentes}} / @{{evento.datos.assistants_limit}}</p>
                             </button>
                         </form>

@@ -31,7 +31,7 @@
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="evento.datos.id" hidden>
                             <button class="button_unir" @click="joinEvent($event)">
-                                unirse
+                                {{ __('content.join_event') }}
                                 <p>@{{evento.datos.asistentes}} / @{{evento.datos.assistants_limit}}</p>
                             </button>
                         </form>
@@ -41,15 +41,15 @@
                             @csrf
                             <input id="event_id" name="event_id" type="text" :value="evento.datos.id" hidden>
                             <button class="button_salir" @click="salirse_de_evento($event)" v-if="evento.datos.asistentes < evento.datos.assistants_limit">
-                                salirse
+                                {{ __('content.leave_event') }}
                                 <p>@{{evento.datos.asistentes}} / @{{evento.datos.assistants_limit}}</p>
                             </button>
                             <button class="button_salir" v-else>
-                                Esta lleno
+                                {{ __('content.full') }}
                                 <p>@{{evento.datos.asistentes}} / @{{evento.datos.assistants_limit}}</p>
                             </button>
                         </form>
-                        <span style="font-size: small" v-if="es_propietario(evento.datos.id)">propietario</span>
+                        <span style="font-size: small" v-if="es_propietario(evento.datos.id)">{{ __('content.owner') }}</span>
 
                     </div>
                     {{-- <div> --}}
