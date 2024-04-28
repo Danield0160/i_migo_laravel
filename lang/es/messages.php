@@ -38,6 +38,8 @@ return [
         'description' => 'Descripción',
         'max_people' => 'Número de asistentes',
         'assistants' => 'Asistentes',
+        'latitude' => 'Latitud',
+        'longitude' => 'Longitud',
         'date' => 'Fecha',
         'time' => 'Hora',
         'sponsored' => 'Patrocinado',

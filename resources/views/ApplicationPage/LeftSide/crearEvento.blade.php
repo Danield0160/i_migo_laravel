@@ -20,12 +20,12 @@
     <div class="form-group dual">
 
         <div class="form-group">
-            <label for="latitud">latitud</label>
+            <label for="latitud">{{ __('messages.create_event.latitude') }}</label>
             <input name="latitud" id="latitud" type="text" class="form-control disabled @error('latitud') is-invalid @enderror" required tabindex="-1">
         </div>
 
         <div class="form-group">
-            <label for="longitud">longitud</label>
+            <label for="longitud">{{ __('messages.create_event.longitude') }}</label>
             <input name="longitud" id="longitud" type="text" class="form-control disabled @error('longitud') is-invalid @enderror" required tabindex="-1">
         </div>
 
@@ -72,7 +72,7 @@
     @{{crearChooseImageSectionApp("evento","choose_image_event")}}
 
 
-    <button type="submit" class="btn btn-primary mt-2 boton_envio">Enviar</button>
+    <button type="submit" class="btn btn-primary mt-2 boton_envio">{{ __('messages.create_event.send') }}</button>
 
 </div>
 </form>

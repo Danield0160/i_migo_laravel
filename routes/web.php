@@ -23,7 +23,7 @@ use App\Http\Controllers\ActualizacionController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::post("/language-switch",[LanguageController::class,"languageSwitch"])->name("language.switch");
+Route::get('/language/{language}', [LanguageController::class, 'languageSwitch'])->name('language.switch');
 
 
 Route::get('/', function () {return redirect('index');});

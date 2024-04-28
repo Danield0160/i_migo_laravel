@@ -38,6 +38,8 @@ return [
         'description' => 'Description',
         'max_people' => 'Number of assistants',
         'assistants' => 'Assistants',
+        'latitude' => 'Latitude',
+        'longitude' => 'Longitude',
         'date' => 'Date',
         'time' => 'Time',
         'sponsored' => 'Sponsored',

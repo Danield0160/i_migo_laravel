@@ -12,9 +12,14 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('app', app()->getLocale())}}">{{ __('messages.app') }}</a></li>
                     @endauth
                     <li class="nav-item"><a class="nav-link" href="#about">{{__("messages.about_us.title")}}</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#portfolio">Idioma</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.language') }}</a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" id="languageDropdown">
+                            <li><a class="dropdown-item" href="{{ route('language.switch', 'es') }}">Español</a></li>
+                            <li><a class="dropdown-item" href="{{ route('language.switch', 'en') }}">English</a></li>
+                        </ul>
+                    </li>
 
-                    @include("language-switch")
 
 
                     @guest
@@ -59,7 +64,7 @@
 
                         <div class="mb-3">
                             <label for="email" class="form-label text-white">{{ __('messages.email') }}</label>
-                            <input type="email" class="form-control" name="email" placeholder="Ejemplo@ejemplo.com" required autocomplete="email" autofocus>
+                            <input type="email" class="form-control" name="email" placeholder="{{ __('messages.example') }}" required autocomplete="email" autofocus>
                         </div>
 
                         <div class="mb-3">
@@ -103,7 +108,7 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">{{ __('messages.email') }}</label>
-                                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" required placeholder="ejemplo@ejemplo.com">
+                                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" required placeholder="{{ __('messages.example') }}">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label text-white">{{ __('messages.password') }}</label>
