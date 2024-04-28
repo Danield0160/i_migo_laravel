@@ -1,9 +1,9 @@
-<button @click="this.activo=!this.activo"><i v-if="modo=='perfil'" class="fa-solid fa-repeat"></i><i v-else class="fa-solid fa-file-image">{{ __('content.create_event.image') }}</i></button>
+<button @click="this.activo=!this.activo"><i v-if="modo=='perfil'" class="fa-solid fa-repeat"></i><i v-else class="fa-solid fa-file-image">{{ __('messages.create_event.image') }}</i></button>
 <div v-if="activo">
     <div id="listado_imagenes">
         <form id="formulario_subir_foto" onsubmit="return false">
             @csrf
-            <label id='choose_imagen_nueva'><i class="fa-solid fa-upload"></i><p>{{ __('content.create_event.upload_image') }}</p><input name='file_upload' id='file_upload' type='file'></label>
+            <label id='choose_imagen_nueva'><i class="fa-solid fa-upload"></i><p>{{ __('messages.create_event.upload_image') }}</p><input name='file_upload' id='file_upload' type='file'></label>
         </form>
         <div>
             <img :src="'images/1'" @click="elegir_imagen(1)">

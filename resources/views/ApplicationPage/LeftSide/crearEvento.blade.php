@@ -3,17 +3,17 @@
 <div class="formulario m-3" v-if="activo">
 
     <div class="form-group mt-2">
-        <label for="name">{{ __('content.create_event.name') }}</label>
+        <label for="name">{{ __('messages.create_event.name') }}</label>
         <input name="name" id="name" type="text" class="form-control @error('name') is-invalid @enderror">
     </div>
 
     <div class="form-group mt-2">
-        <label for="description">{{ __('content.create_event.description') }}</label>
+        <label for="description">{{ __('messages.create_event.description') }}</label>
         <input name="description" id="description" type="text" class="form-control @error('description') is-invalid @enderror">
     </div>
 
     <div class="form-group mt-2">
-        <label for="limite">{{ __('content.create_event.max_people') }}</label>
+        <label for="limite">{{ __('messages.create_event.max_people') }}</label>
         <input name="limite" id="limite" type="number" class="form-control @error('limite') is-invalid @enderror" min=0>
     </div>
 
@@ -34,12 +34,12 @@
     <div class="form-group dual">
 
         <div class="form-group mt-2">
-            <label for="date">{{ __('content.create_event.date') }}</label>
+            <label for="date">{{ __('messages.create_event.date') }}</label>
             <input :min='new Date().toISOString().split("T")[0]' name="date" id="date" type="date" class="form-control @error('date') is-invalid @enderror" required>
         </div>
 
         <div class="form-group mt-2">
-            <label for="time">{{ __('content.create_event.time') }}</label>
+            <label for="time">{{ __('messages.create_event.time') }}</label>
             <input name="time" id="time" type="time" class="form-control @error('time') is-invalid @enderror" required>
         </div>
 
@@ -56,7 +56,7 @@
     </div> --}}
 
     <details>
-        <summary>{{ __('content.create_event.tags') }}</summary>
+        <summary>{{ __('messages.create_event.tags') }}</summary>
         <fieldset name="tags" id="tags" style="overflow: scroll; height:155px" >
             <div v-for="tag in tags" @click="seleccionar($event)" class="tag_div">
                 <label>@{{tag.category_name}}
