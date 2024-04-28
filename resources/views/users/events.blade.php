@@ -33,7 +33,7 @@
                     @foreach ($events as $event )
                         <tr>
                             <td>
-                                @if ($event->active)
+                                @if ($event->deleted_at == null)
                                     ✅
                                 @else
                                     ❌

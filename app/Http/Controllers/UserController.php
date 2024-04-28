@@ -52,10 +52,10 @@ class UserController extends Controller
 
         $url = $request->query('url');
         $search = $request->input('search');
-        $events = Event::where('active', 1)->where('creator_id', $id)->get();
+        $events = Event::where('deleted_at', null)->where('creator_id', $id)->get();
 
         if($search){
-            $events = Event::where('active', 1)->where('creator_id', $id)->where('name', 'like', '%'.$search.'%')
+            $events = Event::where('deleted_at', null)->where('creator_id', $id)->where('name', 'like', '%'.$search.'%')
             ->orWhere('assistants_limit', 'like', '%'.$search.'%')
             ->get();
         }
