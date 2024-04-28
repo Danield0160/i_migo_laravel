@@ -5,19 +5,19 @@
             <ul class="navbar-nav ml-auto">
                 <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
                 <li class="nav-item active">
-                    <a id="buscar_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>Buscar Eventos</a>
+                    <a id="buscar_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-address-book"></i>{{ __('content.search_events') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a id="mis_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Mis eventos</a>
+                    <a id="mis_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>{{ __('content.my_events.title') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a id="crear_evento_button" class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>crear Evento</a>
+                    <a id="crear_evento_button" class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>{{ __('content.create_event.title') }}</a>
                 </li>
                 {{-- <li class="nav-item">
                     <a id="chat_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Social</a>
                 </li> --}}
                 <li class="nav-item">
-                    <a id="profile_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Profile</a>
+                    <a id="profile_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>{{ __('content.profile') }}</a>
                 </li>
             </ul>
         </div>

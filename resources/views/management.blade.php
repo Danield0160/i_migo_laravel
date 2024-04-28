@@ -10,7 +10,7 @@
                 <h4 class="card-title">🧍 Usuarios</h4>
                 <p class="card-text">
                     <a name="" id="" class="btn btn-primary mb-3" href="{{ route('users.index') }}" role="button">Ir a usuarios</a>
-                    <a name="" id="" class="btn btn-primary mb-3" href="{{ route('home') }}" role="button">Volver al Inicio</a>
+                    <a name="" id="" class="btn btn-primary mb-3" href="{{ route('index', app()->getLocale()) }}" role="button">Volver al Inicio</a>
                 </p>
             </div>
         </div>
