@@ -52,4 +52,6 @@ return [
     'owner' => 'Propietario',
     'full' => 'Completo',
 
+    'placeHolderBuscar'=>'Buscar evento...'
+
 ];

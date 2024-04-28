@@ -1,6 +1,6 @@
 <div v-if="activo">
     <div id="div_buscador_eventos">
-        <input type="text" v-model="input" placeholder="Buscar eventos..." id="buscador_eventos">
+        <input type="text" v-model="input" placeholder="{{__('messages.placeHolderBuscar')}}" id="buscador_eventos">
     </div>
     <div id="listado_eventos_visibles">
         <TransitionGroup name="list"   >

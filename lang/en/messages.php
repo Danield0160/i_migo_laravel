@@ -52,4 +52,5 @@ return [
     'owner' => 'Owner',
     'full' => 'Full',
 
+    'placeHolderBuscar'=>'Search event...'
 ];
