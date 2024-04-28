@@ -1,13 +1,13 @@
 <?php
 
 return [
-    'name' => 'LaravelPWA',
+    'name' => 'Amigo',
     'manifest' => [
         'name' => env('APP_NAME', 'My PWA App'),
-        'short_name' => 'PWA',
-        'start_url' => '/',
-        'background_color' => '#ffffff',
-        'theme_color' => '#000000',
+        'short_name' => 'Amigo',
+        'start_url' => '/app',
+        'background_color' => '#ff5050',
+        'theme_color' => '#ffffff',
         'display' => 'standalone',
         'orientation'=> 'any',
         'status_bar'=> 'black',

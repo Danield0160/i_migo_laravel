@@ -27,11 +27,11 @@ class EventController extends Controller
         Log::channel('debugger')->info('Se ha accedido a la lista de usuarios.');
 
         $search = $request->input('search');
-        $events = Event::where('active', 1)->get();
+        $events = Event::withTrashed()->get();
 
 
         if($search){
-            $events = Event::where('active', 1)->where('name', 'like', '%'.$search.'%')
+            $events = Event::withTrashed()->where('name', 'like', '%'.$search.'%')
             ->orWhere('assistants_limit', 'like', '%'.$search.'%')
             ->get();
         }
@@ -89,8 +89,7 @@ class EventController extends Controller
             'lat' => $request->lat, // Latitud del lugar del evento
             'lng' => $request->lng, // Longitud del lugar del evento
             'date' => $request->date, // Fecha y hora del evento
-            'sponsored' => false, // Inicialmente no está sponsored
-            'active' => true, // Inicialmente el evento está activo
+            'sponsored' => false // Inicialmente no está sponsored
         ]);
 
         Mail::to(Auth::user()->email)->send(new NewEventEmail($user, $event));
@@ -142,7 +141,6 @@ class EventController extends Controller
     public function destroy(string $id)
     {
         $event = Event::find($id);
-        $event->active = 0;
         $event->save();
 
         session()->flash('success', 'Evento eliminado correctamente.');

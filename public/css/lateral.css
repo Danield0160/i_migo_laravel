@@ -436,7 +436,7 @@ i {
     border: 2px solid red;
     background-color: salmon;
     border-radius: 10px;
-    width: min-content;
+    width: 100%;
     text-align: center;
     box-shadow: 3px 3px 3px rgb(156, 0, 0);
 }

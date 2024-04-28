@@ -132,7 +132,7 @@ html, body {
 .contenido {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
     height: auto;
 }
@@ -506,4 +506,7 @@ html, body {
     position: relative;
     bottom:  -50px;
     right: -130px;
+}
+.popup-imagen{
+    margin-right: 0;
 }

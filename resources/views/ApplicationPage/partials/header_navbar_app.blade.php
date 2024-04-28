@@ -11,11 +11,8 @@
                     <a id="mis_eventos_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Mis eventos</a>
                 </li>
                 <li class="nav-item">
-                    <a id="crear_evento_button" class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>crear Evento</a>
+                    <a id="crear_evento_button" class="nav-link" href="javascript:void(0);"><i class="far fa-calendar-alt"></i>Crear Evento</a>
                 </li>
-                {{-- <li class="nav-item">
-                    <a id="chat_button" class="nav-link" href="javascript:void(0);"><i class="far fa-clone"></i>Social</a>
-                </li> --}}
                 <li class="nav-item">
                     <a id="profile_button" class="nav-link" href="javascript:void(0);"><i class="fas fa-tachometer-alt"></i>Profile</a>
                 </li>

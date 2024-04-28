@@ -119,3 +119,6 @@ Route::get("/home", function(){return view("index");})->name("home");
 
 //mover metodos al popup, ubicar y señalar
 //validacion crear evento
+
+//mas tostadas
+//poner email para usuario generico

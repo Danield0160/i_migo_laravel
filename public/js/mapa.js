@@ -29,7 +29,6 @@
 
 // posicion del usuario, tanto geolocalizada o buscada
 var geoposicionUsuario = {lat:28.95142318634212,lng:-13.605115900577536}; //posicion default
-//! var datos={}; // datos en crudo que se recibe del servidor
 
 // promesa para detectar que se ha terminado de cargar e instanciar las clases
 var terminadoDeCargar;
@@ -62,12 +61,11 @@ cargarMapaClass=()=>{
             $("#buttonGeolocation").on("click",()=>{this.geolocalizar()})
             this.geolocalizar()
 
+            //buscador de google
             this.autocompletado_input = new google.maps.places.SearchBox($("#buscador")[0])
             google.maps.event.addListener(this.autocompletado_input,"places_changed",()=>this.cambiarLugar())
 
-
-
-
+            //boton para ubicar evento en crear evento
             this.buttonObtenerUbicacion = document.createElement("button");
             this.buttonObtenerUbicacion.textContent = "Obtener ubicación";
             this.buttonObtenerUbicacion.classList.add("custom-map-control-button");
@@ -163,8 +161,8 @@ cargarMapaClass=()=>{
                 this.marcadores[id].popup.setMap(this.mapa);
             })
         }
-        //lee el google.searchBox, cambia la ubicacion y actualiza los datos //TODO: cambiar de procedimiento a funcion
-        cambiarLugar(){
+        //lee el google.searchBox, cambia la ubicacion y actualiza los datos
+        cambiarLugar(){ //TODO cambiar procedimiento a funcion
             let lugar = this.autocompletado_input.getPlaces()[0]
             geoposicionUsuario = {lat:lugar.geometry.location.lat(),lng:lugar.geometry.location.lng()}
 
@@ -221,22 +219,9 @@ cargarMapaClass=()=>{
                 })
             }
         }
-        //obtener los popups que esten visibles en la ventana del mapa
-        obtenerPopusVisibles() {
-            let popupsVisibles = []
-            if(this.estaObteniendoUbicacion){return}
-            for (let evento of Object.values(this.marcadores)) {
-                if (evento.popup.esVisible()) {
-                    popupsVisibles.push(evento.popup)
-                }
-            }
-            return popupsVisibles
-        }
-        //TODO: refactorizar actualizacion mediante arrastrasdo
 
         //coge la geolocalizacion, si falla, lo gestiona
         geolocalizar(){
-
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (data)=>{
