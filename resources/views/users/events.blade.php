@@ -8,10 +8,10 @@
         <form action="{{ route('users.events', $id) }}" method="GET" class="mb-3">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" name="search" class="form-control" placeholder="Buscar por name, descripción, etc." value="{{ request()->input('search') }}">
+                    <input type="text" name="search" class="form-control" placeholder="{{ __('messages.management.placeholder2') }}" value="{{ request()->input('search') }}">
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <button type="submit" class="btn btn-primary">{{ __('messages.send') }}</button>
                 </div>
             </div>
         </form>
@@ -19,14 +19,14 @@
             <table class="table table-dark">
                 <thead>
                     <tr>
-                        <th scope="col">Activo</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Descripción</th>
-                        <th scope="col">Asistentes</th>
-                        <th scope="col">Límite de Asistentes</th>
-                        <th scope="col">Patrocinado</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Acciones</th>
+                        <th scope="col">{{ __('messages.active') }}</th>
+                        <th scope="col">{{ __('messages.name') }}</th>
+                        <th scope="col">{{ __('messages.create_event.description') }}</th>
+                        <th scope="col">{{ __('messages.create_event.assistants') }}</th>
+                        <th scope="col">{{ __('messages.create_event.max_people') }}</th>
+                        <th scope="col">{{ __('messages.create_event.sponsored') }}</th>
+                        <th scope="col">{{ __('messages.create_event.date') }}</th>
+                        <th scope="col">{{ __('messages.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <a name="" id="" class="btn btn-secondary" href="{{ $url ? $url : route('users.index') }}" role="button">Volver</a>
+            <a name="" id="" class="btn btn-secondary" href="{{ $url ? $url : route('users.index') }}" role="button">{{ __('messages.management.back') }}</a>
         </div>
 
     </div>

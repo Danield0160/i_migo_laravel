@@ -9,6 +9,11 @@ return [
         'description_3' => 'Connecting hearts, uniting minds.',
         'description_4' => 'Your happiness is our priority.',
     ],
+    'yes' => 'Yes',
+    'no' => 'No',
+    'active' => 'Active',
+    'actions' => 'Actions',
+    'events' => 'Events',
     'email' => 'Email',
     'name' => 'Name',
     'surname' => 'Surname',
@@ -36,7 +41,7 @@ return [
         'title' => 'Create Event',
         'name' => 'Event Name',
         'description' => 'Description',
-        'max_people' => 'Number of assistants',
+        'max_people' => 'Max. assistants',
         'assistants' => 'Assistants',
         'latitude' => 'Latitude',
         'longitude' => 'Longitude',
@@ -54,5 +59,20 @@ return [
     'owner' => 'Owner',
     'full' => 'Full',
 
-    'placeHolderBuscar'=>'Search event...'
+    'placeHolderBuscar'=>'Search event...',
+
+    'management' => [
+        'title' => 'Welcome to the Management Panel',
+        'users' => 'Users',
+        'events' => 'Events',
+        'go_users' => 'Go to Users',
+        'go_events' => 'Go to Events',
+        'back_index' => 'Back to Main Page',
+        'new_user' => 'New User',
+        'new_event' => 'New Event',
+        'placeholder' => 'Search by name, surname, DNI or email',
+        'placeholder2' => 'Search by name, description or date',
+        'search' => 'Search',
+        'back' => 'Back',
+    ],
 ];

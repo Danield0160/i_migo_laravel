@@ -8,10 +8,10 @@
         <form action="{{ route('users.index') }}" method="GET" class="mb-3">
             <div class="row">
                 <div class="col-md-6">
-                    <input type="text" name="search" class="form-control" placeholder="Buscar por name, apellidos, DNI o email" value="{{ request()->input('search') }}">
+                    <input type="text" name="search" class="form-control" placeholder="{{ __('messages.management.placeholder') }}" value="{{ request()->input('search') }}">
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <button type="submit" class="btn btn-primary">{{ __('messages.management.search') }}</button>
                 </div>
             </div>
         </form>
@@ -19,13 +19,13 @@
             <table class="table table-dark">
                 <thead>
                     <tr>
-                        <th scope="col">Activo</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">DNI</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Acciones</th>
-                        <th scope="col">Eventos</th>
+                        <th scope="col">{{ __('messages.active') }}</th>
+                        <th scope="col">{{ __('messages.name') }}</th>
+                        <th scope="col">{{ __('messages.surname') }}</th>
+                        <th scope="col">{{ __('messages.dni') }}</th>
+                        <th scope="col">{{ __('messages.email') }}</th>
+                        <th scope="col">{{ __('messages.actions') }}</th>
+                        <th scope="col">{{ __('messages.events') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,8 +61,8 @@
         </div>
 
         <div class="d-grid gap-2">
-            <a name="" id="" class="btn btn-success" href="{{ route('users.create') }}" role="button">Nuevo usuario</a>
-            <a name="" id="" class="btn btn-secondary" href="{{ route('management') }}" role="button">Volver</a>
+            <a name="" id="" class="btn btn-success" href="{{ route('users.create') }}" role="button">{{ __('messages.management.new_user') }}</a>
+            <a name="" id="" class="btn btn-secondary" href="{{ route('management') }}" role="button">{{ __('messages.management.back') }}</a>
         </div>
 
     </div>

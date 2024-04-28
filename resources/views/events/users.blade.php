@@ -11,13 +11,13 @@
             <table class="table table-dark">
                 <thead>
                     <tr>
-                        <th scope="col">Activo</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">DNI</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Acciones</th>
-                        <th scope="col">Eventos</th>
+                        <th scope="col">{{ __('messages.active') }}</th>
+                        <th scope="col">{{ __('messages.name') }}</th>
+                        <th scope="col">{{ __('messages.surname') }}</th>
+                        <th scope="col">{{ __('messages.dni') }}</th>
+                        <th scope="col">{{ __('messages.email') }}</th>
+                        <th scope="col">{{ __('messages.actions') }}</th>
+                        <th scope="col">{{ __('messages.events') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <a name="" id="" class="btn btn-secondary" href="{{ route('events.index') }}" role="button">Volver</a>
+            <a name="" id="" class="btn btn-secondary" href="{{ route('events.index') }}" role="button">{{ __('messages.management.back') }}</a>
         </div>
 
     </div>
