@@ -24,7 +24,6 @@ return [
     'language' => 'Idioma',
     'login' => 'Iniciar Sesión',
     'logout' => 'Cerrar Sesión',
-    'management' => 'Gestión',
     'register' => 'Crear Cuenta',
     'send' => 'Enviar',
     'explore' => 'Explorar Eventos',
@@ -63,6 +62,7 @@ return [
 
     'management' => [
         'title' => 'Bienvenido al Panel de Gestión',
+        'index' => 'Gestión',
         'users' => 'Usuarios',
         'events' => 'Eventos',
         'go_users' => 'Ir a Usuarios',

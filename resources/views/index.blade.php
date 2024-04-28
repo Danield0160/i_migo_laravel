@@ -27,7 +27,7 @@
                     @endguest
                     @auth
                         @if (Auth::user()->admin == 1)
-                            <li class="nav-item"><a class="nav-link" href="{{ route('management') }}">{{ __('messages.management') }}</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('management') }}">{{ __('messages.management.index') }}</a></li>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <li class="nav-item">

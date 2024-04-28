@@ -10,7 +10,7 @@
                 <h4 class="card-title">🧍 {{ __('messages.management.users') }}</h4>
                 <p class="card-text">
                     <a name="" id="" class="btn btn-primary mb-3" href="{{ route('users.index') }}" role="button">{{ __('messages.management.go_users') }}</a>
-                    <a name="" id="" class="btn btn-primary mb-3" href="{{ route('index', app()->getLocale()) }}" role="button">{{ __('messages.management.back_index') }}</a>
+                    <a name="" id="" class="btn btn-primary mb-3" href="{{ route('index') }}" role="button">{{ __('messages.management.back_index') }}</a>
                 </p>
             </div>
         </div>

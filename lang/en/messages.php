@@ -24,7 +24,6 @@ return [
     'language' => 'Language',
     'login' => 'Log In',
     'logout' => 'Log Out',
-    'management' => 'Management',
     'register' => 'Create Account',
     'send' => 'Send',
     'explore' => 'Explore Events',
@@ -63,6 +62,7 @@ return [
 
     'management' => [
         'title' => 'Welcome to the Management Panel',
+        'index' => 'Management',
         'users' => 'Users',
         'events' => 'Events',
         'go_users' => 'Go to Users',
