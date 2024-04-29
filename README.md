@@ -11,7 +11,7 @@ El proyecto trata de crear una herramienta intuitiva para crear eventos sociales
 
 1. Descaga el proyecto y descomprimelo
 2. Ejecuta en la carpeta `composer install`
-3. Pon el fichero ".env"
+3. Pon el fichero ".env" [descargar](https://drive.google.com/file/d/16lBMbBZH95l-OiE8P56tYvGSer8yRjxW/view?usp=drive_link)
 4. Configura la Base de Datos con el nombre de la Base de datos, de usuario y contraseña especificados
 `CREATE DATABASE imigo;`
 `CREATE USER 'lv_imigo'@'localhost' IDENTIFIED BY 'Csas1234';`
