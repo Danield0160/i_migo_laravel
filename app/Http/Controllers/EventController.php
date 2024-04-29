@@ -27,11 +27,11 @@ class EventController extends Controller
         Log::channel('debugger')->info('Se ha accedido a la lista de usuarios.');
 
         $search = $request->input('search');
-        $events = Event::withTrashed()->get();
+        $events = Event::get();
 
 
         if($search){
-            $events = Event::withTrashed()->where('name', 'like', '%'.$search.'%')
+            $events = Event::where('name', 'like', '%'.$search.'%')
             ->orWhere('assistants_limit', 'like', '%'.$search.'%')
             ->get();
         }
@@ -141,7 +141,7 @@ class EventController extends Controller
     public function destroy(string $id)
     {
         $event = Event::find($id);
-        $event->save();
+        $event->delete();
 
         session()->flash('success', 'Evento eliminado correctamente.');
         return redirect()->route('events.index');
