@@ -4,7 +4,6 @@ El nombre de nuestro proyecto es “Imigo”, la “I” viene de “yo” en in
 
 El proyecto trata de crear una herramienta intuitiva para crear eventos sociales y unirte a estos con el objetivo de conocer gente, hacer amigos y/o pasar un rato agradable.
 
-
 ## Guia de instalacion
 
 ### windows
@@ -23,7 +22,7 @@ El proyecto trata de crear una herramienta intuitiva para crear eventos sociales
 ### Linux
 
 ## Documentación
-[PROYECTO.pdf](https://github.com/faridibal/Waste-Watch/files/11482304/PROYECTO.pdf)
+[PROYECTO](https://docs.google.com/document/d/1z4i49N5FAnNWUyvrAS_TqMbDg7_kNeV3pQyYmuOID88/edit#heading=h.6ajru3qaly4h)
 
 ## Video Presentación
 [Imigo App](https://www.youtube.com/watch?v=T8nl85ynybQ)
