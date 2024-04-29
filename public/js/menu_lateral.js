@@ -63,25 +63,6 @@ jQuery(document).ready(function($){
 
 
 
-// Add active class on another page linked
-// ==========================================
-// $(window).on('load',function () {
-//     var current = location.pathname;
-//     console.log(current);
-//     $('#navbarSupportedContent ul li a').each(function(){
-//         var $this = $(this);
-//         // if the current path is like this link, make it active
-//         if($this.attr('href').indexOf(current) !== -1){
-//             $this.parent().addClass('active');
-//             $this.parents('.menu-submenu').addClass('show-dropdown');
-//             $this.parents('.menu-submenu').parent().addClass('active');
-//         }else{
-//             $this.parent().removeClass('active');
-//         }
-//     })
-// });
-
-
 
 
 
@@ -94,7 +75,7 @@ $.get("./api/AllTags",function(raw_data){
     TAGS = data
 })
 
-//USER_IMAGES, las iamgenes que son del usuario
+//USER_IMAGES, las imagenes que son del usuario
 var resolver_cargado_imagenes;
 var promesa_imagenes = new Promise((res)=>resolver_cargado_imagenes=res)
 function cargar_imagenes(appObject=null){
@@ -118,7 +99,7 @@ cargar_imagenes()
 
 
 
-
+// componente del selector de imagenes
 async function crearChooseImageSectionApp(perfilOEvento, montaje){
     await promesa_imagenes
     chooseImageSection = createApp({
@@ -225,7 +206,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
 }
 
 
-
+// componente del perfil
 var profileSectionAppObject;
 async function crearProfileSectionApp(template){
     ProfileSectionApp = createApp({
@@ -278,7 +259,7 @@ async function crearProfileSectionApp(template){
 }
 
 
-
+// componente del creador de eventos
 var crearEventoSectionAppObject;
 async function crearEventoSectionApp(template){
     await AllLoaded;
@@ -387,6 +368,7 @@ async function crearEventoSectionApp(template){
     crearEventoSectionAppObject = EventoSectionApp.mount("#crearEventoSection")
 }
 
+// componente del buscador de eventos
 var buscarEventoSectionAppObject;
 async function buscarEventoSectionApp(template){
     await AllLoaded;
@@ -414,18 +396,12 @@ async function buscarEventoSectionApp(template){
                 desactivarGlobal()
                 this.activo = true
                 Object.values(this.eventos_cercanos).forEach((evento)=>evento.popup.append())
-                actualizar_listado_popus_visibles()
+                
             },
             desactivar(){
                 this.activo = false
                 Object.values(this.eventos_cercanos).forEach((evento)=>evento.popup.remove())
             },
-            // mostrar(event, index){
-            //     if(event.target.tagName == "BUTTON"){
-            //         return
-            //     }
-            //     showEventAppObject.showEventDetails(index)
-            // },
             joinEvent(event){
                 formData = new FormData(event.target.parentElement)
                 $.ajax({
@@ -549,11 +525,7 @@ async function buscarEventoSectionApp(template){
     })
     buscarEventoSectionAppObject = EventoSectionApp.mount("#buscarEventoSection")
 
-
-
-
-
-
+    //actualiza los datos del buscador de eventos
     async function actualizar_datos(){
         await $.get("./api/NearEvents/"+geoposicionUsuario.lat+"/"+geoposicionUsuario.lng+"/"+Number($("#distance").val().replace("km","")),function(data){
             data.forEach(function(eventoDatos){
@@ -596,7 +568,7 @@ async function buscarEventoSectionApp(template){
 
 
 
-
+// componente de mis eventos
 var misEventoSectionAppObject;
 function misEventoSectionApp(template){
     MisEventoSectionApp = createApp({
@@ -747,7 +719,7 @@ function misEventoSectionApp(template){
     misEventoSectionAppObject = MisEventoSectionApp.mount("#misEventoSection")
 
 
-    // Mis eventos data;
+    // Mis eventos unidos;
     function cargar_mis_eventos_unidos(){
         $.get("./api/MyJoinedEvents",function(eventos){
             data = {}
@@ -782,6 +754,8 @@ function misEventoSectionApp(template){
     cargar_mis_eventos_unidos()
     setInterval(()=>{if(misEventoSectionAppObject.activo){cargar_mis_eventos_unidos()}},3000)
 
+
+    // Mis eventos creados;
     function cargar_mis_eventos_creados(){
         $.get("./api/MyCreatedEvents",function(eventos){
             data = {}
@@ -819,6 +793,7 @@ function misEventoSectionApp(template){
 }
 
 
+// modal para mostrar los usuarios unidos a un evento
 var showEventAppObject;
 showEventApp = createApp({
     data(){
@@ -853,7 +828,7 @@ showEventApp = createApp({
 })
 
 
-
+// desactiva todos los componentes, necesario para cambiar de un componente a otro
 function desactivarGlobal(){
     crearEventoSectionAppObject.desactivar()
     buscarEventoSectionAppObject.desactivar()
@@ -861,6 +836,7 @@ function desactivarGlobal(){
     misEventoSectionAppObject.desactivar()
 }
 
+//calcular la distancia entre dos puntos, entre el evento y el usuario
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -878,6 +854,7 @@ function deg2rad(deg) {
     return deg * (Math.PI/180)
 }
 
+// funcion auxiliar para el filtrado de buscar evento
 function lista_contiene_lista(lista1, lista2) {
     for (let palabra of lista2) {
         let encontrada = false;
@@ -894,6 +871,8 @@ function lista_contiene_lista(lista1, lista2) {
     return true;
 }
 
+
+//compatibilizacion del modo reducido, tanto para dispositivos moviles como desktop
 (async()=>{
     await AllLoaded;
     lateral = document.getElementById("lateral-izq")
@@ -925,6 +904,7 @@ function drag(event){
     lateral.style.top = vh + "svh"
 }
 
+//mueve los elementos de la ui para si es un dispositivo movil
 function ajuste_inicial(){
     if(navigator.userAgentData.mobile){
         setTimeout(()=>document.body.querySelector(".gmnoprint").style.marginTop = "10vh",850)

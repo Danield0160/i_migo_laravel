@@ -378,54 +378,12 @@ google.maps.importLibrary("maps").then(
     }
 );
 
-// function showEventDetails(div, datos) {
-//     var modal = document.getElementById('modal');
-//     var modalContent = document.getElementById('modal-content');
-//     var eventoDiv = div;
-
-//     // Copia el contenido del evento al modal
-//     modalContent.innerHTML = eventoDiv.innerHTML;
-
-//     // Selecciona el div contenido-datos dentro del modalContent
-//     var contenidoDatosDiv = modalContent.querySelector('.contenido-datos');
-
-//     // Agrega la descripción y el botón de unirse al div contenido-datos
-//     var description = document.createElement('p');
-//     var descriptionTexto = document.createElement('span');
-//     description.textContent = 'Descripción: ';
-//     // descriptionTexto.textContent = datos['description'];
-
-//     // Establece el estilo de la descripción a negrita y el texto de descripción a cursiva
-//     description.style.fontWeight = 'bold';
-//     descriptionTexto.style.fontStyle = 'italic';
-
-//     contenidoDatosDiv.appendChild(description);
-//     contenidoDatosDiv.appendChild(descriptionTexto);
-
-//     var unirseBtn = document.createElement('button');
-//     unirseBtn.textContent = 'Unirse';
-//     contenidoDatosDiv.appendChild(unirseBtn);
-
-//     // Muestra el modal
-//     modal.style.display = 'block';
-// }
 
 
 // funcion encargada de ocultar el overlay que se abre al clickar un popup
 function ocultar(event) {
     event.target.id == "modal" ? event.target.style.display = "none" : null
 }
-
-//actualiza el lsitado de eventos visibles en la pestaña de buscar eventos
-function actualizar_listado_popus_visibles(){
-
-
-
-}
-
-
-
-
 
 function createPopup(eventoDatos){
         div = document.createElement("div")
