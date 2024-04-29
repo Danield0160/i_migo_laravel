@@ -16,9 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.min.js"></script>
     <script>const { createApp, ref } = Vue</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script>API_KEY = '{{ env('API_KEY') }}'</script>
     <script type="text/javascript" src="{{asset('js/mapa.js')}}"></script>
     <script src="{{asset('js/menu_lateral.js')}}"></script>
-    <title>Document</title>
+    <title>{{ env('APP_NAME') }}</title>
 </head>
 <body>
 
@@ -54,7 +55,10 @@
             <script>MapaHtmlterminadoDeCargar()</script>
         </div>
 
-
+        <div id="modal" style="display: none">
+            <div id="modal-content"></div>
+        </div>
+        <script>showEventAppObject = showEventApp.mount($("#modal-content")[0])</script>
     </div>
 </body>
 </html>

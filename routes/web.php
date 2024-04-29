@@ -45,6 +45,8 @@ Route::controller(EventController::class)->group(function () {
     Route::delete("/api/DeleteEvent","deleteEvent");
 
     Route::get("/api/NearEvents/{latitud}/{longitud}/{distancia}","ObtainNearEvents");
+
+    Route::get("/api/JoinedUsers/{eventId}","getJoinedUsers");
 });
 
 

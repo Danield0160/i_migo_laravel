@@ -42,7 +42,10 @@ i {
 	list-style-type: none;
 	float: left;
 }
-
+#navbarSupportedContent ul li {
+    display: flex;
+    align-items: center ;
+}
 #navbarSupportedContent ul li a {
 	color: white;
 	text-decoration: none;
@@ -187,6 +190,7 @@ i {
 		flex-direction: row;
         width: 100vw;
         justify-content: space-around;
+        height: 10svh;
 	}
 
 	.navbar-expand-custom .navbar-toggler {
@@ -207,14 +211,10 @@ i {
         bottom: 0px !important;
     }
     #navbarSupportedContent ul li a {
-        padding: 10px 10px;
-    }
-    #navbarSupportedContent ul li {
-        display: flex;
-        align-items: center ;
+        /* padding: 10px 10px; */
     }
     #navbarSupportedContent ul{
-        min-height: 8svh;
+        /* min-height: 8svh; */
     }
     #header_app{
         width: 100vw;
@@ -554,4 +554,106 @@ i {
 .disabled{
     background-color: rgb(199, 199, 199) !important;
     pointer-events: none;
+}
+
+.boton_participantes{
+    display: none;
+    border-radius: 25px;
+    border: 1px solid salmon;
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    width: 27.5%;
+    font-size: medium;
+    text-align: center;
+    box-shadow: 2px 2px rgb(221, 111, 99);
+    background-color: rgb(248, 219, 216);
+}
+.evento_listado_container:hover .boton_participantes{
+    display: inline-block;
+}
+
+.boton_participantes:hover{
+    background-color: rgb(240, 151, 141);
+}
+.boton_participantes:active{
+    background-color: rgb(192, 126, 119);
+    box-shadow: inset 2px 2px rgb(184, 90, 80);
+
+}
+
+#modal-content>div{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding-bottom: 30px;
+}
+#modal-content>h1{
+    text-align: center;
+    margin-top: 0;
+    margin: 0;
+    background-color: salmon;
+
+}
+.participante{
+    display: inline-block;
+    width: 180px;
+    height: 180px;
+    background-color: rgb(250, 177, 177);
+    border: 3px solid rgb(160, 77, 68);
+    vertical-align: top;
+    margin: 10px;
+    text-align: center;
+    border-radius: 25px;
+    overflow: hidden;
+
+}
+.participante div{
+    width: auto;
+    height: auto;
+    width: 120px;
+    height: 120px;
+    margin: auto;
+    text-align: center;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+}
+.participante img{
+    width: 120px!important;
+    max-height: 120px !important;
+    vertical-align: middle !important;
+    position: absolute;
+    top: 0;
+
+}
+.participante h3{
+    border-bottom: 4px dashed black;
+    background-color: lightcoral;
+}
+
+
+
+
+
+
+@media (max-width: 991px) {
+    .participante{
+        width: 120px;
+        height: 120px;
+    }
+    .participante div{
+        width: 70px;
+        height: 70px;
+    }
+    .participante img{
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    #modal-content {
+        width: 80vw !important;
+    }
 }

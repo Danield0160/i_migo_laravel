@@ -436,7 +436,6 @@ async function buscarEventoSectionApp(template){
                     contentType: false,
                     processData: false,
                     success:function(data){
-                        console.log("unido")
                         // console.log("success");
                         actualizar_datos();
                         misEventoSectionAppObject.cargar_mis_eventos_unidos()
@@ -684,7 +683,7 @@ function misEventoSectionApp(template){
 
             },
             ubicar(event,evento,eventos){
-                if(event.target.tagName == "BUTTON"){
+                if(event.target.tagName == "BUTTON" || event.target.classList.contains("boton_participantes")){
                     return
                 }
                 evento.popup.ubicar(event,eventos,this.ultimo_evento_mostrado );
@@ -700,6 +699,24 @@ function misEventoSectionApp(template){
             },
             cargar_mis_eventos_creados(){
                 cargar_mis_eventos_creados()
+            },
+            mostrarParticipantes(evento_id){
+                $.ajax({
+                    type:'GET',
+                    url: "/api/JoinedUsers/"+evento_id,
+                    cache:false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        // console.log("success");
+                        if(data.length != 0){
+                            showEventAppObject.showEventDetails(data)
+                        }
+                    },
+                    error: function(data){
+                        console.log("error");
+                    }
+                });
             }
         },computed:{
             eventos_seleccionados(){
@@ -740,6 +757,9 @@ function misEventoSectionApp(template){
                 }else{
                     eventoObject = misEventoSectionAppObject.eventos_unidos[evento.id]
                 }
+                Object.keys(evento).forEach(function(atributo){
+                    eventoObject.datos[atributo] = evento[atributo]
+                })
                 eventoObject.datos.distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,evento.lat,evento.lng)
                 eventoObject.datos.date = new Date(evento.date)
                 if(misEventoSectionAppObject.modo=="Eventos unidos" && misEventoSectionAppObject.activo){
@@ -762,6 +782,9 @@ function misEventoSectionApp(template){
                 }else{
                     eventoObject = misEventoSectionAppObject.eventos_creados[evento.id]
                 }
+                Object.keys(evento).forEach(function(atributo){
+                    eventoObject.datos[atributo] = evento[atributo]
+                })
                 eventoObject.datos.distancia = getDistanceFromLatLonInKm(geoposicionUsuario.lat,geoposicionUsuario.lng,evento.lat,evento.lng)
                 eventoObject.datos.date = new Date(evento.date)
                 if(misEventoSectionAppObject.modo=="Eventos creados" && misEventoSectionAppObject.activo){
@@ -777,39 +800,38 @@ function misEventoSectionApp(template){
 }
 
 
-
-
-
-
-
-
-
-
-
-
 var showEventAppObject;
 showEventApp = createApp({
     data(){
         return{
             modal:$("#modal")[0],
-            index:null,
+            data:null,
         }
     },
     methods:{
-        showEventDetails(nuevoIndice){
+        showEventDetails(datos){
             this.modal.style.display = "block"
-            this.index = nuevoIndice
+            this.data = datos
         }
     },
     computed:{
-        evento(){
-            if(this.index == null){return {}}
-            // return MapaGoogleObject.marcadores[this.index].datos
+        datos(){
+            if(this.data == null){return {}}
+            return this.data
         }
     },template:
-    "<h1>{{evento['name']}}</h1>"
+    `<h1>Participantes</h1>
+    <div>
+        <div v-for="participante in datos" class="participante">
+            <h3>{{participante.name}}</h3>
+            <div>
+                <img :src="'/images/' + participante.profile_photo_id ">
+            </div>
+        </div>
+    </div>
+
+    `
 })
-showEventAppObject = showEventApp.mount($("#modal-content")[0])
 
 
 
@@ -878,7 +900,7 @@ function parar_drag(){
 function drag(event){
     vh = event.clientY * 100 / window.outerHeight
 
-    if(vh > 88 || vh<0){
+    if(vh > 87 || vh<0){
         return
     }
     lateral.style.top = vh + "svh"

@@ -42,6 +42,20 @@ class UserSeeder extends Seeder
 
         DB::table("users")->insert([
             [
+                "name" => "Olivia",
+                "surname" => "Wilson",
+                "dni" => "67890123H",
+                "email" => "olivia.wilson@example.com",
+                "password" => password_hash("Password012", PASSWORD_BCRYPT),
+                "birthdate" => "1998/07/30",
+                "premium" => 1,
+                "social_networks" => "www.twitter.com/oliviawilson;www.facebook.com/oliviawilson",
+                "profile_photo_id" => 3,
+                "verified" => 1,
+                "admin" => 0,
+                "active"=>1
+            ],
+            [
                 "name" => "Emma",
                 "surname" => "Johnson",
                 "dni" => "23456789D",
@@ -96,21 +110,8 @@ class UserSeeder extends Seeder
                 "verified" => 1,
                 "admin" => 0,
                 "active"=>1
-            ],
-            [
-                "name" => "Olivia",
-                "surname" => "Wilson",
-                "dni" => "67890123H",
-                "email" => "olivia.wilson@example.com",
-                "password" => password_hash("Password012", PASSWORD_BCRYPT),
-                "birthdate" => "1998/07/30",
-                "premium" => 1,
-                "social_networks" => "www.twitter.com/oliviawilson;www.facebook.com/oliviawilson",
-                "profile_photo_id" => 8,
-                "verified" => 1,
-                "admin" => 0,
-                "active"=>1
             ]
+
         ]);
     }
 }

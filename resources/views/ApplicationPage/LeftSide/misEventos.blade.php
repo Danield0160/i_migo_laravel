@@ -16,6 +16,7 @@
                 {{-- imagen del evento --}}
                 <div class="img">
                     <img :src=' "images/" + evento.datos.imagen_id 'alt="" >
+                    <div v-if='modo == "Eventos creados" && evento.datos.asistentes>0' class="boton_participantes" @click="mostrarParticipantes(evento.id)">Mostrar participantes</div>
                 </div>
 
                 {{-- informacion del evento --}}

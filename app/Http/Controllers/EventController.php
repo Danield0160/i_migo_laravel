@@ -194,13 +194,7 @@ class EventController extends Controller
     }
 
     public static function ObtainNearEvents($lat,$lng,$dist){
-
-        // foreach (Event::obtainNearEvents($lat,$lng,$dist) as $key => $value) {
-        //     debugbar()->info($value->name,$value->distancia);
-        // }
-
         $nearEvents = Event::obtainNearEvents($lat,$lng,$dist);
-
         return $nearEvents;
     }
 
@@ -238,5 +232,15 @@ class EventController extends Controller
     public function deleteEvent(Request $request){
         $event = Event::where("id","=", $request->input("event_id"), "and", "user_id","=",auth()->id())->get()[0];
         $event->delete();
+    }
+
+    public function getJoinedUsers($eventId){
+        $event = Event::where("id","=", $eventId, "and", "user_id","=",auth()->id())->get()[0];
+        if($event == null){
+            return Response::json(['error' => 'Error, no se ha encontrado el evento ']);
+        }
+        $users = Event_user::select("users.name","users.profile_photo_id")->join("users","users.id","=","event_users.user_id")->where("event_id", "=",$eventId)->get();
+        return $users;
+
     }
 }

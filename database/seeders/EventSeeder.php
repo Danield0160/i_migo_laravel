@@ -46,7 +46,7 @@ class EventSeeder extends Seeder
                 "sponsored" => false
             ],
             [
-                "creator_id" => 2,
+                "creator_id" => 3,
                 "name" => "Senderismo en Fuerteventura",
                 "description" => "¡Disfruta de un día explorando los hermosos paisajes de Fuerteventura! Trae tu mochila y únete a la aventura.",
                 "imagen_id" => 1,

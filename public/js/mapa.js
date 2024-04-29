@@ -23,7 +23,7 @@
     }));
     d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
 })({
-    key: "AIzaSyCpXidrzQAhH3iexpn_QJl2D5emusyySzE",
+    key: API_KEY,
     v: "weekly"
 });
 
@@ -333,7 +333,8 @@ cargarPopupClass = () => {
             this.containerDiv.children[0].children[0].classList.remove("mostrando")
         }
         ubicar(event,eventos,ultimo_evento_mostrado){
-            if(event.target.tagName == "BUTTON"){
+            console.log(event)
+            if(event.target.tagName == "BUTTON" || event.target.classList.contains("boton_participantes")){
                 return
             }
             //si le vuelves a dar, se cancela la busqueda

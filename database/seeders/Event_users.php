@@ -19,7 +19,23 @@ class Event_users extends Seeder
         ]);
         DB::table("event_users")->insert([
             "event_id"=>3,
-            "user_id"=>2,
+            "user_id"=>3,
+        ]);
+        DB::table("event_users")->insert([
+            "event_id"=>3,
+            "user_id"=>4,
+        ]);
+        DB::table("event_users")->insert([
+            "event_id"=>3,
+            "user_id"=>5,
+        ]);
+        DB::table("event_users")->insert([
+            "event_id"=>3,
+            "user_id"=>6,
+        ]);
+        DB::table("event_users")->insert([
+            "event_id"=>3,
+            "user_id"=>7,
         ]);
     }
 }

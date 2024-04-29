@@ -18,8 +18,24 @@ class PhotoSeeder extends Seeder
             "imagePath"=>"logo.png"
         ]);
         DB::table("photos")->insert([
-            "creator_id"=>1,
-            "imagePath"=>"fiesta.png"
+            "creator_id"=>2,
+            "imagePath"=>"imagen1.png"
+        ]);
+        DB::table("photos")->insert([
+            "creator_id"=>3,
+            "imagePath"=>"imagen2.png"
+        ]);
+        DB::table("photos")->insert([
+            "creator_id"=>4,
+            "imagePath"=>"imagen3.png"
+        ]);
+        DB::table("photos")->insert([
+            "creator_id"=>5,
+            "imagePath"=>"imagen4.png"
+        ]);
+        DB::table("photos")->insert([
+            "creator_id"=>6,
+            "imagePath"=>"imagen5.png"
         ]);
     }
 }
