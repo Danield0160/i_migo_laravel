@@ -1,4 +1,4 @@
-<button @click="this.activo=!this.activo"><i v-if="modo=='perfil'" class="fa-solid fa-repeat"></i><i v-else class="fa-solid fa-file-image">{{ __('messages.create_event.image') }}</i></button>
+<button type="button" @click="this.activo=!this.activo"><i v-if="modo=='perfil'" class="fa-solid fa-repeat"></i><i v-else class="fa-solid fa-file-image">{{ __('messages.create_event.image') }}</i></button>
 <div v-if="activo">
     <div id="listado_imagenes">
         <form id="formulario_subir_foto" onsubmit="return false">

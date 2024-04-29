@@ -143,7 +143,7 @@ async function crearChooseImageSectionApp(perfilOEvento, montaje){
                 }
             },
             imagen(id){
-                return "images/uploads/"+USER_IMAGES[id].imagePath
+                return "images/"+USER_IMAGES[id].imagePath
             },
             iniciar_escucha(){
                 setTimeout(()=>
@@ -767,7 +767,16 @@ function misEventoSectionApp(template){
                 }
                 data[evento.id] = eventoObject
             })
+            let indicesEventosUnidosActuales = eventos.map((dato)=>dato.id)
+            Object.keys(misEventoSectionAppObject.eventos_unidos).forEach(function(indiceEventoUnidoAntiguo){
+                if(!indicesEventosUnidosActuales.includes(Number(indiceEventoUnidoAntiguo))){
+                    misEventoSectionAppObject.eventos_unidos[indiceEventoUnidoAntiguo].popup.remove()
+                    delete(misEventoSectionAppObject.eventos_unidos[indiceEventoUnidoAntiguo])
+                }
+            })
             misEventoSectionAppObject.eventos_unidos = data
+
+
         })
     }
     cargar_mis_eventos_unidos()
@@ -792,7 +801,17 @@ function misEventoSectionApp(template){
                 }
                 data[evento.id] = eventoObject
             })
+            let indicesEventosCreadosActuales = eventos.map((dato)=>dato.id)
+            Object.keys(misEventoSectionAppObject.eventos_creados).forEach(function(indiceEventoCreadoAntiguo){
+                if(!indicesEventosCreadosActuales.includes(Number(indiceEventoCreadoAntiguo))){
+                    misEventoSectionAppObject.eventos_creados[indiceEventoCreadoAntiguo].popup.remove()
+                    delete(misEventoSectionAppObject.eventos_creados[indiceEventoCreadoAntiguo])
+                }
+            })
+
             misEventoSectionAppObject.eventos_creados = data
+
+
         })
     }
     cargar_mis_eventos_creados()
