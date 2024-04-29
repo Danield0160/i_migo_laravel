@@ -163,7 +163,7 @@ class EventController extends Controller
         $date = $request->input("date")." ".$request->input("time");
         $sponsored = $request->input("sponsored")?true:false;
 
-        if(strtotime($date) < strtotime('now')){
+        if(strtotime($date) <= (strtotime('now') + 3600)){
             return Response::json(['error' => 'Tiene que ser una fecha futura'], 404);
         }
 
