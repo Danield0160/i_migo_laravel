@@ -67,7 +67,6 @@
 // <script>
 //     console.log("npm run dev \n php artisan serve \n php artisan websockets:serve ")
 // </script>
-// @vite('resources/js/app.js')
 // <script>
 // tempo = setTimeout(() => {
 //     try {
