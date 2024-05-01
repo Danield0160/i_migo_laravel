@@ -16,10 +16,9 @@ El proyecto trata de crear una herramienta intuitiva para crear eventos sociales
 `CREATE USER 'lv_imigo'@'localhost' IDENTIFIED BY 'Csas1234';`
 `GRANT ALL PRIVILEGES ON imigo.* TO 'lv_imigo'@'localhost';`
 `FLUSH PRIVILEGES;`
-5. luego ejecuta `php artisan serve` y accede a la pagina
+5. Ejecuta `php artisan migrate --seed`
+6. Luego ejecuta `php artisan serve` y accede a la pagina
 
-
-### Linux
 
 ## Documentación
 [PROYECTO](https://docs.google.com/document/d/1z4i49N5FAnNWUyvrAS_TqMbDg7_kNeV3pQyYmuOID88/edit#heading=h.6ajru3qaly4h)
